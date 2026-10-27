@@ -74,7 +74,7 @@ export default function AboutPage() {
             </h3>
 
             <p className="font-mono text-sm sm:text-base text-[var(--text-muted)] max-w-xl mx-auto">
-              Whether you need autonomous AI coding harnesses, robust FastAPI systems, or tactile web interfaces.
+              Open to internships, collaborations and good conversations.
             </p>
           </div>
 

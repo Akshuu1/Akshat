@@ -23,7 +23,7 @@ export default function NotFound() {
         </h2>
 
         <p className="text-sm md:text-base text-[var(--text-muted)] font-mono leading-relaxed">
-          It might be exploring autonomous agents in another repository, lost in a git worktree, or traveling off the grid without an API key.
+          It might have moved, been renamed, or never existed in the first place.
         </p>
       </div>
 

@@ -1,44 +1,23 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
-import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 
-interface HowIWorkSectionProps {
+interface HowIThinkSectionProps {
   reducedMotion?: boolean;
 }
 
-const STAGES = [
-  { id: 'repro', label: 'bug reproduction', group: 'stage' },
-  { id: 'loc', label: 'code localization', group: 'stage' },
-  { id: 'patch', label: 'patching', group: 'stage' },
-  { id: 'test', label: 'testing', group: 'stage' },
-  { id: 'review', label: 'review', group: 'stage' },
-  { id: 'report', label: 'reporting', group: 'stage' },
-  { id: 'budget', label: 'execution budgets', group: 'guardrail' },
-  { id: 'loop', label: 'loop detection', group: 'guardrail' },
-  { id: 'rollback', label: 'checkpoints/rollback', group: 'guardrail' },
+const PRINCIPLES = [
+  'Build it small, make it work, then make it good.',
+  'Systems first, details second.',
+  'If it can fail, it should say so.',
+  'Design is how it feels, not how it looks.',
 ];
 
-export function HowIWorkSection({ reducedMotion = false }: HowIWorkSectionProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [activeStep, setActiveStep] = useState<number>(0);
-
-  // Scroll-linked active step tracking
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start 75%', 'end 25%'],
-  });
-
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    if (reducedMotion) return;
-    const step = Math.min(STAGES.length - 1, Math.max(0, Math.floor(latest * STAGES.length)));
-    setActiveStep(step);
-  });
-
+export function HowIWorkSection({ reducedMotion = false }: HowIThinkSectionProps) {
   return (
     <section
-      id="how-i-work"
-      ref={containerRef}
+      id="how-i-think"
       className="relative w-full bg-[#0F1118] py-20 sm:py-28 scroll-mt-20 overflow-hidden"
     >
       {/* Light Bezel Surface Container: Inset 24px, Rounded 40px */}
@@ -63,10 +42,10 @@ export function HowIWorkSection({ reducedMotion = false }: HowIWorkSectionProps)
                 </svg>
               </div>
 
-              {/* Lime Pill: "ANVIL, 9 phases" */}
+              {/* Lime Pill: "principles" */}
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D6FF3D] text-[#111111] font-mono text-[11px] font-bold shadow-xs">
                 <span className="w-1.5 h-1.5 rounded-full bg-black/60" />
-                <span>ANVIL, 9 phases</span>
+                <span>principles</span>
               </div>
 
               {/* Smooth Right SVG Fillet */}
@@ -81,89 +60,43 @@ export function HowIWorkSection({ reducedMotion = false }: HowIWorkSectionProps)
           {/* Mobile Pill (No notch on mobile per spec) */}
           <div className="md:hidden inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D6FF3D] text-[#111111] font-mono text-[11px] font-bold mb-6 shadow-xs">
             <span className="w-1.5 h-1.5 rounded-full bg-black/60" />
-            <span>ANVIL, 9 phases</span>
+            <span>principles</span>
           </div>
 
-          <div className="space-y-10 sm:space-y-14 md:pt-4">
+          <div className="space-y-10 sm:space-y-12 md:pt-4">
             {/* Header in Ink #14141F */}
             <div className="space-y-2 max-w-xl">
               <h2 className="text-3xl sm:text-5xl font-sans font-light tracking-tight text-[#14141F]">
-                How I <span className="font-serif italic font-normal text-[#5E6073]">work.</span>
+                How I <span className="font-serif italic font-normal text-[#5E6073]">think.</span>
               </h2>
               <p className="font-mono text-xs sm:text-sm text-[#5E6073] uppercase tracking-wider">
-                6 stages + 3 guardrails
+                Four principles I build by
               </p>
             </div>
 
-            {/* ============================================================= */}
-            {/* 9-STEP HORIZONTAL STRIP: Real ANVIL Phases (Scroll-Linked)     */}
-            {/* ============================================================= */}
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-9 gap-2 sm:gap-3">
-                {STAGES.map((step, idx) => {
-                  const isActive = !reducedMotion && idx === activeStep;
-                  const isGuardrail = step.group === 'guardrail';
-
-                  return (
-                    <div
-                      key={step.id}
-                      className={`relative p-3 sm:p-4 rounded-2xl border transition-all duration-300 flex flex-col justify-between min-h-[96px] ${
-                        isActive
-                          ? 'bg-[#14141F] text-white border-black shadow-md scale-[1.03] z-10'
-                          : isGuardrail
-                          ? 'bg-black/[0.04] text-[#14141F] border-black/10'
-                          : 'bg-white/80 text-[#14141F] border-black/5'
-                      }`}
-                    >
-                      {/* Top Row: Index + Dot */}
-                      <div className="flex items-center justify-between pb-2">
-                        <span
-                          className={`font-mono text-[10px] uppercase font-bold tracking-wider ${
-                            isActive ? 'text-[#D6FF3D]' : 'text-[#8A8EA8]'
-                          }`}
-                        >
-                          {isGuardrail ? `G0${idx - 5}` : `0${idx + 1}`}
-                        </span>
-
-                        <span
-                          className={`w-2 h-2 rounded-full transition-colors ${
-                            isActive
-                              ? 'bg-[#D6FF3D] shadow-[0_0_8px_#D6FF3D]'
-                              : isGuardrail
-                              ? 'bg-[#9AA3FF]'
-                              : 'bg-black/20'
-                          }`}
-                        />
-                      </div>
-
-                      {/* Step Label */}
-                      <div className="space-y-0.5">
-                        <div
-                          className={`font-mono text-[9px] uppercase tracking-wider ${
-                            isActive ? 'text-white/60' : 'text-[#8A8EA8]'
-                          }`}
-                        >
-                          {isGuardrail ? 'guardrail' : 'stage'}
-                        </div>
-                        <div
-                          className={`font-sans text-xs sm:text-[13px] font-semibold leading-tight capitalize ${
-                            isActive ? 'text-white' : 'text-[#14141F]'
-                          }`}
-                        >
-                          {step.label}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Bottom Statement in Ink (Exact copy) */}
-            <div className="pt-6 border-t border-black/10">
-              <p className="font-sans text-sm sm:text-base text-[#14141F] leading-relaxed max-w-2xl font-medium">
-                Git worktree sandboxing and JSONL traces with offline replay keep every run checkable.
-              </p>
+            {/* 4 Short Principles in Large Type, Each One Line */}
+            <div className="border-t border-black/10">
+              {PRINCIPLES.map((principle, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: reducedMotion ? 0 : idx * 0.08,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="group py-6 sm:py-8 border-b border-black/10 flex items-baseline gap-6 sm:gap-10 transition-colors"
+                >
+                  <span className="font-mono text-xs sm:text-sm text-[#8A8EA8] tracking-widest shrink-0 font-medium">
+                    0{idx + 1}
+                  </span>
+                  <p className="font-sans text-xl sm:text-2xl md:text-3xl font-light tracking-tight text-[#14141F] group-hover:text-black transition-colors leading-snug">
+                    {principle}
+                  </p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </motion.div>
@@ -171,3 +104,5 @@ export function HowIWorkSection({ reducedMotion = false }: HowIWorkSectionProps)
     </section>
   );
 }
+
+export const HowIThinkSection = HowIWorkSection;

@@ -86,7 +86,7 @@ export const toolsMarqueeList = [
   'React',
   'Next.js',
   'Tailwind CSS',
-  'Git Worktrees',
+  'Git',
   'RAG',
   'Prisma',
   'AWS',

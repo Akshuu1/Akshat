@@ -13,19 +13,19 @@ const DISCIPLINES = [
   {
     id: 'full-stack',
     name: 'Full-stack',
-    description: 'Web apps, backends and databases. React, Next.js, FastAPI, PostgreSQL.',
+    description: 'Web apps, backends and databases. React, Next.js, Node.js, FastAPI, PostgreSQL.',
     href: '/craft#full-stack',
   },
   {
     id: 'ai-engineering',
     name: 'AI engineering',
-    description: 'Agents and LLM pipelines that check their own work. ANVIL, HealthWe.',
+    description: 'LLM apps, agents and RAG pipelines. LangChain, LangGraph, OpenAI and Claude APIs.',
     href: '/craft#ai-ml',
   },
   {
     id: 'design',
     name: 'Design',
-    description: 'Interfaces with taste: systems first, then the details that feel alive.',
+    description: 'Interfaces with taste. Figma, design systems, motion.',
     href: '/craft#designer',
   },
 ];

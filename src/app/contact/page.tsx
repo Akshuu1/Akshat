@@ -8,7 +8,7 @@ import { Sparkles } from 'lucide-react';
 export const metadata: Metadata = {
   title: "Contact — Let's build something real",
   description:
-    'Start a conversation with Akshat Agrawal regarding autonomous AI agents, distributed systems engineering, or 2026–27 internship opportunities.',
+    'Open to internships, collaborations and good conversations. Get in touch with Akshat Agrawal.',
 };
 
 export default function ContactPage() {
@@ -32,7 +32,7 @@ export default function ContactPage() {
         </h1>
 
         <p className="text-base sm:text-lg md:text-xl text-[var(--text-muted)] font-mono leading-relaxed max-w-2xl">
-          I build autonomous AI agent harnesses, resilient backend architectures, and web interfaces that feel alive.
+          Open to internships, collaborations and good conversations.
         </p>
       </section>
 

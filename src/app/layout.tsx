@@ -47,18 +47,19 @@ const caveat = Caveat({
 export const metadata: Metadata = {
   metadataBase: new URL('https://akshatagrawal.dev'),
   title: {
-    default: `${siteConfig.name} — Full-Stack Developer & AI Systems Builder`,
+    default: 'Akshat Agrawal | Full-stack developer & AI engineer',
     template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.tagline,
   keywords: [
     'Akshat Agrawal',
-    'AI Systems Builder',
-    'Autonomous Coding Agent',
-    'Full-Stack Developer',
+    'Full-stack developer',
+    'AI engineer',
+    'Designer',
     'FastAPI',
     'Next.js',
     'Python',
+    'React',
     'Newton School of Technology',
   ],
   authors: [{ name: siteConfig.name, url: 'https://akshatagrawal.dev' }],

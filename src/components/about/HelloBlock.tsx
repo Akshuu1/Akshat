@@ -1,10 +1,9 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import { SelectionBox } from './SelectionBox';
 import { aboutData } from '@/data/about';
-import { ArrowUpRight, MapPin, Terminal } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 
 export function HelloBlock() {
   return (
@@ -33,7 +32,7 @@ export function HelloBlock() {
           </div>
         </div>
 
-        {/* Right Column: Giant HELLO + Human Narrative Paragraph + Project Badges */}
+        {/* Right Column: Giant HELLO + Human Narrative Paragraph */}
         <div className="lg:col-span-7 space-y-6">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 font-mono text-xs text-[var(--text-muted)]">
@@ -49,29 +48,6 @@ export function HelloBlock() {
           <p className="text-xl sm:text-2xl md:text-3xl font-serif text-[var(--text-primary)] leading-relaxed">
             {aboutData.bio.hello}
           </p>
-
-          {/* Built Recently Badges */}
-          <div className="pt-2 space-y-3">
-            <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-muted)]">
-              <Terminal className="w-3.5 h-3.5 text-[#FF5A36]" />
-              <span className="font-semibold text-[var(--text-primary)]">KEY PRODUCTION SYSTEMS</span>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3">
-              {aboutData.projects.map((proj) => (
-                <Link
-                  key={proj.name}
-                  href={proj.href}
-                  data-cursor="open"
-                  className="group inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--bg-surface)] border border-[var(--border-hairline)] text-[var(--text-primary)] hover:border-[var(--text-primary)]/40 hover:bg-[var(--bg-surface-elevated)] transition-colors font-mono text-xs font-medium"
-                >
-                  <span className="font-bold">{proj.name}</span>
-                  <span className="opacity-70 text-[11px]">({proj.description})</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </Link>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </section>

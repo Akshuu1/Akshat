@@ -359,7 +359,7 @@ export function HeroFrame({ reducedMotion = false }: HeroFrameProps) {
                       </p>
                     </div>
                     <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                      {['Python', 'FastAPI', 'Next.js', 'Claude API'].map((tool) => (
+                      {['Python', 'FastAPI', 'Next.js', 'React'].map((tool) => (
                         <span
                           key={tool}
                           className="px-2.5 py-0.5 rounded-full bg-black/[0.05] border border-black/10 font-mono text-[10px] text-[#14141F] font-medium"
@@ -370,7 +370,7 @@ export function HeroFrame({ reducedMotion = false }: HeroFrameProps) {
                     </div>
                   </motion.div>
 
-                  {/* Lower Right Glass Card */}
+                  {/* Lower Right Glass Card: "Currently" */}
                   <motion.div
                     initial={reducedMotion ? false : { opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -384,27 +384,21 @@ export function HeroFrame({ reducedMotion = false }: HeroFrameProps) {
                   >
                     <div className="flex items-center justify-between pb-1 border-b border-black/10">
                       <span className="font-mono text-[10px] uppercase tracking-wider text-[#5E6073] font-bold">
-                        Featured
+                        Currently
                       </span>
                       <span className="w-2 h-2 rounded-full bg-[#D6FF3D]" />
                     </div>
-                    <div className="space-y-1">
-                      <h4 className="font-sans font-bold text-base sm:text-lg text-[#14141F] tracking-tight">
-                        ANVIL
-                      </h4>
-                      <p className="text-xs text-[#5E6073] leading-snug">
-                        Autonomous coding agent: GitHub issues to verified patches.
+                    <div className="space-y-2 pt-1">
+                      <p className="text-xs sm:text-sm text-[#14141F] font-medium leading-relaxed">
+                        Studying B.Tech CS (2024-2028) and building with AI.
                       </p>
-                    </div>
-                    <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                      {['Python', 'OpenAI API', 'Git worktrees'].map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2.5 py-0.5 rounded-full bg-black/[0.05] border border-black/10 font-mono text-[10px] text-[#14141F] font-medium"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+                      <Link
+                        href="/about"
+                        className="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold text-[#14141F] hover:text-[#5E6073] transition-colors"
+                      >
+                        <span>ABOUT ME</span>
+                        <ArrowUpRight className="w-3.5 h-3.5 text-[#111111]" />
+                      </Link>
                     </div>
                   </motion.div>
                 </div>
@@ -571,16 +565,16 @@ export function HeroFrame({ reducedMotion = false }: HeroFrameProps) {
         }}
       >
         <Link
-          href="/work/anvil"
+          href="/about"
           data-cursor="open"
-          className="group flex items-center justify-between gap-3 px-4 py-2 rounded-full bg-black/65 backdrop-blur-2xl border border-white/30 text-white shadow-[0_8px_32px_rgba(0,0,0,0.35)] hover:border-white/50 transition-all select-none"
+          className="group flex items-center justify-between gap-6 px-4 py-2 rounded-full bg-black/65 backdrop-blur-2xl border border-white/30 text-white shadow-[0_8px_32px_rgba(0,0,0,0.35)] hover:border-white/50 transition-all select-none"
         >
           <div className="flex flex-col text-left pl-1">
             <span className="font-mono text-[9px] text-[#D6FF3D] uppercase tracking-wider font-semibold">
-              CASE STUDY
+              PROFILE
             </span>
             <span className="font-mono text-xs font-bold text-white tracking-wider">
-              ANVIL
+              ABOUT ME
             </span>
           </div>
 

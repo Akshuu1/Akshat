@@ -10,8 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const topics = [
   'Internship / Placement',
-  'AI & Agents',
-  'Backend / Systems',
+  'Freelance / Project',
   'Just saying hi',
 ] as const;
 

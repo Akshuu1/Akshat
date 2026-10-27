@@ -16,14 +16,15 @@ type PageProps = {
 };
 
 export async function generateStaticParams() {
-  return projects.map((p) => ({
-    slug: p.slug,
-  }));
+  return [
+    ...projects.map((p) => ({ slug: p.slug })),
+    { slug: 'countrees' },
+  ];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
+  const project = projects.find((p) => p.slug === slug || (slug === 'countrees' && p.slug === 'countrees-ai-erp'));
 
   if (!project) {
     return {
@@ -41,7 +42,9 @@ export const instant = false;
 
 export default async function CaseStudyPage({ params }: PageProps) {
   const { slug } = await params;
-  const projectIndex = projects.findIndex((p) => p.slug === slug);
+  const projectIndex = projects.findIndex(
+    (p) => p.slug === slug || (slug === 'countrees' && p.slug === 'countrees-ai-erp')
+  );
 
   if (projectIndex === -1) {
     notFound();

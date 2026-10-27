@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: 'Akshat Agrawal',
-  title: 'Akshat Agrawal — Full-Stack Developer & AI Systems Builder',
+  title: 'Akshat Agrawal | Full-stack developer & AI engineer',
   tagline:
     'Building at the intersection of AI, software engineering, and product development, turning complex problems into practical, scalable solutions.',
   roles: ['full-stack dev', 'AI systems builder', 'backend architect', 'data optimizer'],
@@ -29,19 +29,19 @@ export const siteConfig = {
       index: '01',
       title: 'Full-stack Systems',
       description:
-        'Building snappy, type-safe web applications from resilient API contracts down to thoughtful, tactile UI interactions.',
+        'Web apps, backends and databases. React, Next.js, Node.js, FastAPI, PostgreSQL.',
     },
     {
       index: '02',
       title: 'AI & Autonomous Agents',
       description:
-        'Designing multi-phase agent harnesses, context-budgeted LLM workflows, and deterministic execution traces with sandboxed verification.',
+        'LLM apps, agents and RAG pipelines. LangChain, LangGraph, OpenAI and Claude APIs.',
     },
     {
       index: '03',
-      title: 'Data & Backend Architecture',
+      title: 'Design & Interfaces',
       description:
-        'Optimizing relational databases, tuning compound indexes, structuring ERP data models, and containerizing micro-services.',
+        'Interfaces with taste: design systems, typography, and motion.',
     },
   ],
 };

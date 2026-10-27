@@ -8,26 +8,40 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface WorkIndexViewProps {
   projects: Project[];
+  initialFilter?: string | null;
 }
 
-type FilterCategory = 'all' | 'ai' | 'full-stack' | 'backend';
+type FilterCategory = 'all' | 'full-stack' | 'ai' | 'design' | 'backend';
 
-export function WorkIndexView({ projects }: WorkIndexViewProps) {
-  const [activeFilter, setActiveFilter] = useState<FilterCategory>('all');
+export function WorkIndexView({ projects, initialFilter }: WorkIndexViewProps) {
+  const [activeFilter, setActiveFilter] = useState<FilterCategory>(() => {
+    if (initialFilter === 'full-stack' || initialFilter === 'ai' || initialFilter === 'design' || initialFilter === 'backend') {
+      return initialFilter;
+    }
+    return 'all';
+  });
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (initialFilter && (initialFilter === 'full-stack' || initialFilter === 'ai' || initialFilter === 'design' || initialFilter === 'backend')) {
+      setActiveFilter(initialFilter);
+    }
+  }, [initialFilter]);
 
   const filteredProjects = projects.filter((p) => {
     if (activeFilter === 'all') return true;
-    if (activeFilter === 'ai') return p.category === 'ai';
-    if (activeFilter === 'backend') return p.category === 'backend';
-    if (activeFilter === 'full-stack') return p.category === 'full-stack' || p.categoryLabel.includes('Full-Stack');
+    if (activeFilter === 'ai') return p.category === 'ai' || p.categoryLabel.toLowerCase().includes('ai');
+    if (activeFilter === 'backend') return p.category === 'backend' || p.categoryLabel.toLowerCase().includes('backend');
+    if (activeFilter === 'full-stack') return p.category === 'full-stack' || p.categoryLabel.toLowerCase().includes('full-stack');
+    if (activeFilter === 'design') return p.stack.some((s) => s.toLowerCase().includes('design') || s.toLowerCase().includes('figma') || s.toLowerCase().includes('interface')) || p.categoryLabel.toLowerCase().includes('design');
     return true;
   });
 
   const filterTabs: { label: string; value: FilterCategory }[] = [
     { label: 'all projects', value: 'all' },
-    { label: 'ai systems', value: 'ai' },
     { label: 'full-stack', value: 'full-stack' },
+    { label: 'ai systems', value: 'ai' },
+    { label: 'design', value: 'design' },
     { label: 'backend & data', value: 'backend' },
   ];
 

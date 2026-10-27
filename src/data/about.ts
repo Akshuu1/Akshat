@@ -37,12 +37,8 @@ export const aboutData = {
     handwrittenNote: 'akshat agrawal',
   },
   bio: {
-    hello: "Hi, I'm Akshat. I build at the intersection of AI, software engineering and product development, turning complex problems into practical, scalable things. I like agents that check their own work, backends that don't fall over, and interfaces that feel alive.",
+    hello: "Hi, I'm Akshat. I build at the intersection of AI, software engineering and product development, turning complex problems into practical things. I like backends that don't fall over, agents that check their own work, and interfaces that feel alive.",
   },
-  projects: [
-    { name: 'ANVIL', description: 'autonomous coding-agent harness', href: '/work/anvil' },
-    { name: 'HealthWe', description: 'AI clinical documentation platform', href: '/work/healthwe' },
-  ],
   skills: [
     {
       title: 'AI & Agents',
@@ -52,10 +48,9 @@ export const aboutData = {
         { name: 'LangGraph', tag: 'LG' },
         { name: 'RAG', tag: 'RG' },
         { name: 'NLP', tag: 'NL' },
-        { name: 'Model Training', tag: 'MT' },
         { name: 'OpenAI API', tag: 'OA' },
+        { name: 'Claude API', tag: 'CA' },
         { name: 'Gemini API', tag: 'GM' },
-        { name: 'Claude Code', tag: 'CC' },
       ],
     },
     {
@@ -63,11 +58,11 @@ export const aboutData = {
       tools: [
         { name: 'Python', tag: 'PY' },
         { name: 'FastAPI', tag: 'FA' },
+        { name: 'Node.js', tag: 'ND' },
+        { name: 'Express', tag: 'EX' },
         { name: 'PostgreSQL', tag: 'PG' },
         { name: 'SQLAlchemy', tag: 'SA' },
         { name: 'MySQL', tag: 'MY' },
-        { name: 'NoSQL', tag: 'NO' },
-        { name: 'Firebase', tag: 'FB' },
         { name: 'Docker', tag: 'DK' },
         { name: 'AWS', tag: 'AW' },
       ],
@@ -77,10 +72,11 @@ export const aboutData = {
       tools: [
         { name: 'React', tag: 'RE' },
         { name: 'Next.js', tag: 'NX' },
-        { name: 'Tailwind CSS', tag: 'TW' },
+        { name: 'JavaScript', tag: 'JS' },
+        { name: 'TypeScript', tag: 'TS' },
         { name: 'Framer Motion', tag: 'FM' },
         { name: 'Figma', tag: 'FG' },
-        { name: 'Canva', tag: 'CV' },
+        { name: 'Design Systems', tag: 'DS' },
       ],
     },
     {
@@ -161,7 +157,7 @@ export const aboutData = {
       title: '3 Hackathons',
       role: 'Top 10 Finish',
       caption: '3x top 10 competitive builder',
-      description: 'Built high-throughput autonomous agents and real-time clinical assistants under time pressure.',
+      description: 'Built full-stack and AI software solutions under fast-paced hackathon constraints.',
       year: '2024–2025',
       gradient: 'from-purple-500/20 via-pink-500/20 to-rose-500/20',
     },

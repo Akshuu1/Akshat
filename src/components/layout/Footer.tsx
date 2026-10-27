@@ -107,25 +107,25 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Col 3: Case Studies Direct */}
+          {/* Col 3: Disciplines */}
           <div className="space-y-2">
             <span className="text-[var(--text-muted)] uppercase tracking-wider text-[10px]">
-              case studies
+              disciplines
             </span>
             <ul className="space-y-1.5">
               <li>
-                <Link href="/work/anvil" className="hover:underline">
-                  → anvil harness (ai)
+                <Link href="/craft#full-stack" className="hover:underline">
+                  → full-stack development
                 </Link>
               </li>
               <li>
-                <Link href="/work/healthwe" className="hover:underline">
-                  → healthwe (clinical ai)
+                <Link href="/craft#ai-ml" className="hover:underline">
+                  → ai engineering
                 </Link>
               </li>
               <li>
-                <Link href="/work/countrees-ai-erp" className="hover:underline">
-                  → countrees erp (backend)
+                <Link href="/craft#designer" className="hover:underline">
+                  → interface design
                 </Link>
               </li>
             </ul>

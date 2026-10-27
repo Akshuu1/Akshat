@@ -53,11 +53,6 @@ export function CustomCursor() {
     };
 
     const handleElementHover = (e: MouseEvent) => {
-      if (isCraft) {
-        setCursorVariant('default');
-        return;
-      }
-
       const target = e.target as HTMLElement | null;
       if (!target) return;
 
@@ -91,14 +86,14 @@ export function CustomCursor() {
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
     };
-  }, [mouseX, mouseY, isTouch, isCraft]);
+  }, [mouseX, mouseY, isTouch]);
 
   if (isTouch) return null;
 
   return (
     <motion.div
       aria-hidden="true"
-      className="custom-cursor-element fixed pointer-events-none z-50 flex items-center justify-center font-mono text-xs select-none"
+      className="custom-cursor-element fixed pointer-events-none z-[9999] flex items-center justify-center font-mono text-xs select-none"
       style={{
         left: cursorX,
         top: cursorY,
@@ -107,21 +102,28 @@ export function CustomCursor() {
         opacity: isVisible ? 1 : 0,
       }}
       animate={{
-        scale: isCraft ? 1 : cursorVariant === 'pill' ? 1 : cursorVariant === 'hover' ? 1.4 : 1,
+        scale: cursorVariant === 'pill' ? 1 : cursorVariant === 'hover' ? 1.4 : 1,
       }}
       transition={{ type: 'spring', damping: 25, stiffness: 300 }}
     >
-      {isCraft ? (
-        <div className="w-2.5 h-2.5 rounded-full bg-white/90 shadow-xs" />
-      ) : cursorVariant === 'pill' ? (
-        <motion.div
-          initial={{ scale: 0.6, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="px-3 py-1 rounded-full bg-[var(--accent-lime)] text-[var(--accent-lime-text)] font-semibold tracking-wider uppercase text-[10px] shadow-sm flex items-center gap-1 border border-black/10"
-        >
-          <span>{cursorText}</span>
-          <span className="text-[9px]">↗</span>
-        </motion.div>
+      {cursorVariant === 'pill' ? (
+        <div className="relative">
+          {/* Center tiny dot */}
+          <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent-lime)] shadow-xs" />
+
+          {/* Cursor Label offset 16px from pointer */}
+          <motion.div
+            initial={{ scale: 0.7, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            style={{
+              transform: 'translate(16px, 16px)',
+            }}
+            className="absolute top-0 left-0 px-3 py-1 rounded-full bg-[var(--accent-lime)] text-[var(--accent-lime-text)] font-semibold tracking-wider uppercase text-[10px] shadow-lg flex items-center gap-1 border border-black/10 whitespace-nowrap"
+          >
+            <span>{cursorText}</span>
+            <span className="text-[9px]">↗</span>
+          </motion.div>
+        </div>
       ) : cursorVariant === 'hover' ? (
         <div className="w-8 h-8 rounded-full border border-[var(--text-primary)]/40 bg-[var(--text-primary)]/10 backdrop-blur-xs transition-colors duration-200" />
       ) : (

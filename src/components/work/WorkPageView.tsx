@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useTransition } from 'react';
 import { Project } from '@/data/projects';
-import { ProjectWheel } from '@/components/home/ProjectWheel';
+import { ProjectWheel } from '@/components/work/ProjectWheel';
 import { WorkIndexView } from '@/components/work/WorkIndexView';
 import { Sparkles, ListFilter } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,13 +13,20 @@ interface WorkPageViewProps {
 
 export function WorkPageView({ projects }: WorkPageViewProps) {
   const [viewMode, setViewMode] = useState<'dial' | 'list'>('dial');
+  const [urlFilter, setUrlFilter] = useState<string | null>(null);
   const [, startTransition] = useTransition();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
       const requestedView = params.get('view');
-      if (requestedView === 'list' || requestedView === 'dial') {
+      const requestedFilter = params.get('filter');
+      if (requestedFilter) {
+        setUrlFilter(requestedFilter);
+        startTransition(() => {
+          setViewMode('list');
+        });
+      } else if (requestedView === 'list' || requestedView === 'dial') {
         startTransition(() => {
           setViewMode(requestedView);
         });
@@ -116,7 +123,7 @@ export function WorkPageView({ projects }: WorkPageViewProps) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <WorkIndexView projects={projects} />
+          <WorkIndexView projects={projects} initialFilter={urlFilter} />
         </motion.div>
       </AnimatePresence>
     </div>
