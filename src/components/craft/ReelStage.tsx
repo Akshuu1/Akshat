@@ -205,16 +205,13 @@ export function ReelStage() {
         className="relative w-full h-[400vh]"
         aria-label="Kinetic Typography Discipline Reel"
       >
-        {/* Sticky 100svh Full-Bleed Kinetic Stage */}
         <motion.div
-          style={
-            {
-              backgroundColor: stageBg,
-              color: stageFg,
-              '--fs': 'min(16vw, 26vh)',
-              '--pitch': 'calc(var(--fs) * 1.05)',
-            } as React.CSSProperties
-          }
+          style={{
+            backgroundColor: stageBg,
+            color: stageFg,
+            ['--fs' as string]: 'min(16vw, 26vh)',
+            ['--pitch' as string]: 'calc(var(--fs) * 1.05)',
+          }}
           className="sticky top-0 h-[100svh] w-screen overflow-hidden select-none z-10 flex flex-col justify-between"
         >
           {/* Accessibility Hidden Headings */}
