@@ -85,12 +85,13 @@ export function HeroObject({ reducedMotion = false }: HeroObjectProps) {
         <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#111111] text-white flex items-center justify-center font-mono font-black text-xl shrink-0 shadow-sm overflow-hidden border border-black/10">
           {!imgError ? (
             <Image
-              src="/home/me.png"
+              src="/akshat.png"
               alt="Akshat Agrawal"
               width={64}
               height={64}
               onError={() => setImgError(true)}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-top"
+              priority
             />
           ) : (
             <span>A</span>

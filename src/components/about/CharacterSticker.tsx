@@ -12,7 +12,7 @@ interface CharacterStickerProps {
 
 // TODO: When photo is provided, place it at /public/about/me-cutout.png (transparent PNG cutout)
 // and toggle HAS_LOCAL_PHOTO to true.
-const HAS_LOCAL_PHOTO = false;
+const HAS_LOCAL_PHOTO = true;
 
 export function CharacterSticker({
   className = '',

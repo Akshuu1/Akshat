@@ -7,7 +7,6 @@ import { ScrollBadge } from '@/components/home/ScrollBadge';
 import { IntroStatementSection } from '@/components/home/IntroStatementSection';
 import { ProofStripSection } from '@/components/home/ProofStripSection';
 import { DisciplinesTilesSection } from '@/components/home/DisciplinesTilesSection';
-import { SkillsMarqueeSection } from '@/components/home/SkillsMarqueeSection';
 import { SelectedWorkSection } from '@/components/home/SelectedWorkSection';
 import { ClosingCtaSection } from '@/components/home/ClosingCtaSection';
 
@@ -69,10 +68,7 @@ export default function HomePage() {
         {/* 3. Disciplines 3 tiles (Blueprint, Glow, Paper) */}
         <DisciplinesTilesSection reducedMotion={reducedMotion} />
 
-        {/* 4. Skills marquee (two opposite-direction rows, lime stars) */}
-        <SkillsMarqueeSection reducedMotion={reducedMotion} />
-
-        {/* 5. Selected work (light bezel band #ECEBF2, 3 clean rows) */}
+        {/* 4. Selected work (light bezel band #ECEBF2, 3 clean rows) */}
         <SelectedWorkSection reducedMotion={reducedMotion} />
 
         {/* 6. Closing CTA (2-line title, lime button, cv link, email copy) */}

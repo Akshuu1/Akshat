@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { SelectionBox } from './SelectionBox';
+import { AboutPolaroid } from './AboutPolaroid';
 import { aboutData } from '@/data/about';
 import { MapPin } from 'lucide-react';
 
@@ -9,9 +9,9 @@ export function HelloBlock() {
   return (
     <section className="relative w-full py-8 sm:py-12 select-none">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-        {/* Left Column: Figma Selection Box Avatar & Quick Info Stamp */}
-        <div className="lg:col-span-5 flex flex-col items-center lg:items-start gap-4">
-          <SelectionBox />
+        {/* Left Column: Polaroid Framed Photo & Quick Info Stamp */}
+        <div className="lg:col-span-5 flex flex-col items-center lg:items-start gap-5">
+          <AboutPolaroid />
 
           {/* Quick Info Stamp Card */}
           <div className="w-full max-w-[280px] p-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-hairline)] shadow-sm space-y-2 font-mono text-xs text-[var(--text-muted)]">
