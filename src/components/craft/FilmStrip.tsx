@@ -11,6 +11,7 @@ import {
 import { BannerWords } from './BannerWords';
 import { FrameFullStack } from './FrameFullStack';
 import { FrameAI } from './FrameAI';
+import { FrameData } from './FrameData';
 import { FrameDesign } from './FrameDesign';
 import { StripTabs } from './StripTabs';
 
@@ -22,7 +23,7 @@ export function FilmStrip() {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isTouch, setIsTouch] = useState(false);
 
-  // Measure scroll through the 500vh container
+  // Measure scroll through the 600vh container
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
@@ -35,14 +36,14 @@ export function FilmStrip() {
     mass: 0.8,
   });
 
-  // Translate track across 300vw
-  const trackX = useTransform(smoothProgress, [0, 1], ['0vw', '-200vw']);
+  // Translate track across 400vw (0vw to -300vw)
+  const trackX = useTransform(smoothProgress, [0, 1], ['0vw', '-300vw']);
 
-  // Continuous accent interpolation: lime -> pink -> amber
+  // Continuous accent interpolation: lime -> pink -> cyan -> amber
   const accentColor = useTransform(
     smoothProgress,
-    [0, 0.5, 1],
-    ['#D6FF3D', '#FF9EB5', '#F4B860']
+    [0, 1 / 3, 2 / 3, 1],
+    ['#D6FF3D', '#FF9EB5', '#5CE1E6', '#F4B860']
   );
 
   // Fade out bottom-right "scroll" hint after initial scroll
@@ -50,7 +51,7 @@ export function FilmStrip() {
 
   // Track active frame index for tabs, counter, and keyboard navigation
   useMotionValueEvent(smoothProgress, 'change', (latest) => {
-    const idx = Math.min(2, Math.max(0, Math.round(latest * 2)));
+    const idx = Math.min(3, Math.max(0, Math.round(latest * 3)));
     if (idx !== activeIndex) {
       setActiveIndex(idx);
     }
@@ -74,14 +75,14 @@ export function FilmStrip() {
     };
   }, []);
 
-  // Scroll to a specific frame (0, 1, 2)
+  // Scroll to a specific frame (0, 1, 2, 3)
   const scrollToFrame = (index: number) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
     const startTop = scrollTop + rect.top;
     const scrollableDistance = rect.height - window.innerHeight;
-    const targetScroll = startTop + (index / 2) * scrollableDistance;
+    const targetScroll = startTop + (index / 3) * scrollableDistance;
 
     window.scrollTo({
       top: targetScroll,
@@ -97,7 +98,7 @@ export function FilmStrip() {
       }
       if (e.key === 'ArrowRight') {
         e.preventDefault();
-        scrollToFrame(Math.min(2, activeIndex + 1));
+        scrollToFrame(Math.min(3, activeIndex + 1));
       } else if (e.key === 'ArrowLeft') {
         e.preventDefault();
         scrollToFrame(Math.max(0, activeIndex - 1));
@@ -108,7 +109,7 @@ export function FilmStrip() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeIndex]);
 
-  // Deep linking via hash (#full-stack, #ai-ml, #designer)
+  // Deep linking via hash (#full-stack, #ai-ml, #data-analyst, #designer)
   useEffect(() => {
     const checkHash = () => {
       const hash = window.location.hash.toLowerCase();
@@ -116,8 +117,10 @@ export function FilmStrip() {
         scrollToFrame(0);
       } else if (hash === '#ai-ml' || hash === '#ai') {
         scrollToFrame(1);
-      } else if (hash === '#designer' || hash === '#design') {
+      } else if (hash === '#data-analyst' || hash === '#data') {
         scrollToFrame(2);
+      } else if (hash === '#designer' || hash === '#design') {
+        scrollToFrame(3);
       }
     };
 
@@ -127,9 +130,9 @@ export function FilmStrip() {
     return () => window.removeEventListener('hashchange', checkHash);
   }, []);
 
-  // Continuous background gradient: forest #1F3D2B -> maroon #4D1D30 -> espresso #3B2A1D
+  // Continuous background gradient: forest #1F3D2B -> maroon #4D1D30 -> navy #12284A -> espresso #3B2A1D
   const stripGradient =
-    'linear-gradient(90deg, #1F3D2B 0%, #1F3D2B 18%, #4D1D30 45%, #4D1D30 55%, #3B2A1D 82%, #3B2A1D 100%)';
+    'linear-gradient(90deg, #1F3D2B 0%, #1F3D2B 15%, #4D1D30 35%, #4D1D30 45%, #12284A 60%, #12284A 70%, #3B2A1D 85%, #3B2A1D 100%)';
 
   // Mobile / Touch Layout: horizontal scroll-snap row with same continuous gradient
   if (isTouch) {
@@ -138,7 +141,7 @@ export function FilmStrip() {
         {/* Top-Left Counter */}
         <div className="fixed top-20 left-6 z-40 font-mono text-xs text-white/70 tracking-widest pointer-events-none select-none flex items-center gap-1.5">
           <span className="font-bold text-[#D6FF3D]">0{activeIndex + 1}</span>
-          <span className="text-white/40">/ 03</span>
+          <span className="text-white/40">/ 04</span>
         </div>
 
         {/* Scroll-Snap Row */}
@@ -149,12 +152,13 @@ export function FilmStrip() {
             const target = e.currentTarget;
             const scrollLeft = target.scrollLeft;
             const width = target.clientWidth;
-            const idx = Math.min(2, Math.max(0, Math.round(scrollLeft / width)));
+            const idx = Math.min(3, Math.max(0, Math.round(scrollLeft / width)));
             setActiveIndex(idx);
           }}
         >
           <FrameFullStack reducedMotion={true} />
           <FrameAI reducedMotion={true} />
+          <FrameData reducedMotion={true} />
           <FrameDesign reducedMotion={true} />
         </div>
 
@@ -176,14 +180,14 @@ export function FilmStrip() {
     );
   }
 
-  // Desktop Layout: 500vh scroll container, sticky 100svh stage, 300vw track
+  // Desktop Layout: 600vh scroll container, sticky 100svh stage, 400vw track
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[500vh] overflow-visible pb-0 mb-0"
+      className="relative w-full h-[600vh] overflow-visible pb-0 mb-0"
     >
       <div className="sticky top-0 h-[100svh] w-full overflow-hidden select-none">
-        {/* Top-Left Persistent Rolling Counter: "01 / 03" */}
+        {/* Top-Left Persistent Rolling Counter: "01 / 04" */}
         <div className="fixed top-20 sm:top-24 left-6 sm:left-12 z-40 font-mono text-xs text-white/70 tracking-widest pointer-events-none select-none flex items-center gap-2">
           <motion.span
             style={{ color: accentColor }}
@@ -191,7 +195,7 @@ export function FilmStrip() {
           >
             0{activeIndex + 1}
           </motion.span>
-          <span className="text-white/40 font-mono">/ 03</span>
+          <span className="text-white/40 font-mono">/ 04</span>
         </div>
 
         {/* Bottom-Right "scroll" Hint (Fades after first scroll) */}
@@ -204,12 +208,12 @@ export function FilmStrip() {
           <span className="text-xs">↓</span>
         </motion.div>
 
-        {/* 300vw Film Strip Track */}
+        {/* 400vw Film Strip Track */}
         <motion.div
           ref={trackRef}
           style={{
             x: trackX,
-            width: '300vw',
+            width: '400vw',
             background: stripGradient,
           }}
           className="relative h-[100svh] flex will-change-transform"
@@ -226,7 +230,10 @@ export function FilmStrip() {
           {/* Foreground Frame 2: AI Engineer (100vw x 100svh) */}
           <FrameAI reducedMotion={reducedMotion} />
 
-          {/* Foreground Frame 3: Designer (100vw x 100svh) */}
+          {/* Foreground Frame 3: Data Analyst (100vw x 100svh) */}
+          <FrameData reducedMotion={reducedMotion} />
+
+          {/* Foreground Frame 4: Designer (100vw x 100svh) */}
           <FrameDesign reducedMotion={reducedMotion} />
         </motion.div>
 

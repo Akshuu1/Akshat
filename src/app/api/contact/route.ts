@@ -8,6 +8,7 @@ const contactSchema = z.object({
     [
       'Internship / Placement',
       'Freelance / Project',
+      'Data / Analytics',
       'AI & Agents',
       'Just saying hi',
       'Internship', // fallback support

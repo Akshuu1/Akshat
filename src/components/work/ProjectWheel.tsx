@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState, useSyncExternalStore } from 'react';
+import React, { useRef, useState, useMemo, useEffect, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import {
   motion,
@@ -15,16 +15,24 @@ import { Project } from '@/data/projects';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import { ArrowUpRight, Terminal, Cpu } from 'lucide-react';
 
+export type CategoryFilter = 'ai' | 'full-stack' | 'data' | 'design';
+
+export const CATEGORIES: { id: CategoryFilter; label: string; accent: string }[] = [
+  { id: 'ai', label: 'AI Engineer', accent: '#D6FF3D' },
+  { id: 'full-stack', label: 'Full Stack', accent: '#7CF0B4' },
+  { id: 'data', label: 'Data Analyst', accent: '#5CE1E6' },
+  { id: 'design', label: 'Designer', accent: '#F4B860' },
+];
+
 interface ProjectWheelProps {
   projects: Project[];
+  activeCategory?: CategoryFilter;
+  onCategoryChange?: (cat: CategoryFilter) => void;
   sectionIndex?: string;
   sectionTitle?: string;
   headerAction?: React.ReactNode;
 }
 
-// Angular spacing between projects on the wheel
-const ANGLE_STEP = 34; // degrees
-const PROJECT_ANGLES = [0, -ANGLE_STEP, -ANGLE_STEP * 2]; // 0°, -34°, -68°
 const TOTAL_TICKS = 72; // every 5 degrees around 360°
 
 // Motion preference subscription using React useSyncExternalStore
@@ -44,75 +52,121 @@ function getServerSnapshot() {
   return false;
 }
 
-// Bespoke abstract CSS/SVG mini-visuals for the wheel sticker cards
-function ProjectStickerVisual({ slug }: { slug: string }) {
-  if (slug === 'anvil') {
+// Clean bespoke SVG visual for cards (no fake chips, metrics, or statuses)
+function ProjectStickerVisual({
+  project,
+  categoryAccent,
+}: {
+  project: Project;
+  categoryAccent: string;
+}) {
+  if (project.placeholder) {
     return (
-      <div className="w-full h-24 rounded-xl bg-[var(--bg-base)] border border-[var(--border-hairline)] p-2.5 flex flex-col justify-between overflow-hidden relative">
-        <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
-          <span className="flex items-center gap-1 text-[var(--accent-lime-text)] bg-[var(--accent-lime)] px-1.5 py-0.2 rounded font-bold">
-            9-PHASE
-          </span>
-          <span>SANDBOXED</span>
+      <div className="w-full h-24 rounded-xl border border-dashed border-[var(--category-accent)]/50 bg-[var(--bg-base)]/50 flex flex-col items-center justify-center gap-1.5 p-2">
+        <div
+          className="w-7 h-7 rounded-full border border-dashed flex items-center justify-center text-sm font-bold"
+          style={{ borderColor: categoryAccent, color: categoryAccent }}
+        >
+          +
+        </div>
+        <span className="font-mono text-[10px] text-[var(--text-muted)] tracking-wider">
+          + add project
+        </span>
+      </div>
+    );
+  }
+
+  if (project.slug === 'anvil') {
+    return (
+      <div className="w-full h-24 rounded-xl bg-[var(--bg-base)] border border-[var(--border-hairline)] p-3 flex flex-col justify-between overflow-hidden relative">
+        <div className="flex items-center justify-between">
+          <Terminal className="w-4 h-4 text-[var(--category-accent)]" />
+          <div className="flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--category-accent)] animate-pulse" />
+            <span className="font-mono text-[9px] text-[var(--text-muted)]">HARNESS</span>
+          </div>
         </div>
         <div className="flex items-center justify-center gap-2 py-1">
-          <Terminal className="w-5 h-5 text-[var(--accent-lime)] shrink-0" />
-          <div className="h-0.5 w-8 bg-[var(--border-hairline)]" />
+          <div className="h-0.5 w-10 bg-[var(--border-hairline)]" />
           <Cpu className="w-5 h-5 text-[var(--text-primary)] shrink-0" />
+          <div className="h-0.5 w-10 bg-[var(--border-hairline)]" />
         </div>
-        <div className="text-[9px] font-mono text-[var(--text-muted)] flex justify-between">
-          <span>GIT WORKTREES</span>
-          <span className="text-emerald-500">100% REPRO</span>
-        </div>
-      </div>
-    );
-  }
-
-  if (slug === 'healthwe') {
-    return (
-      <div className="w-full h-24 rounded-xl bg-[var(--bg-base)] border border-[var(--border-hairline)] p-2.5 flex flex-col justify-between overflow-hidden relative">
         <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
-          <span className="text-emerald-500 font-bold bg-emerald-500/10 px-1.5 py-0.2 rounded">
-            CLINICAL AI
-          </span>
-          <span>PYDANTIC V2</span>
-        </div>
-        <div className="space-y-1 py-1">
-          <div className="h-1.5 w-4/5 rounded bg-[var(--accent-lime)]" />
-          <div className="h-1.5 w-3/5 rounded bg-[var(--border-hairline)]" />
-          <div className="h-1.5 w-full rounded bg-[var(--border-hairline)]" />
-        </div>
-        <div className="text-[9px] font-mono text-[var(--text-muted)] flex justify-between">
-          <span>SOURCE GROUNDED</span>
-          <span>FASTAPI</span>
+          <span>WORKTREE</span>
+          <span>TRACE</span>
         </div>
       </div>
     );
   }
 
-  // countrees-ai-erp
+  if (project.slug === 'healthwe') {
+    return (
+      <div className="w-full h-24 rounded-xl bg-[var(--bg-base)] border border-[var(--border-hairline)] p-3 flex flex-col justify-between overflow-hidden relative">
+        <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
+          <span>EXTRACTION</span>
+          <span className="text-[var(--category-accent)] font-bold">PIPELINE</span>
+        </div>
+        <div className="py-1 flex items-center justify-center">
+          <svg viewBox="0 0 140 28" className="w-full h-7 stroke-[var(--category-accent)] fill-none">
+            <path
+              d="M 0,14 L 35,14 L 45,3 L 55,25 L 65,8 L 75,18 L 85,14 L 140,14"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+        <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
+          <span>CLINICAL</span>
+          <span>REPORTS</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (project.slug === 'countrees-ai-erp') {
+    return (
+      <div className="w-full h-24 rounded-xl bg-[var(--bg-base)] border border-[var(--border-hairline)] p-3 flex flex-col justify-between overflow-hidden relative">
+        <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
+          <span>SCHEMA</span>
+          <span>ENGINE</span>
+        </div>
+        <div className="grid grid-cols-3 gap-1.5 py-1">
+          <div className="h-5 rounded bg-[var(--bg-surface-elevated)] border border-[var(--border-hairline)]" />
+          <div
+            className="h-5 rounded border border-transparent"
+            style={{ backgroundColor: `${categoryAccent}33` }}
+          />
+          <div className="h-5 rounded bg-[var(--bg-surface-elevated)] border border-[var(--border-hairline)]" />
+        </div>
+        <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
+          <span>INDEX</span>
+          <span>QUERY</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Portfolio or design projects
   return (
-    <div className="w-full h-24 rounded-xl bg-[var(--bg-base)] border border-[var(--border-hairline)] p-2.5 flex flex-col justify-between overflow-hidden relative">
+    <div className="w-full h-24 rounded-xl bg-[var(--bg-base)] border border-[var(--border-hairline)] p-3 flex flex-col justify-between overflow-hidden relative">
       <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
-        <span className="text-blue-500 font-bold bg-blue-500/10 px-1.5 py-0.2 rounded">
-          BACKEND ERP
-        </span>
-        <span>POSTGRESQL</span>
+        <span>INTERFACE</span>
+        <span>MOTION</span>
       </div>
-      <div className="grid grid-cols-3 gap-1 py-1">
-        <div className="h-6 rounded bg-[var(--bg-surface-elevated)] border border-[var(--border-hairline)] flex items-center justify-center text-[8px] font-mono">
-          B-TREE
-        </div>
-        <div className="h-6 rounded bg-[var(--accent-lime)] text-[var(--accent-lime-text)] font-bold flex items-center justify-center text-[8px] font-mono">
-          INDEX
-        </div>
-        <div className="h-6 rounded bg-[var(--bg-surface-elevated)] border border-[var(--border-hairline)] flex items-center justify-center text-[8px] font-mono">
-          ACID
+      <div className="flex items-center justify-center py-1">
+        <div
+          className="w-24 h-7 rounded border border-dashed flex items-center justify-around px-2"
+          style={{ borderColor: categoryAccent }}
+        >
+          <div className="w-2 h-2 rounded-xs" style={{ backgroundColor: categoryAccent }} />
+          <div className="w-6 h-0.5 bg-[var(--border-hairline)]" />
+          <div className="w-2 h-2 rounded-full border border-[var(--text-muted)]" />
         </div>
       </div>
-      <div className="text-[9px] font-mono text-[var(--text-muted)] flex justify-between">
-        <span>QUERY TUNED</span>
-        <span>DOCKER</span>
+      <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
+        <span>SYSTEM</span>
+        <span>TOKENS</span>
       </div>
     </div>
   );
@@ -120,32 +174,73 @@ function ProjectStickerVisual({ slug }: { slug: string }) {
 
 export function ProjectWheel({
   projects,
+  activeCategory: propActiveCategory,
+  onCategoryChange: propOnCategoryChange,
   sectionIndex = '01',
   sectionTitle = 'SELECTION',
   headerAction,
 }: ProjectWheelProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [internalCategory, setInternalCategory] = useState<CategoryFilter>('ai');
+  const activeCategory = propActiveCategory || internalCategory;
+
+  const handleCategoryChange = (cat: CategoryFilter) => {
+    if (propOnCategoryChange) {
+      propOnCategoryChange(cat);
+    } else {
+      setInternalCategory(cat);
+    }
+  };
+
+  const activeCategoryConfig =
+    CATEGORIES.find((c) => c.id === activeCategory) || CATEGORIES[0];
+  const categoryAccent = activeCategoryConfig.accent;
+
+  const filteredProjects = useMemo(() => {
+    return projects.filter((p) => p.categories?.includes(activeCategory));
+  }, [projects, activeCategory]);
+
+  const count = filteredProjects.length;
+  // Wheel angle step = min(40deg, 160deg / count)
+  const angleStep = Math.min(40, 160 / Math.max(count, 1));
+
   const [activeIndex, setActiveIndex] = useState(0);
+
   const reducedMotion = useSyncExternalStore(
     subscribeReducedMotion,
     getReducedMotionSnapshot,
     getServerSnapshot
   );
 
-  // Scroll tracking across 400vh section
+  // Category counts for tab badges
+  const categoryCounts = useMemo(() => {
+    return {
+      ai: projects.filter((p) => p.categories?.includes('ai')).length,
+      'full-stack': projects.filter((p) => p.categories?.includes('full-stack')).length,
+      data: projects.filter((p) => p.categories?.includes('data')).length,
+      design: projects.filter((p) => p.categories?.includes('design')).length,
+    };
+  }, [projects]);
+
+  // Reset scroll and rotation to project 01 on category switch
+  useEffect(() => {
+    setActiveIndex(0);
+    if (containerRef.current) {
+      const top = containerRef.current.offsetTop;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  }, [activeCategory]);
+
+  // Scroll tracking across (100vh + 100vh x count) section
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
   });
 
-  // Map scroll (0..1) to rotation (0 to 68 degrees to bring projects 0, 1, 2 to 0° active apex)
-  const rawRotation = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    [0, ANGLE_STEP, ANGLE_STEP * 2]
-  );
+  const maxRotation = Math.max(0, (count - 1) * angleStep);
 
-  // Smooth with weighted spring for weighty, tactile gauge feel
+  const rawRotation = useTransform(scrollYProgress, [0, 1], [0, maxRotation]);
+
   const wheelRotation = useSpring(rawRotation, {
     stiffness: 80,
     damping: 20,
@@ -157,7 +252,8 @@ export function ProjectWheel({
     let closestIndex = 0;
     let minDistance = Infinity;
 
-    PROJECT_ANGLES.forEach((baseAngle, idx) => {
+    filteredProjects.forEach((_, idx) => {
+      const baseAngle = -idx * angleStep;
       const currentAngle = latest + baseAngle;
       const distance = Math.abs(currentAngle);
       if (distance < minDistance) {
@@ -166,50 +262,127 @@ export function ProjectWheel({
       }
     });
 
-    if (closestIndex !== activeIndex && closestIndex >= 0 && closestIndex < projects.length) {
+    if (closestIndex !== activeIndex && closestIndex >= 0 && closestIndex < filteredProjects.length) {
       setActiveIndex(closestIndex);
     }
   });
 
-  const activeProject = projects[activeIndex] || projects[0];
+  const activeProject = filteredProjects[activeIndex] || filteredProjects[0];
+
+  const handleTabKeyDown = (e: React.KeyboardEvent, index: number) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      const nextIndex = (index + 1) % CATEGORIES.length;
+      handleCategoryChange(CATEGORIES[nextIndex].id);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prevIndex = (index - 1 + CATEGORIES.length) % CATEGORIES.length;
+      handleCategoryChange(CATEGORIES[prevIndex].id);
+    }
+  };
 
   // If reduced motion is preferred, render standard accessible cards list
   if (reducedMotion) {
     return (
-      <section className="max-w-[1200px] mx-auto px-6 md:px-12 space-y-8 pt-8">
-        <div className="flex items-center justify-between pb-4 border-b border-[var(--border-hairline)]">
-          <div className="space-y-1">
-            <span className="font-mono text-xs text-[var(--text-muted)]">{sectionIndex} {"//"} {sectionTitle}</span>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
-              Selected <span className="font-serif italic font-normal">Projects</span>
-            </h2>
+      <section
+        style={{ ['--category-accent' as string]: categoryAccent }}
+        className="max-w-[1200px] mx-auto px-6 md:px-12 space-y-8 pt-8"
+      >
+        <div className="flex flex-col gap-4 pb-4 border-b border-[var(--border-hairline)]">
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <span className="font-mono text-xs text-[var(--text-muted)]">
+                {sectionIndex} {"//"} {sectionTitle}
+              </span>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
+                Selected <span className="font-serif italic font-normal">Projects</span>
+              </h2>
+            </div>
+            {headerAction ? (
+              headerAction
+            ) : (
+              <Link
+                href="/work"
+                className="font-mono text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+              >
+                view all case studies ↗
+              </Link>
+            )}
           </div>
-          {headerAction ? headerAction : (
-            <Link href="/work" className="font-mono text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)]">
-              view all case studies ↗
-            </Link>
-          )}
+
+          {/* Category Tabs */}
+          <div
+            role="tablist"
+            aria-label="Project categories"
+            className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1"
+          >
+            {CATEGORIES.map((cat, idx) => {
+              const isActive = activeCategory === cat.id;
+              const countBadge = categoryCounts[cat.id];
+              return (
+                <button
+                  key={cat.id}
+                  role="tab"
+                  aria-selected={isActive}
+                  tabIndex={isActive ? 0 : -1}
+                  onClick={() => handleCategoryChange(cat.id)}
+                  onKeyDown={(e) => handleTabKeyDown(e, idx)}
+                  className={`px-3.5 py-1.5 rounded-full font-mono text-xs flex items-center gap-2 transition-all duration-200 cursor-pointer border shrink-0 ${
+                    isActive
+                      ? 'font-bold shadow-xs'
+                      : 'border-[var(--border-hairline)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:border-[var(--text-primary)]/40 bg-transparent'
+                  }`}
+                  style={
+                    isActive
+                      ? {
+                          backgroundColor: 'var(--category-accent)',
+                          borderColor: 'transparent',
+                          color: '#14141F',
+                        }
+                      : {}
+                  }
+                  data-cursor="filter"
+                >
+                  <span>{cat.label}</span>
+                  <span
+                    className="px-1.5 py-0.5 rounded-full text-[10px] font-mono leading-none"
+                    style={{
+                      backgroundColor: isActive ? 'rgba(0,0,0,0.15)' : 'var(--bg-surface-elevated)',
+                      color: isActive ? '#14141F' : 'var(--text-muted)',
+                    }}
+                  >
+                    {String(countBadge).padStart(2, '0')}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <div className="space-y-6">
-          {projects.map((p, idx) => (
+          {filteredProjects.map((p, idx) => (
             <article
-              key={p.slug}
+              key={p.slug || p.id}
               className="p-8 rounded-3xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] space-y-4"
             >
               <div className="flex items-center justify-between text-xs font-mono text-[var(--text-muted)]">
                 <span>0{idx + 1} {"//"} {p.categoryLabel}</span>
                 <span>{p.year}</span>
               </div>
-              <h3 className="text-2xl font-bold">{p.title} — {p.subtitle}</h3>
+              <h3 className="text-2xl font-bold">
+                {p.title} {p.subtitle ? `— ${p.subtitle}` : ''}
+              </h3>
               <p className="text-sm text-[var(--text-muted)]">{p.summary}</p>
-              <Link
-                href={`/work/${p.slug}`}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--accent-lime)] text-[var(--accent-lime-text)] font-mono text-xs font-bold"
-              >
-                <span>view case study</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </Link>
+              {!p.placeholder && (
+                <Link
+                  href={`/work/${p.slug}`}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full font-mono text-xs font-bold"
+                  style={{ backgroundColor: 'var(--category-accent)', color: '#14141F' }}
+                >
+                  <span>view case study</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </Link>
+              )}
             </article>
           ))}
         </div>
@@ -217,35 +390,115 @@ export function ProjectWheel({
     );
   }
 
+  // Counter format: "01 / 02  AI ENGINEER"
+  const categoryLabelUpper =
+    activeCategory === 'ai'
+      ? 'AI ENGINEER'
+      : activeCategory === 'full-stack'
+      ? 'FULL STACK'
+      : activeCategory === 'data'
+      ? 'DATA ANALYST'
+      : 'DESIGNER';
+
+  const counterText = `${String(activeIndex + 1).padStart(2, '0')} / ${String(count).padStart(2, '0')}  ${categoryLabelUpper}`;
+
+  // Title formatting: first word upright, second part italic serif
+  const titleParts = (activeProject?.title || '').split(' ');
+  const firstWord = titleParts[0] || '';
+  const restOfTitle = titleParts.slice(1).join(' ');
+  const subtitleText = activeProject?.subtitle ? ` — ${activeProject.subtitle}` : '';
+
   return (
     <section
       ref={containerRef}
-      className="relative w-full h-[400vh]"
+      style={{
+        height: `${100 + 100 * count}vh`,
+        ['--category-accent' as string]: categoryAccent,
+      }}
+      className="relative w-full"
       aria-label="Selected Work Interactive Project Wheel"
     >
       {/* Sticky 100vh Viewport Container */}
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-[var(--bg-base)] flex flex-col justify-between pt-20 md:pt-24 pb-8 transition-colors duration-200">
         {/* Top Header Bar */}
-        <div className="w-full max-w-[1240px] mx-auto px-6 md:px-12 shrink-0 z-20">
-          <div className="flex items-center justify-between pb-4 border-b border-[var(--border-hairline)]">
+        <div className="w-full max-w-[1240px] mx-auto px-6 md:px-12 shrink-0 z-20 space-y-3">
+          <div className="flex items-center justify-between pb-3 border-b border-[var(--border-hairline)]">
             <div className="flex items-center gap-3">
-              <span className="font-mono text-xs text-[var(--text-muted)]">{sectionIndex} {"//"} {sectionTitle}</span>
-              <span className="w-2 h-2 rounded-full bg-[var(--accent-lime)] animate-pulse" />
+              <span className="font-mono text-xs text-[var(--text-muted)]">
+                {sectionIndex} {"//"} {sectionTitle}
+              </span>
+              <span
+                className="w-2 h-2 rounded-full animate-pulse"
+                style={{ backgroundColor: 'var(--category-accent)' }}
+              />
               <span className="hidden sm:inline font-mono text-xs uppercase tracking-wider text-[var(--text-muted)]">
                 SCROLL-DRIVEN PROJECT DIAL
               </span>
             </div>
 
-            {headerAction ? headerAction : (
+            {headerAction ? (
+              headerAction
+            ) : (
               <Link
                 href="/work"
                 className="group inline-flex items-center gap-1.5 font-mono text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
                 data-cursor="all"
               >
-                <span>index view (all 3)</span>
+                <span>index view (all)</span>
                 <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </Link>
             )}
+          </div>
+
+          {/* UNDER THE HEADER LINE: Category Switcher Left-Aligned Pill Tabs */}
+          <div className="flex items-center overflow-x-auto no-scrollbar py-0.5">
+            <div
+              role="tablist"
+              aria-label="Project categories"
+              className="flex items-center gap-2"
+            >
+              {CATEGORIES.map((cat, idx) => {
+                const isActive = activeCategory === cat.id;
+                const countBadge = categoryCounts[cat.id];
+                return (
+                  <button
+                    key={cat.id}
+                    role="tab"
+                    id={`tab-${cat.id}`}
+                    aria-selected={isActive}
+                    tabIndex={isActive ? 0 : -1}
+                    onClick={() => handleCategoryChange(cat.id)}
+                    onKeyDown={(e) => handleTabKeyDown(e, idx)}
+                    className={`px-3.5 py-1.5 rounded-full font-mono text-xs flex items-center gap-2 transition-all duration-200 cursor-pointer border shrink-0 ${
+                      isActive
+                        ? 'font-bold shadow-xs'
+                        : 'border-[var(--border-hairline)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:border-[var(--text-primary)]/40 bg-transparent'
+                    }`}
+                    style={
+                      isActive
+                        ? {
+                            backgroundColor: 'var(--category-accent)',
+                            borderColor: 'transparent',
+                            color: '#14141F',
+                          }
+                        : {}
+                    }
+                    data-cursor="filter"
+                  >
+                    <span>{cat.label}</span>
+                    <span
+                      className="px-1.5 py-0.5 rounded-full text-[10px] font-mono leading-none"
+                      style={{
+                        backgroundColor: isActive ? 'rgba(0,0,0,0.15)' : 'var(--bg-surface-elevated)',
+                        color: isActive ? '#14141F' : 'var(--text-muted)',
+                      }}
+                    >
+                      {String(countBadge).padStart(2, '0')}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
@@ -255,14 +508,6 @@ export function ProjectWheel({
           {/* LEFT: THE GIANT PROJECT WHEEL DIAL                           */}
           {/* ============================================================ */}
           <div className="relative w-full lg:w-[48%] h-[300px] sm:h-[360px] lg:h-full flex items-center justify-start pointer-events-none select-none">
-            {/* Active Gauge Marker / Arrow pointing to 3 o'clock */}
-            <div className="absolute left-2 sm:left-4 lg:left-[42vw] top-1/2 -translate-y-1/2 z-30 hidden lg:flex items-center gap-2 pointer-events-none">
-              <div className="w-3.5 h-0.5 bg-[var(--accent-lime)]" />
-              <span className="font-mono text-[9px] uppercase tracking-widest text-[var(--accent-lime-text)] bg-[var(--accent-lime)] px-1.5 py-0.5 rounded font-bold">
-                ACTIVE
-              </span>
-            </div>
-
             {/* The Huge Circular Dial */}
             <motion.div
               style={{
@@ -277,7 +522,10 @@ export function ProjectWheel({
 
               {/* Center Pivot Indicator */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-base)] flex items-center justify-center">
-                <div className="w-2.5 h-2.5 rounded-full bg-[var(--accent-lime)]" />
+                <div
+                  className="w-2.5 h-2.5 rounded-full"
+                  style={{ backgroundColor: 'var(--category-accent)' }}
+                />
               </div>
 
               {/* 72 Hairline SVG Ticks around the perimeter */}
@@ -306,95 +554,66 @@ export function ProjectWheel({
                       y1={y1}
                       x2={x2}
                       y2={y2}
-                      stroke="var(--border-hairline)"
-                      strokeWidth={isMajor ? 1.5 : 0.9}
-                      className={isMajor ? 'stroke-[var(--text-muted)]' : ''}
+                      stroke={deg === 0 ? 'var(--category-accent)' : 'var(--border-hairline)'}
+                      strokeWidth={deg === 0 ? 2 : isMajor ? 1.5 : 0.9}
+                      className={isMajor && deg !== 0 ? 'stroke-[var(--text-muted)]' : ''}
                     />
                   );
                 })}
               </svg>
 
-              {/* Perimeter Labels Tangent to the Arc */}
-              {[
-                { angle: -24, text: 'SEP 2026' },
-                { angle: -12, text: 'ANVIL HARNESS' },
-                { angle: 10, text: 'HEALTHWE AI' },
-                { angle: 22, text: 'CLINICAL EHR' },
-                { angle: 45, text: 'COUNTREES ERP' },
-                { angle: 58, text: '2025' },
-              ].map((lbl, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: `rotate(${lbl.angle}deg) translate(470px) rotate(90deg)`,
-                    transformOrigin: '0 0',
-                  }}
-                  className="font-mono text-[9px] uppercase tracking-widest text-[var(--text-muted)] select-none whitespace-nowrap opacity-75"
-                >
-                  {lbl.text}
-                </div>
-              ))}
-
-              {/* Small Playful Decorative Stickers on the Wheel */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: `rotate(-18deg) translate(370px) rotate(18deg)`,
-                  transformOrigin: '0 0',
-                }}
-                className="px-2 py-0.5 rounded-full bg-[var(--accent-lime)] text-[var(--accent-lime-text)] font-mono text-[9px] font-bold border border-black/10 shadow-xs"
-              >
-                ✦ shipped
-              </div>
-
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: `rotate(16deg) translate(380px) rotate(-16deg)`,
-                  transformOrigin: '0 0',
-                }}
-                className="px-2 py-0.5 rounded-md bg-[var(--bg-base)] border border-[var(--border-hairline)] font-serif italic text-xs text-[var(--text-muted)] shadow-xs"
-              >
-                &ldquo;zero hallucinations&rdquo;
-              </div>
-
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: `rotate(52deg) translate(370px) rotate(-52deg)`,
-                  transformOrigin: '0 0',
-                }}
-                className="w-5 h-5 rounded-full bg-[var(--bg-base)] border border-[var(--border-hairline)] flex items-center justify-center text-[10px] text-[var(--accent-tomato)]"
-              >
-                ●
-              </div>
-
-              {/* The 3 Project Cards Sitting on the Wheel */}
-              {projects.map((proj, idx) => {
-                const baseAngle = PROJECT_ANGLES[idx];
-                const isActive = activeIndex === idx;
+              {/* Arc labels: one-word project name placed outside tick ring with 16px gap (translate 516px) */}
+              {filteredProjects.map((proj, idx) => {
+                const baseAngle = -idx * angleStep;
+                const rawWord = proj.placeholder
+                  ? 'DESIGN'
+                  : proj.title.replace(/^\[|\]$/g, '').split(' ')[0];
+                const oneWord = rawWord.toUpperCase();
 
                 return (
-                  <WheelProjectCard
-                    key={proj.slug}
-                    project={proj}
-                    baseAngle={baseAngle}
-                    index={idx}
-                    isActive={isActive}
-                    wheelRotation={wheelRotation}
-                    onClick={() => setActiveIndex(idx)}
-                  />
+                  <div
+                    key={`arc-lbl-${proj.slug || proj.id || idx}`}
+                    style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: `rotate(${baseAngle}deg) translate(516px) rotate(90deg)`,
+                      transformOrigin: '0 0',
+                    }}
+                    className="font-mono text-[9px] uppercase tracking-widest text-[var(--text-muted)] select-none whitespace-nowrap opacity-75 pointer-events-none"
+                  >
+                    {oneWord}
+                  </div>
                 );
               })}
+
+              {/* Project Cards with 900ms transition between categories */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeCategory}
+                  className="absolute inset-0 pointer-events-none"
+                >
+                  {filteredProjects.map((proj, idx) => {
+                    const baseAngle = -idx * angleStep;
+                    const isActive = activeIndex === idx;
+
+                    return (
+                      <WheelProjectCard
+                        key={proj.slug || proj.id || idx}
+                        project={proj}
+                        baseAngle={baseAngle}
+                        index={idx}
+                        activeIndex={activeIndex}
+                        isActive={isActive}
+                        wheelRotation={wheelRotation}
+                        onClick={() => setActiveIndex(idx)}
+                        categoryAccent={categoryAccent}
+                        staggerDelay={idx * 0.06}
+                      />
+                    );
+                  })}
+                </motion.div>
+              </AnimatePresence>
             </motion.div>
           </div>
 
@@ -404,7 +623,7 @@ export function ProjectWheel({
           <div className="relative w-full lg:w-[48%] pl-0 lg:pl-10 z-20 flex flex-col justify-center py-4 lg:py-0">
             <AnimatePresence mode="wait">
               <motion.div
-                key={activeProject.slug}
+                key={`${activeCategory}-${activeProject?.slug || activeProject?.id}`}
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
@@ -413,31 +632,36 @@ export function ProjectWheel({
               >
                 {/* Meta Header */}
                 <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-[var(--text-muted)]">
-                  <span className="px-2.5 py-0.5 rounded-full bg-[var(--accent-lime)] text-[var(--accent-lime-text)] font-bold text-[10px] uppercase tracking-wider">
-                    {activeProject.categoryLabel}
+                  <span
+                    className="px-2.5 py-0.5 rounded-full font-bold text-[10px] uppercase tracking-wider text-[#14141F]"
+                    style={{ backgroundColor: 'var(--category-accent)' }}
+                  >
+                    {activeProject?.categoryLabel || categoryLabelUpper}
                   </span>
-                  <span>{"//"} {activeProject.year}</span>
-                  <span className="hidden sm:inline">· {activeProject.role}</span>
+                  <span>{"//"} {activeProject?.year}</span>
+                  <span className="hidden sm:inline">· {activeProject?.role}</span>
                 </div>
 
-                {/* Big Display Title with Italic Serif Accent */}
+                {/* Display Title: first word upright, second part italic serif */}
                 <div className="space-y-2">
-                  <h3 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[var(--text-primary)]">
-                    {activeProject.title}{' '}
-                    <span className="font-serif italic font-normal text-[var(--text-muted)] block sm:inline">
-                      — {activeProject.subtitle}
+                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[var(--text-primary)]">
+                    <span>{firstWord} </span>
+                    <span className="font-serif italic font-normal text-[var(--text-muted)]">
+                      {restOfTitle} {subtitleText}
                     </span>
                   </h3>
                 </div>
 
                 {/* One-Line Editorial Summary */}
                 <p className="text-base sm:text-lg text-[var(--text-muted)] leading-relaxed max-w-xl">
-                  {activeProject.summary}
+                  {activeProject?.placeholder
+                    ? (activeCategory === 'data' ? 'Add a Power BI, Tableau or Python analysis here.' : 'Add your design work here.')
+                    : activeProject?.summary}
                 </p>
 
-                {/* Stack Pills in Mono */}
+                {/* Stack Pills in Mono (up to 4) */}
                 <div className="flex flex-wrap gap-2 pt-1">
-                  {activeProject.stack.slice(0, 4).map((tech) => (
+                  {activeProject?.stack?.slice(0, 4).map((tech) => (
                     <span
                       key={tech}
                       className="px-2.5 py-1 rounded-md text-xs font-mono bg-[var(--bg-surface)] border border-[var(--border-hairline)] text-[var(--text-primary)] shadow-2xs"
@@ -447,22 +671,25 @@ export function ProjectWheel({
                   ))}
                 </div>
 
-                {/* Magnetic View Case Study Button */}
-                <div className="pt-3 flex items-center gap-4">
-                  <MagneticButton dataCursor="view">
-                    <Link
-                      href={`/work/${activeProject.slug}`}
-                      className="px-6 py-3 rounded-full bg-[var(--text-primary)] text-[var(--bg-base)] text-xs font-mono font-semibold hover:opacity-90 transition-all flex items-center gap-2 shadow-sm"
-                    >
-                      <span>view case study</span>
-                      <ArrowUpRight className="w-4 h-4" />
-                    </Link>
-                  </MagneticButton>
+                {/* View Case Study Button (hidden for placeholder) */}
+                {!activeProject?.placeholder && (
+                  <div className="pt-3 flex items-center gap-4">
+                    <MagneticButton dataCursor="view">
+                      <Link
+                        href={`/work/${activeProject?.slug}`}
+                        className="px-6 py-3 rounded-full text-xs font-mono font-semibold transition-all flex items-center gap-2 shadow-sm text-[#14141F] hover:opacity-90"
+                        style={{ backgroundColor: 'var(--category-accent)' }}
+                      >
+                        <span>view case study</span>
+                        <ArrowUpRight className="w-4 h-4" />
+                      </Link>
+                    </MagneticButton>
 
-                  <span className="text-[11px] font-mono text-[var(--text-muted)] hidden sm:inline">
-                    read full architecture & tradeoffs
-                  </span>
-                </div>
+                    <span className="text-[11px] font-mono text-[var(--text-muted)] hidden sm:inline">
+                      read full architecture & tradeoffs
+                    </span>
+                  </div>
+                )}
               </motion.div>
             </AnimatePresence>
           </div>
@@ -474,10 +701,10 @@ export function ProjectWheel({
             {/* Step Counter */}
             <div className="flex items-center gap-3">
               <span className="text-sm font-bold text-[var(--text-primary)]">
-                0{activeIndex + 1} <span className="text-[var(--text-muted)] font-normal">/ 03</span>
+                {counterText}
               </span>
               <span className="hidden sm:inline text-[11px] opacity-75">
-                {activeProject.title}
+                — {activeProject?.title}
               </span>
             </div>
 
@@ -488,8 +715,11 @@ export function ProjectWheel({
               </span>
               <div className="w-28 sm:w-36 h-1 rounded-full bg-[var(--border-hairline)] overflow-hidden">
                 <motion.div
-                  className="h-full bg-[var(--accent-lime)]"
-                  animate={{ width: `${((activeIndex + 1) / 3) * 100}%` }}
+                  className="h-full"
+                  style={{ backgroundColor: 'var(--category-accent)' }}
+                  animate={{
+                    width: `${((activeIndex + 1) / Math.max(count, 1)) * 100}%`,
+                  }}
                   transition={{ duration: 0.3, ease: 'easeOut' }}
                 />
               </div>
@@ -506,29 +736,36 @@ interface WheelProjectCardProps {
   project: Project;
   baseAngle: number;
   index: number;
+  activeIndex: number;
   isActive: boolean;
   wheelRotation: MotionValue<number>;
   onClick: () => void;
+  categoryAccent: string;
+  staggerDelay: number;
 }
 
 function WheelProjectCard({
   project,
   baseAngle,
   index,
+  activeIndex,
   isActive,
   wheelRotation,
   onClick,
+  categoryAccent,
+  staggerDelay,
 }: WheelProjectCardProps) {
-  // Compute counter-rotation so card stays upright at all times
+  // Counter-rotation keeps card upright relative to the rotating wheel
   const counterRotation = useTransform(wheelRotation, (r: number) => -(r + baseAngle));
 
-  // Distance from 0° active apex (where 3 o'clock points toward details)
-  const angularDistance = useTransform(wheelRotation, (r: number) => {
-    return Math.abs(r + baseAngle);
-  });
+  const distance = Math.abs(index - activeIndex);
 
-  const cardScale = useTransform(angularDistance, [0, ANGLE_STEP, ANGLE_STEP * 2], [1.0, 0.76, 0.65]);
-  const cardOpacity = useTransform(angularDistance, [0, ANGLE_STEP, ANGLE_STEP * 2], [1.0, 0.42, 0.22]);
+  // Sharpness rules:
+  // Active: sharp (blur 0, opacity 1)
+  // Distance 1 (neighbor): opacity 0.35, blur 2px, hide small inner text
+  // Distance 2+: opacity 0.12, blur 2px, hide small inner text
+  const targetOpacity = distance === 0 ? 1.0 : distance === 1 ? 0.35 : 0.12;
+  const targetFilter = distance === 0 ? 'blur(0px)' : 'blur(2px)';
 
   return (
     <div
@@ -542,22 +779,39 @@ function WheelProjectCard({
       className="pointer-events-auto"
     >
       <motion.div
+        initial={{ rotate: -60, opacity: 0, scale: 0.8 }}
+        animate={{
+          rotate: 0,
+          opacity: targetOpacity,
+          scale: isActive ? 1.0 : distance === 1 ? 0.82 : 0.72,
+        }}
+        exit={{
+          rotate: 60,
+          opacity: 0,
+          scale: 0.8,
+          transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
+        }}
+        transition={{
+          duration: 0.9,
+          delay: staggerDelay,
+          ease: [0.22, 1, 0.36, 1],
+        }}
         style={{
-          rotate: counterRotation,
-          scale: cardScale,
-          opacity: cardOpacity,
-          willChange: 'transform, opacity',
+          filter: targetFilter,
+          willChange: 'transform, opacity, filter',
         }}
         onClick={onClick}
-        whileHover={{ scale: isActive ? 1.03 : 0.85 }}
+        whileHover={{ scale: isActive ? 1.03 : 0.88 }}
         className={`w-64 sm:w-72 p-4 rounded-2xl border transition-colors duration-200 cursor-pointer shadow-md select-none ${
-          isActive
-            ? 'bg-[var(--bg-surface-elevated)] border-[var(--text-primary)] ring-2 ring-[var(--accent-lime)]/70'
-            : 'bg-[var(--bg-surface)] border-[var(--border-hairline)] hover:border-[var(--text-primary)]/50'
+          project.placeholder
+            ? 'border-dashed border-2 border-[var(--category-accent)]/60 bg-[var(--bg-surface)]/60'
+            : isActive
+            ? 'bg-[var(--bg-surface-elevated)] border-[var(--category-accent)] ring-2 ring-[var(--category-accent)]/70 shadow-lg'
+            : 'bg-[var(--bg-surface)] border-[var(--border-hairline)] hover:border-[var(--text-primary)]/40'
         }`}
         data-cursor="view"
       >
-        <div className="space-y-3">
+        <motion.div style={{ rotate: counterRotation }} className="space-y-3">
           {/* Card Top Meta */}
           <div className="flex items-center justify-between font-mono text-[10px] text-[var(--text-muted)]">
             <span className="font-bold text-[var(--text-primary)]">
@@ -566,32 +820,43 @@ function WheelProjectCard({
             <span
               className={`px-2 py-0.5 rounded-full uppercase font-medium ${
                 isActive
-                  ? 'bg-[var(--accent-lime)] text-[var(--accent-lime-text)] font-bold'
+                  ? 'text-[#14141F] font-bold'
                   : 'bg-[var(--bg-base)] text-[var(--text-muted)]'
               }`}
+              style={isActive ? { backgroundColor: 'var(--category-accent)' } : {}}
             >
-              {project.categoryLabel}
+              {project.categories?.[0] === 'ai'
+                ? 'AI'
+                : project.categories?.[0] === 'full-stack'
+                ? 'FULL STACK'
+                : project.categories?.[0] === 'data'
+                ? 'DATA'
+                : 'DESIGN'}
             </span>
           </div>
 
-          {/* Abstract CSS/SVG Visual */}
-          <ProjectStickerVisual slug={project.slug} />
+          {/* Clean Unique SVG Art */}
+          <ProjectStickerVisual project={project} categoryAccent={categoryAccent} />
 
-          {/* Title & Role */}
-          <div className="space-y-0.5">
+          {/* Title & One-line summary */}
+          <div className="space-y-1">
             <h4 className="text-base font-bold tracking-tight text-[var(--text-primary)] flex items-center justify-between">
               <span>{project.title}</span>
-              <ArrowUpRight
-                className={`w-3.5 h-3.5 transition-transform ${
-                  isActive ? 'text-[var(--accent-lime)]' : 'text-[var(--text-muted)]'
-                }`}
-              />
+              {!project.placeholder && (
+                <ArrowUpRight
+                  className="w-3.5 h-3.5 transition-transform"
+                  style={{ color: isActive ? 'var(--category-accent)' : 'var(--text-muted)' }}
+                />
+              )}
             </h4>
-            <p className="text-[11px] font-mono text-[var(--text-muted)] truncate">
-              {project.subtitle}
-            </p>
+            {/* Small inner summary: only visible on the sharp active card */}
+            {distance === 0 && (
+              <p className="text-[11px] font-mono text-[var(--text-muted)] truncate">
+                {project.summary}
+              </p>
+            )}
           </div>
-        </div>
+        </motion.div>
       </motion.div>
     </div>
   );

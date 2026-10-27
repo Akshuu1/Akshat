@@ -5,7 +5,7 @@ import { FilmStrip } from '@/components/craft/FilmStrip';
 export const metadata: Metadata = {
   title: 'Craft — Kinetic Filmstrip & Disciplines',
   description:
-    'Horizontal continuous discipline filmstrip across Full-Stack, AI Engineering, and Product Design.',
+    'Horizontal continuous discipline filmstrip across Full-Stack, AI Engineering, Data Analysis, and Product Design.',
 };
 
 export default function CraftPage() {

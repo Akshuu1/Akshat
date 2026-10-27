@@ -2,113 +2,94 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 
 interface SelectedWorkSectionProps {
   reducedMotion?: boolean;
 }
 
-const SELECTED_WORK = [
+const SELECTED_PROJECTS = [
   {
-    id: 'anvil',
-    name: 'ANVIL',
+    slug: 'anvil',
+    title: 'ANVIL',
     year: '2026',
-    tagline: 'Autonomous coding-agent harness that turns GitHub issues into verified patches.',
-    href: '/work/anvil',
+    description: 'Autonomous coding-agent harness.',
   },
   {
-    id: 'healthwe',
-    name: 'HealthWe',
+    slug: 'healthwe',
+    title: 'HealthWe',
     year: '2026',
-    tagline: 'AI clinical documentation platform with citation validation.',
-    href: '/work/healthwe',
+    description: 'AI clinical documentation platform.',
   },
   {
-    id: 'countrees',
-    name: 'Countrees AI ERP',
+    slug: 'countrees',
+    title: 'Countrees AI ERP',
     year: '2025',
-    tagline: 'Backend and structured data systems for enterprise workflows.',
-    href: '/work/countrees',
+    description: 'Backend and structured data work.',
   },
 ];
 
 export function SelectedWorkSection({ reducedMotion = false }: SelectedWorkSectionProps) {
   return (
-    <section
-      id="selected-work"
-      className="relative w-full bg-[#161925] text-[#F2F1F7] py-24 sm:py-32 scroll-mt-20 overflow-hidden"
-    >
-      <div className="w-full max-w-[1380px] mx-auto px-6 sm:px-10 md:px-14 space-y-10 sm:space-y-12">
-        {/* Header: "Selected work" + "see all work" text link */}
-        <motion.div
-          initial={reducedMotion ? false : { opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-white/[0.08]"
-        >
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-sans font-light tracking-tight text-[#F2F1F7]">
-            Selected <span className="font-serif italic font-normal text-[#A7AABF]">work.</span>
-          </h2>
+    <section className="relative w-full max-w-[1240px] mx-auto px-4 sm:px-6 py-12 md:py-20 select-none">
+      {/* Light Bezel Band (rounded 40px, ink #14141F, bg #ECEBF2) */}
+      <div className="relative w-full rounded-[28px] sm:rounded-[40px] bg-[#ECEBF2] text-[#14141F] p-5 sm:p-12 shadow-2xl overflow-hidden border border-black/5">
+        {/* Header */}
+        <div className="flex items-center justify-between pb-6 sm:pb-12 border-b border-black/10">
+          <div>
+            <span className="font-mono text-xs text-[#14141F]/60 uppercase tracking-widest block mb-1">
+              Curated Output
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-[#14141F]">
+              Selected work
+            </h2>
+          </div>
 
           <Link
             href="/work"
-            data-cursor="open"
-            className="group inline-flex items-center gap-2 font-mono text-xs sm:text-sm hover:text-[#D6FF3D] transition-colors w-fit"
-            style={{ color: '#A7AABF' }}
+            data-cursor="view"
+            className="group inline-flex items-center gap-1.5 sm:gap-2 font-mono text-xs sm:text-sm font-semibold text-[#14141F] hover:text-black border-b border-black/20 hover:border-black transition-all pb-0.5"
           >
             <span>see all work</span>
-            <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-[#D6FF3D]" />
+            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
-        </motion.div>
+        </div>
 
-        {/* Compact List of 3 Rows (name + year + one short line, arrow) - NO tags, NO posters */}
-        <div className="border-t border-white/[0.08]">
-          {SELECTED_WORK.map((item, idx) => (
-            <motion.div
-              key={item.id}
-              initial={reducedMotion ? false : { opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{
-                duration: 0.5,
-                delay: reducedMotion ? 0 : idx * 0.05,
-                ease: [0.22, 1, 0.36, 1],
-              }}
+        {/* ONLY 3 Rows: Compact, Stacks name above description on mobile, arrow stays right */}
+        <div className="divide-y divide-black/10 pt-2">
+          {SELECTED_PROJECTS.map((project) => (
+            <Link
+              key={project.slug}
+              href={`/work/${project.slug}`}
+              data-cursor="view"
+              className="group flex flex-col md:flex-row md:items-center justify-between py-4 sm:py-8 px-3 sm:px-4 -mx-3 sm:-mx-4 rounded-2xl hover:bg-[#D6FF3D]/25 transition-all duration-300 gap-1.5 md:gap-0"
             >
-              <Link
-                href={item.href}
-                data-cursor="view"
-                className="group relative block w-full py-6 sm:py-8 px-4 sm:px-6 border-b border-white/[0.08] transition-colors duration-200 hover:bg-[#1D2130] rounded-2xl"
-              >
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  {/* Left: Name + Year */}
-                  <div className="flex items-baseline gap-4 md:w-1/3 shrink-0">
-                    <span className="font-sans font-medium text-2xl sm:text-3xl text-[#F2F1F7] group-hover:text-white transition-colors">
-                      {item.name}
-                    </span>
-                    <span className="font-mono text-xs sm:text-sm text-[#8A8EA8]">
-                      {item.year}
-                    </span>
-                  </div>
-
-                  {/* Middle: One short line */}
-                  <div className="md:w-1/2">
-                    <p className="text-sm sm:text-base text-[#A7AABF] group-hover:text-[#F2F1F7] transition-colors font-sans">
-                      {item.tagline}
-                    </p>
-                  </div>
-
-                  {/* Right: Arrow */}
-                  <div className="flex items-center md:justify-end md:w-1/6 shrink-0">
-                    <div className="w-9 h-9 rounded-full border border-white/10 group-hover:border-[#D6FF3D]/40 flex items-center justify-center text-[#8A8EA8] group-hover:text-[#D6FF3D] group-hover:bg-[#D6FF3D]/10 transition-all">
-                      <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </div>
-                  </div>
+              {/* Top / Left: Project Name + Year + Mobile Arrow */}
+              <div className="flex items-center justify-between md:justify-start gap-4 md:gap-6 w-full md:w-auto">
+                <div className="flex items-baseline gap-3 md:gap-6">
+                  <span className="font-display text-xl sm:text-3xl md:text-4xl tracking-tight text-[#14141F] group-hover:translate-x-2 md:group-hover:translate-x-3 transition-transform duration-300 font-bold">
+                    {project.title}
+                  </span>
+                  <span className="font-mono text-xs text-[#14141F]/60 font-medium">
+                    {project.year}
+                  </span>
                 </div>
-              </Link>
-            </motion.div>
+                {/* Mobile arrow on top right */}
+                <div className="md:hidden w-7 h-7 rounded-full border border-black/15 flex items-center justify-center shrink-0">
+                  <ArrowUpRight className="w-3.5 h-3.5 text-[#14141F]" />
+                </div>
+              </div>
+
+              {/* One-Line Description + Desktop Arrow */}
+              <div className="flex items-center justify-between md:justify-end gap-6">
+                <span className="font-mono text-xs sm:text-sm text-[#14141F]/75 group-hover:text-[#14141F] transition-colors font-medium">
+                  {project.description}
+                </span>
+                <div className="hidden md:flex w-8 h-8 rounded-full border border-black/15 items-center justify-center group-hover:border-black group-hover:bg-[#14141F] transition-all">
+                  <ArrowUpRight className="w-4 h-4 text-[#14141F] group-hover:text-white group-hover:rotate-45 transition-transform duration-300" />
+                </div>
+              </div>
+            </Link>
           ))}
         </div>
       </div>

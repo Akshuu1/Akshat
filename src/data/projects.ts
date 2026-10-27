@@ -1,10 +1,15 @@
+export type ProjectCategory = 'ai' | 'full-stack' | 'data' | 'design';
+
 export interface Project {
   slug: string;
+  id?: string;
+  placeholder?: boolean;
   title: string;
   subtitle: string;
   summary: string;
-  category: 'ai' | 'full-stack' | 'backend';
+  category: 'ai' | 'full-stack' | 'backend' | 'data' | 'design';
   categoryLabel: string;
+  categories: ProjectCategory[];
   year: string;
   role: string;
   stack: string[];
@@ -30,14 +35,16 @@ export interface Project {
 export const projects: Project[] = [
   {
     slug: 'anvil',
+    id: 'anvil',
     title: 'ANVIL',
     subtitle: 'Autonomous Coding-Agent Harness',
     summary:
       'Autonomous coding-agent harness that converts GitHub issues into verified code patches via automated bug reproduction, code localization, patching, testing, review, and reporting.',
     category: 'ai',
     categoryLabel: 'AI Systems',
+    categories: ['ai'],
     year: '2026',
-    role: 'Lead Systems Architect & Developer',
+    role: 'Personal project',
     stack: ['Python', 'OpenAI API', 'Claude Code', 'Git Worktrees', 'JSONL Traces'],
     featured: true,
     githubUrl: 'https://github.com/placeholder/anvil',
@@ -116,14 +123,16 @@ export const projects: Project[] = [
   },
   {
     slug: 'healthwe',
+    id: 'healthwe',
     title: 'HealthWe',
     subtitle: 'AI Clinical Documentation Platform',
     summary:
       'AI-powered clinical documentation platform that streamlines medical record review, organizes patient info, and reduces the risk of overlooking critical clinical details.',
     category: 'ai',
     categoryLabel: 'AI Systems / Full-Stack',
+    categories: ['ai', 'full-stack'],
     year: '2026',
-    role: 'Full-Stack & AI Engineer',
+    role: 'Personal project',
     stack: [
       'Python',
       'FastAPI',
@@ -199,14 +208,16 @@ export const projects: Project[] = [
   },
   {
     slug: 'countrees-ai-erp',
+    id: 'countrees-ai-erp',
     title: 'Countrees AI ERP',
     subtitle: 'Enterprise Data Processing & Scalable Backend',
     summary:
       'Enterprise data processing and scalable backend system managing structured business workflows, database optimizations, and high-throughput data pipelines.',
-    category: 'backend',
-    categoryLabel: 'Backend & Data',
+    category: 'full-stack',
+    categoryLabel: 'Full Stack & Backend',
+    categories: ['full-stack', 'data'],
     year: '2025',
-    role: 'Software Developer Intern',
+    role: 'Internship project',
     stack: ['Python', 'FastAPI', 'PostgreSQL', 'Docker', 'SQL Optimization'],
     featured: true,
     problem:
@@ -261,6 +272,120 @@ export const projects: Project[] = [
     whatIDoNext: [
       'Event-driven transaction processing via distributed Redis streams / Apache Kafka.',
       'Automated audit log changelogging with zero performance overhead on transactional writes.',
+    ],
+  },
+  {
+    slug: 'portfolio',
+    id: 'portfolio',
+    title: 'This Portfolio',
+    subtitle: 'Design System & Interaction Site',
+    summary: 'Design system, motion and typography for this site.',
+    category: 'design',
+    categoryLabel: 'Design & Interaction',
+    categories: ['design', 'full-stack'],
+    year: '2026',
+    role: 'Personal project',
+    stack: ['Next.js', 'TypeScript', 'Tailwind', 'Framer Motion', 'Figma'],
+    featured: true,
+    liveUrl: '/',
+    problem: 'Creating an editorial portfolio showcasing systems engineering alongside interaction design.',
+    whatIBuilt: 'Built an interactive horizontal strip and scroll-driven gauge wheel using Next.js App Router, Framer Motion springs, and accessible typography.',
+    architectureDetails: {
+      steps: [
+        {
+          number: '01',
+          title: 'Design System & Tokens',
+          description: 'Engineered typographic hierarchy, HSL colour space, and fluid spatial tokens.',
+        },
+        {
+          number: '02',
+          title: 'Scroll-Driven Motion',
+          description: 'Implemented Framer Motion spring physics with Lenis smooth scrolling.',
+        },
+      ],
+    },
+    stackDecisions: [
+      {
+        technology: 'Next.js App Router',
+        rationale: 'Server components for zero-bundle-size static content and client boundaries for interactive components.',
+      },
+      {
+        technology: 'Framer Motion',
+        rationale: 'Hardware-accelerated springs with interruptible physical feedback.',
+      },
+    ],
+    whatIDoNext: [
+      'Interactive 3D shader experiments with WebGL / Three.js.',
+    ],
+  },
+  {
+    slug: 'add-design-1',
+    id: 'add-design-1',
+    placeholder: true,
+    title: '[ADD DESIGN PROJECT]',
+    subtitle: 'Design Case Study',
+    summary: 'Add a Figma or Canva project here.',
+    category: 'design',
+    categoryLabel: 'Design Project',
+    categories: ['design'],
+    year: '2026',
+    role: 'Personal project',
+    stack: ['Figma', 'UI/UX', 'Design System'],
+    featured: false,
+    problem: 'Placeholder for upcoming design case studies and UX explorations.',
+    whatIBuilt: 'Design prototype and component system.',
+    architectureDetails: {
+      steps: [
+        {
+          number: '01',
+          title: 'Design Exploration',
+          description: 'Add your design workflows and Figma wireframes here.',
+        },
+      ],
+    },
+    stackDecisions: [
+      {
+        technology: 'Figma',
+        rationale: 'Component-driven UI/UX design and vector prototyping.',
+      },
+    ],
+    whatIDoNext: [
+      'Publish high-fidelity interactive case study.',
+    ],
+  },
+  {
+    slug: 'add-data-1',
+    id: 'add-data-1',
+    placeholder: true,
+    title: '[ADD DATA PROJECT]',
+    subtitle: 'Data Analysis Project',
+    summary: 'Add a Power BI, Tableau or Python analysis here.',
+    category: 'data',
+    categoryLabel: 'Data Analysis',
+    categories: ['data'],
+    year: '2026',
+    role: 'Personal project',
+    stack: ['SQL', 'Power BI', 'Tableau', 'Pandas'],
+    featured: false,
+    problem: 'Placeholder for upcoming data analysis projects, reporting pipelines, and interactive dashboard case studies.',
+    whatIBuilt: 'Data visualization and analytics workflow.',
+    architectureDetails: {
+      steps: [
+        {
+          number: '01',
+          title: 'Data Ingestion & Cleaning',
+          description: 'Add your data analysis, ETL pipelines, and reporting workflows here.',
+        },
+      ],
+    },
+    stackDecisions: [
+      {
+        technology: 'Power BI / Pandas',
+        rationale: 'Actionable business intelligence and automated statistical modeling.',
+      },
+    ],
+    whatIDoNext: [
+      'Publish interactive report with live metrics.',
     ],
   },
 ];

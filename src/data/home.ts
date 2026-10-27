@@ -46,8 +46,17 @@ export const homeData = {
       href: '/craft#ai-ml',
     },
     {
-      id: 'design',
+      id: 'data',
       step: '03',
+      title: 'Data Analysis',
+      tag: 'DATA',
+      description:
+        'Turning raw data into clear answers with SQL, Power BI, Tableau, and Pandas.',
+      href: '/craft#data-analyst',
+    },
+    {
+      id: 'design',
+      step: '04',
       title: 'Design',
       tag: 'DESIGN',
       description:
@@ -57,7 +66,7 @@ export const homeData = {
   ] as DisciplineItem[],
   now: {
     status: 'B.Tech CS (2024–2028) @ Newton School of Technology',
-    role: 'Full-Stack Developer & AI Engineer',
+    role: 'Full-stack developer · AI engineer · Data analyst · Designer',
     focus: 'Web applications, backends, and AI systems.',
     timezone: 'Asia/Kolkata (IST)',
   },

@@ -40,20 +40,26 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY, isHome]);
 
+  useEffect(() => {
+    const handleToggle = () => setMobileMenuOpen((prev) => !prev);
+    window.addEventListener('toggle-mobile-menu', handleToggle);
+    return () => window.removeEventListener('toggle-mobile-menu', handleToggle);
+  }, []);
+
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
   return (
     <>
       <header
-        className={`fixed top-4 md:top-5 inset-x-0 z-50 flex justify-center px-4 pointer-events-none transition-all duration-300 ${
+        className={`fixed top-[calc(env(safe-area-inset-top,0px)+8px)] md:top-5 inset-x-0 z-50 flex justify-center px-3 md:px-4 pointer-events-none transition-all duration-300 ${
           isVisible ? 'translate-y-0 opacity-100' : '-translate-y-24 opacity-0'
         }`}
       >
         <nav
           aria-label="Main Navigation"
-          className="pointer-events-auto relative w-full max-w-[940px] h-12 px-4 sm:px-5 rounded-full flex items-center justify-between transition-all duration-300 bg-white/[0.18] backdrop-blur-[16px] border border-white/30 text-white shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
+          className="pointer-events-auto relative w-[calc(100%-24px)] md:w-full md:max-w-[940px] h-12 px-3.5 sm:px-5 rounded-full flex items-center justify-between transition-all duration-300 bg-[rgba(20,20,24,0.72)] backdrop-blur-[18px] border border-white/[0.14] text-white shadow-[0_8px_32px_rgba(0,0,0,0.35)]"
         >
-          {/* LEFT: Monogram "A" + "Akshat Agrawal" */}
+          {/* LEFT: Monogram "A" + "Akshat Agrawal" (text hidden on mobile) */}
           <Link
             href="/"
             data-cursor="home"
@@ -62,12 +68,12 @@ export function Navbar() {
             <div className="w-7 h-7 rounded-[8px] bg-white text-black flex items-center justify-center font-mono font-black text-xs transition-transform duration-200 group-hover:scale-105 shadow-2xs">
               A
             </div>
-            <span className="font-sans text-[13px] font-semibold text-white tracking-[-0.01em]">
+            <span className="font-sans text-[13px] font-semibold text-white tracking-[-0.01em] hidden md:inline">
               Akshat Agrawal
             </span>
           </Link>
 
-          {/* CENTER: Links Work / Craft / About / Contact */}
+          {/* CENTER: Links Work / Craft / About / Contact (desktop only) */}
           <div
             className="hidden md:flex items-center gap-1 select-none"
             onMouseLeave={() => setHoveredPath(null)}
@@ -109,13 +115,13 @@ export function Navbar() {
             })}
           </div>
 
-          {/* RIGHT: ONE lime button "Get in touch" (hidden on /craft for clean reel experience) */}
-          <div className="flex items-center gap-3">
+          {/* RIGHT: ONE lime button "Get in touch" (desktop only) + Mobile Hamburger Toggle */}
+          <div className="flex items-center gap-2">
             {!isCraft && (
               <Link
                 href="/contact"
                 data-cursor="contact"
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#D6FF3D] text-[#111111] font-sans text-xs font-bold hover:scale-105 transition-transform shadow-[0_2px_14px_rgba(214,255,61,0.35)] select-none"
+                className="hidden md:inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#D6FF3D] text-[#111111] font-sans text-xs font-bold hover:scale-105 transition-transform shadow-[0_2px_14px_rgba(214,255,61,0.35)] select-none"
               >
                 <span>Get in touch</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
@@ -127,57 +133,101 @@ export function Navbar() {
               onClick={() => setMobileMenuOpen((prev) => !prev)}
               aria-label="Toggle navigation menu"
               aria-expanded={mobileMenuOpen}
-              className="md:hidden relative w-8 h-8 rounded-full flex flex-col items-center justify-center gap-1 hover:bg-white/10 text-white focus-visible:outline-none"
+              className="md:hidden relative w-9 h-9 min-h-[44px] min-w-[44px] rounded-full flex flex-col items-center justify-center gap-1.5 hover:bg-white/10 text-white focus-visible:outline-none"
             >
               <motion.span
-                animate={mobileMenuOpen ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }}
+                animate={mobileMenuOpen ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
                 transition={{ duration: 0.2 }}
-                className="w-4 h-[1.5px] bg-white rounded-full"
+                className="w-4 h-[2px] bg-white rounded-full"
               />
               <motion.span
-                animate={mobileMenuOpen ? { rotate: -45, y: -4 } : { rotate: 0, y: 0 }}
+                animate={mobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
+                transition={{ duration: 0.15 }}
+                className="w-4 h-[2px] bg-white rounded-full"
+              />
+              <motion.span
+                animate={mobileMenuOpen ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }}
                 transition={{ duration: 0.2 }}
-                className="w-4 h-[1.5px] bg-white rounded-full"
+                className="w-4 h-[2px] bg-white rounded-full"
               />
             </button>
           </div>
         </nav>
       </header>
 
-      {/* Mobile Menu Drawer */}
+      {/* Full-Screen Mobile Sheet Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -16, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -16, scale: 0.98 }}
-            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed top-20 inset-x-4 z-50 p-6 rounded-[28px] border border-white/25 bg-black/80 backdrop-blur-2xl shadow-2xl md:hidden overflow-hidden text-white"
+            initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+            animate={{ opacity: 1, backdropFilter: 'blur(24px)' }}
+            exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-50 bg-[#0E1016]/95 flex flex-col justify-between p-6 pt-[calc(env(safe-area-inset-top,0px)+16px)] pb-[calc(env(safe-area-inset-bottom,0px)+24px)] md:hidden overflow-y-auto"
           >
-            <div className="flex flex-col gap-2 font-sans text-base">
+            {/* Top row: Monogram and Close Button */}
+            <div className="flex items-center justify-between w-full">
               <Link
                 href="/"
                 onClick={closeMobileMenu}
-                className={`py-2 px-3 rounded-xl transition-colors ${
-                  pathname === '/' ? 'bg-white/15 font-semibold' : 'text-white/70'
+                className="flex items-center gap-2.5"
+              >
+                <div className="w-8 h-8 rounded-[8px] bg-white text-black flex items-center justify-center font-mono font-black text-xs shadow-2xs">
+                  A
+                </div>
+                <span className="font-sans text-sm font-semibold text-white tracking-tight">
+                  Akshat Agrawal
+                </span>
+              </Link>
+              <button
+                onClick={closeMobileMenu}
+                aria-label="Close menu"
+                className="w-10 h-10 min-h-[44px] min-w-[44px] rounded-full flex items-center justify-center text-white/80 hover:text-white bg-white/10"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Middle: Large stacked navigation links */}
+            <div className="flex flex-col gap-3 my-auto py-8">
+              <Link
+                href="/"
+                onClick={closeMobileMenu}
+                className={`text-3xl font-sans tracking-tight transition-colors py-2 ${
+                  pathname === '/' ? 'text-[#D6FF3D] font-bold' : 'text-white/80 hover:text-white font-light'
                 }`}
               >
                 Home
               </Link>
-              {siteConfig.navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={closeMobileMenu}
-                  className={`py-2 px-3 rounded-xl transition-colors ${
-                    pathname.startsWith(link.href)
-                      ? 'bg-white/15 font-semibold'
-                      : 'text-white/70'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {siteConfig.navLinks.map((link) => {
+                const isActive =
+                  pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={closeMobileMenu}
+                    className={`text-3xl font-sans tracking-tight transition-colors py-2 flex items-center justify-between ${
+                      isActive ? 'text-[#D6FF3D] font-bold' : 'text-white/80 hover:text-white font-light'
+                    }`}
+                  >
+                    <span>{link.label}</span>
+                    <ArrowUpRight className="w-5 h-5 opacity-50" />
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Bottom: "Get in touch" full-width button */}
+            <div className="w-full pt-4 border-t border-white/10">
+              <Link
+                href="/contact"
+                onClick={closeMobileMenu}
+                className="w-full h-12 rounded-full bg-[#D6FF3D] text-[#111111] font-sans text-sm font-bold flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(214,255,61,0.35)] select-none"
+              >
+                <span>Get in touch</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </Link>
             </div>
           </motion.div>
         )}

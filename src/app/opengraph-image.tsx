@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 
-export const alt = 'Akshat Agrawal | Full-stack developer & AI engineer';
+export const alt = 'Akshat Agrawal | Full-stack developer, AI engineer & data analyst';
 export const size = {
   width: 1200,
   height: 630,
@@ -80,14 +80,14 @@ export default async function Image() {
               lineHeight: 1.4,
             }}
           >
-            Full-stack developer, AI engineer, and designer. Turning complex problems into practical software.
+            Full-stack developer, AI engineer, data analyst, and designer. Turning complex problems into practical software.
           </div>
         </div>
 
         {/* Bottom Tags */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', gap: '16px' }}>
-            {['FULL-STACK', 'AI SYSTEMS', 'FASTAPI', 'REACT', 'PYTHON'].map((tag) => (
+            {['FULL-STACK', 'AI SYSTEMS', 'DATA', 'FASTAPI', 'REACT', 'PYTHON'].map((tag) => (
               <div
                 key={tag}
                 style={{

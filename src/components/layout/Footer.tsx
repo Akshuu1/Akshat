@@ -47,7 +47,7 @@ export function Footer() {
               <span>delhi ncr, india · {siteConfig.contact.timezone}</span>
             </div>
             <h3 className="text-xl md:text-2xl font-bold tracking-tight">
-              turning complex problems into <span className="font-serif italic font-normal text-2xl md:text-3xl">practical</span>, scalable solutions.
+              Building at the intersection of AI, software engineering and product development.
             </h3>
           </div>
 
@@ -124,6 +124,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/craft#data-analyst" className="hover:underline">
+                  → data analysis
+                </Link>
+              </li>
+              <li>
                 <Link href="/craft#designer" className="hover:underline">
                   → interface design
                 </Link>
@@ -139,11 +144,11 @@ export function Footer() {
             <div className="flex flex-col gap-2">
               <a
                 href={`mailto:${siteConfig.contact.email}`}
-                className="inline-flex items-center gap-1.5 text-xs hover:text-[var(--text-primary)] transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs hover:text-[var(--text-primary)] transition-colors break-all"
                 data-cursor="email"
               >
-                <Mail className="w-3.5 h-3.5 text-[var(--text-muted)]" />
-                <span className="truncate">{siteConfig.contact.email}</span>
+                <Mail className="w-3.5 h-3.5 text-[var(--text-muted)] shrink-0" />
+                <span className="break-all">{siteConfig.contact.email}</span>
               </a>
               <div className="flex items-center gap-3 pt-1">
                 <a

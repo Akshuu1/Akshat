@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useTransition } from 'react';
 import { Project } from '@/data/projects';
-import { ProjectWheel } from '@/components/work/ProjectWheel';
+import { ProjectWheel, CategoryFilter, CATEGORIES } from '@/components/work/ProjectWheel';
 import { WorkIndexView } from '@/components/work/WorkIndexView';
 import { Sparkles, ListFilter } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,26 +13,48 @@ interface WorkPageViewProps {
 
 export function WorkPageView({ projects }: WorkPageViewProps) {
   const [viewMode, setViewMode] = useState<'dial' | 'list'>('dial');
-  const [urlFilter, setUrlFilter] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<CategoryFilter>('ai');
   const [, startTransition] = useTransition();
 
+  // Sync category & view mode with URL & handle back/forward
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const requestedView = params.get('view');
-      const requestedFilter = params.get('filter');
-      if (requestedFilter) {
-        setUrlFilter(requestedFilter);
-        startTransition(() => {
-          setViewMode('list');
-        });
-      } else if (requestedView === 'list' || requestedView === 'dial') {
-        startTransition(() => {
-          setViewMode(requestedView);
-        });
-      }
+      const readUrlParams = () => {
+        const params = new URLSearchParams(window.location.search);
+        const requestedFilter = params.get('filter') as CategoryFilter | null;
+        if (
+          requestedFilter === 'ai' ||
+          requestedFilter === 'full-stack' ||
+          requestedFilter === 'data' ||
+          requestedFilter === 'design'
+        ) {
+          setActiveCategory(requestedFilter);
+        } else {
+          setActiveCategory('ai');
+        }
+
+        const requestedView = params.get('view');
+        if (requestedView === 'list' || requestedView === 'dial') {
+          startTransition(() => {
+            setViewMode(requestedView);
+          });
+        }
+      };
+
+      readUrlParams();
+      window.addEventListener('popstate', readUrlParams);
+      return () => window.removeEventListener('popstate', readUrlParams);
     }
   }, []);
+
+  const handleCategoryChange = (cat: CategoryFilter) => {
+    setActiveCategory(cat);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set('filter', cat);
+      window.history.pushState({}, '', url.toString());
+    }
+  };
 
   const handleToggle = (mode: 'dial' | 'list') => {
     setViewMode(mode);
@@ -80,6 +102,8 @@ export function WorkPageView({ projects }: WorkPageViewProps) {
       <div>
         <ProjectWheel
           projects={projects}
+          activeCategory={activeCategory}
+          onCategoryChange={handleCategoryChange}
           sectionIndex="02"
           sectionTitle="WORK ARCHIVE"
           headerAction={ViewSwitcher}
@@ -89,14 +113,14 @@ export function WorkPageView({ projects }: WorkPageViewProps) {
   }
 
   return (
-    <div className="max-w-[1200px] mx-auto px-6 md:px-12 pt-24 md:pt-32 pb-8 md:pb-16 space-y-12">
+    <div className="max-w-[1200px] mx-auto px-6 md:px-12 pt-24 md:pt-32 pb-8 md:pb-16 space-y-10">
       {/* Header Bar with View Switcher */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-[var(--border-hairline)]">
         <div className="space-y-4 max-w-2xl">
           <div className="inline-flex items-center gap-2 font-mono text-xs text-[var(--text-muted)]">
             <span>INDEX {"//"} 02</span>
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-lime)]" />
-            <span>3 PRODUCTION SYSTEMS</span>
+            <span>SELECTED WORK ARCHIVE</span>
           </div>
 
           <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-[var(--text-primary)]">
@@ -114,7 +138,7 @@ export function WorkPageView({ projects }: WorkPageViewProps) {
         <div className="shrink-0">{ViewSwitcher}</div>
       </div>
 
-      {/* Interactive Work List with Category Filters & Sibling Dimming */}
+      {/* Interactive Work List with Category Tabs & Sibling Dimming */}
       <AnimatePresence mode="wait">
         <motion.div
           key="list"
@@ -123,7 +147,11 @@ export function WorkPageView({ projects }: WorkPageViewProps) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <WorkIndexView projects={projects} initialFilter={urlFilter} />
+          <WorkIndexView
+            projects={projects}
+            activeCategory={activeCategory}
+            onCategoryChange={handleCategoryChange}
+          />
         </motion.div>
       </AnimatePresence>
     </div>

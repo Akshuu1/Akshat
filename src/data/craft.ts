@@ -1,10 +1,12 @@
 export interface CraftDiscipline {
-  id: 'full-stack' | 'ai-ml' | 'designer';
+  id: 'full-stack' | 'ai-ml' | 'data' | 'designer';
   modeIndex: number;
-  modeNumber: string; // "01 / 03"
-  label: string; // "Full Stack", "AI Engineer", "Designer"
-  outlineLabel: string; // "FULL STACK", "AI ENGINEER", "DESIGNER"
-  filterParam: 'full-stack' | 'ai' | 'design';
+  modeNumber: string; // "01 / 04"
+  label: string; // "Full Stack", "AI Engineer", "Data Analyst", "Designer"
+  short?: string;
+  slug?: string;
+  outlineLabel: string; // "FULL STACK", "AI ENGINEER", "DATA ANALYST", "DESIGNER"
+  filterParam: 'full-stack' | 'ai' | 'data' | 'design';
   colors: {
     bg: string;
     text: string;
@@ -21,8 +23,10 @@ export const CRAFT_DISCIPLINES: CraftDiscipline[] = [
   {
     id: 'full-stack',
     modeIndex: 0,
-    modeNumber: '01 / 03',
+    modeNumber: '01 / 04',
     label: 'Full Stack',
+    short: 'Full Stack',
+    slug: '#full-stack',
     outlineLabel: 'FULL STACK',
     filterParam: 'full-stack',
     colors: {
@@ -43,8 +47,10 @@ export const CRAFT_DISCIPLINES: CraftDiscipline[] = [
   {
     id: 'ai-ml',
     modeIndex: 1,
-    modeNumber: '02 / 03',
+    modeNumber: '02 / 04',
     label: 'AI Engineer',
+    short: 'AI / ML',
+    slug: '#ai-ml',
     outlineLabel: 'AI ENGINEER',
     filterParam: 'ai',
     colors: {
@@ -63,10 +69,47 @@ export const CRAFT_DISCIPLINES: CraftDiscipline[] = [
     toolsList: ['LangChain', 'LangGraph', 'RAG', 'NLP', 'OpenAI API', 'Gemini API', 'Claude API', 'Model Training'],
   },
   {
-    id: 'designer',
+    id: 'data',
     modeIndex: 2,
-    modeNumber: '03 / 03',
+    modeNumber: '03 / 04',
+    label: 'Data Analyst',
+    short: 'Data',
+    slug: '#data-analyst',
+    outlineLabel: 'DATA ANALYST',
+    filterParam: 'data',
+    colors: {
+      bg: '#12284A', // deep navy
+      text: '#F2F1F7', // AA contrast light paper
+      accent: '#5CE1E6', // cyan
+    },
+    reelQuote: 'numbers into decisions, clearly.',
+    statement: 'numbers into decisions, clearly.',
+    lines: [
+      'Cleaning and shaping data with SQL and Pandas',
+      'Dashboards in Power BI and Tableau',
+      'Charts and analysis with Python and Excel',
+    ],
+    tools: 'Power BI / Tableau / Excel / SQL / MySQL / PostgreSQL / Pandas / NumPy / Matplotlib / Seaborn',
+    toolsList: [
+      'Power BI',
+      'Tableau',
+      'Excel',
+      'SQL',
+      'MySQL',
+      'PostgreSQL',
+      'Pandas',
+      'NumPy',
+      'Matplotlib',
+      'Seaborn',
+    ],
+  },
+  {
+    id: 'designer',
+    modeIndex: 3,
+    modeNumber: '04 / 04',
     label: 'Designer',
+    short: 'Designer',
+    slug: '#designer',
     outlineLabel: 'DESIGNER',
     filterParam: 'design',
     colors: {
@@ -89,8 +132,10 @@ export const CRAFT_DISCIPLINES: CraftDiscipline[] = [
 export const REEL_WORDS = [
   { index: 0, modeIndex: 0, label: 'Full Stack' },
   { index: 1, modeIndex: 1, label: 'AI Engineer' },
-  { index: 2, modeIndex: 2, label: 'Designer' },
-  { index: 3, modeIndex: 0, label: 'Full Stack' },
-  { index: 4, modeIndex: 1, label: 'AI Engineer' },
-  { index: 5, modeIndex: 2, label: 'Designer' },
+  { index: 2, modeIndex: 2, label: 'Data Analyst' },
+  { index: 3, modeIndex: 3, label: 'Designer' },
+  { index: 4, modeIndex: 0, label: 'Full Stack' },
+  { index: 5, modeIndex: 1, label: 'AI Engineer' },
+  { index: 6, modeIndex: 2, label: 'Data Analyst' },
+  { index: 7, modeIndex: 3, label: 'Designer' },
 ];

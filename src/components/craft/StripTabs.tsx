@@ -12,7 +12,8 @@ interface StripTabsProps {
 const TABS = [
   { label: 'Full stack', index: 0, hash: '#full-stack' },
   { label: 'AI engineer', index: 1, hash: '#ai-ml' },
-  { label: 'Designer', index: 2, hash: '#designer' },
+  { label: 'Data analyst', index: 2, hash: '#data-analyst' },
+  { label: 'Designer', index: 3, hash: '#designer' },
 ];
 
 export function StripTabs({

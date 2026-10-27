@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
@@ -8,7 +8,11 @@ interface HeroBackdropProps {
   reducedMotion?: boolean;
 }
 
+const HERO_BLUR_DATA =
+  'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAAMABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDhCmVU+o9aFjGCSM4FPjbO0EDFOcgBsAdKAP/Z';
+
 export function HeroBackdrop({ reducedMotion = false }: HeroBackdropProps) {
+  const [hasError, setHasError] = useState(false);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -16,14 +20,15 @@ export function HeroBackdrop({ reducedMotion = false }: HeroBackdropProps) {
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  // Parallax translation max 10px
-  const parallaxX = useTransform(smoothX, [-0.5, 0.5], [-10, 10]);
-  const parallaxY = useTransform(smoothY, [-0.5, 0.5], [-10, 10]);
+  // Parallax translation max 6px on desktop only
+  const parallaxX = useTransform(smoothX, [-0.5, 0.5], [-6, 6]);
+  const parallaxY = useTransform(smoothY, [-0.5, 0.5], [-6, 6]);
 
   useEffect(() => {
     if (reducedMotion) return;
     if (typeof window === 'undefined') return;
     if (window.innerWidth < 768) return;
+    if (window.matchMedia('(pointer: coarse)').matches) return;
 
     const handlePointerMove = (e: MouseEvent) => {
       const { innerWidth, innerHeight } = window;
@@ -40,11 +45,8 @@ export function HeroBackdrop({ reducedMotion = false }: HeroBackdropProps) {
       className="absolute inset-0 w-full h-full overflow-hidden select-none pointer-events-none z-0"
       aria-hidden="true"
     >
-      {/* Slow zoom (scale 1.04 -> 1.0 over 8s) + mouse parallax container */}
+      {/* Light mouse parallax (max 6px) container on desktop without zoom or color filter */}
       <motion.div
-        initial={reducedMotion ? false : { scale: 1.04 }}
-        animate={{ scale: 1.0 }}
-        transition={{ duration: 8, ease: 'easeOut' }}
         style={{
           x: reducedMotion ? 0 : parallaxX,
           y: reducedMotion ? 0 : parallaxY,
@@ -52,29 +54,24 @@ export function HeroBackdrop({ reducedMotion = false }: HeroBackdropProps) {
         className="relative w-full h-full"
       >
         <Image
-          src="/home/hero-bg.jpg"
-          alt="Misty mountain landscape"
+          src="/home/hero-bg.webp"
+          alt="Charcoal doodle artwork backdrop"
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
-          style={{
-            filter: 'grayscale(1) contrast(1.05)',
-          }}
+          quality={85}
+          placeholder="blur"
+          blurDataURL={HERO_BLUR_DATA}
+          className="object-cover object-[50%_30%] md:object-[50%_45%]"
+          onError={() => setHasError(true)}
         />
 
-        {/* Multiply gradient overlay: rgba(120,128,170,0.35) -> rgba(20,22,40,0.55) */}
-        <div
-          className="absolute inset-0 w-full h-full"
-          style={{
-            background:
-              'linear-gradient(180deg, rgba(120,128,170,0.35) 0%, rgba(20,22,40,0.55) 100%)',
-            mixBlendMode: 'multiply',
-          }}
-        />
-
-        {/* 5% Grain texture */}
-        <div className="absolute inset-0 bg-grain opacity-5" />
+        {/* Visible dev warning if backdrop image is missing */}
+        {hasError && (
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-xl bg-amber-500/90 text-black font-mono text-xs font-bold shadow-2xl">
+            [DEV WARNING] Backdrop image (/home/hero-bg.webp) failed to load.
+          </div>
+        )}
       </motion.div>
     </div>
   );

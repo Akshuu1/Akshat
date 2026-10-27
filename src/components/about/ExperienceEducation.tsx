@@ -49,7 +49,7 @@ export function ExperienceEducation() {
                     </span>{' '}
                     {exp.company}
                   </h3>
-                  <span className="font-mono text-xs text-[var(--text-muted)] font-medium px-2.5 py-0.5 rounded-full bg-[var(--bg-surface-elevated)] border border-[var(--border-hairline)] w-fit">
+                  <span className="font-mono text-xs text-[var(--text-primary)] font-medium px-2.5 py-0.5 rounded-full bg-[var(--bg-surface-elevated)] border border-[var(--border-hairline)] w-[42%] ">
                     {exp.period}
                   </span>
                 </div>
@@ -101,7 +101,7 @@ export function ExperienceEducation() {
                   }`}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
-                    <h3 className="text-base font-bold text-[var(--text-primary)]">
+                    <h3 className=" font-bold text-[var(--text-primary)]">
                       {edu.degree}
                     </h3>
                     <span className="font-mono text-xs font-bold text-[#111111] bg-[#D6FF3D] px-2 py-0.5 rounded w-fit border border-black/15">

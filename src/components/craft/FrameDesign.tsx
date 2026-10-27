@@ -19,7 +19,7 @@ const PALETTE_SWATCHES = [
 ];
 
 export function FrameDesign({ reducedMotion }: FrameDesignProps) {
-  const discipline = CRAFT_DISCIPLINES[2];
+  const discipline = CRAFT_DISCIPLINES.find((d) => d.id === 'designer') || CRAFT_DISCIPLINES[3];
   const constraintsRef = useRef<HTMLDivElement>(null);
 
   const stickerTools = [

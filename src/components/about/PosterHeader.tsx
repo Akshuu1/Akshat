@@ -24,7 +24,7 @@ export function PosterHeader() {
         <div className="lg:col-span-8 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--bg-surface)] border border-[var(--border-hairline)] text-xs font-mono text-[var(--text-primary)]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#D6FF3D] border border-black/30" />
-            <span className="font-medium text-[var(--text-primary)]">ENGINEER · BUILDER · DESIGNER</span>
+            <span className="font-medium text-[var(--text-primary)]">FULL-STACK · AI ENGINEER · DATA ANALYST · DESIGNER</span>
           </div>
 
           <h1 className="text-6xl sm:text-8xl md:text-9xl font-display font-black text-[var(--text-primary)] uppercase tracking-tighter leading-[0.88]">

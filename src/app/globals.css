@@ -15,15 +15,15 @@
 }
 
 html.dark {
-  --bg-base: #0E0E0C;
-  --bg-surface: #171714;
-  --bg-surface-elevated: #22221E;
-  --text-primary: #F3F0E8;
+  --bg-base: #16161A;
+  --bg-surface: #202026;
+  --bg-surface-elevated: #282830;
+  --text-primary: #F2F1F7;
   --text-muted: #8E8E86;
   --border-hairline: #282824;
   --border-strong: #3D3D37;
   --accent-lime: #D6FF3D;
-  --accent-lime-text: #0E0E0C;
+  --accent-lime-text: #16161A;
   --accent-tomato: #FF5A36;
   --grid-line: rgba(255, 255, 255, 0.08);
 }
@@ -72,21 +72,38 @@ html.dark {
 
 /* Base resets & typography */
 html {
+  max-width: 100%;
+  overflow-x: clip;
   background-color: var(--bg-base);
   color: var(--text-primary);
   font-family: var(--font-sans);
   scroll-behavior: smooth;
   transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  min-height: 100vh;
+  max-width: 100%;
+  min-height: 100svh;
   background-color: var(--bg-base);
   color: var(--text-primary);
-  overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Touch device overrides */
+@media (hover: none), (pointer: coarse) {
+  .custom-cursor-element {
+    display: none !important;
+  }
+  [data-cursor] {
+    cursor: auto !important;
+  }
+  input, select, textarea {
+    font-size: 16px !important;
+  }
 }
 
 /* Selection highlight in electric lime */

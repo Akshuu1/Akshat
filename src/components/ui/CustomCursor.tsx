@@ -6,14 +6,14 @@ import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 function subscribePointer(callback: () => void) {
   if (typeof window === 'undefined') return () => {};
-  const mediaQuery = window.matchMedia('(pointer: coarse)');
+  const mediaQuery = window.matchMedia('(pointer: coarse), (hover: none)');
   mediaQuery.addEventListener('change', callback);
   return () => mediaQuery.removeEventListener('change', callback);
 }
 
 function getPointerSnapshot() {
   if (typeof window === 'undefined') return true;
-  return window.matchMedia('(pointer: coarse)').matches;
+  return window.matchMedia('(pointer: coarse), (hover: none)').matches;
 }
 
 function getServerSnapshot() {

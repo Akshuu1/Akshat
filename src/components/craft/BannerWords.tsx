@@ -10,7 +10,8 @@ interface BannerWordsProps {
 
 const WORDS = [
   { text: 'FULL STACK', centerProgress: 0.0, color: '#F3F0E8' },
-  { text: 'AI ENGINEER', centerProgress: 0.5, color: '#F6E9EC' },
+  { text: 'AI ENGINEER', centerProgress: 1 / 3, color: '#F6E9EC' },
+  { text: 'DATA ANALYST', centerProgress: 2 / 3, color: '#F2F1F7' },
   { text: 'DESIGNER', centerProgress: 1.0, color: '#F6EBDD' },
 ];
 
@@ -36,14 +37,14 @@ function BannerWordItem({
   // Solid paper color fill: fills in as frame centers, fades out neighbors
   const fillOpacity = useTransform(
     progress,
-    [p_i - 0.25, p_i, p_i + 0.25],
+    [p_i - 0.18, p_i, p_i + 0.18],
     [0, 0.75, 0]
   );
 
   // Outline stroke opacity: 14% baseline when distant, increases to 100% when centered
   const strokeOpacity = useTransform(
     progress,
-    [p_i - 0.5, p_i - 0.25, p_i, p_i + 0.25, p_i + 0.5],
+    [p_i - 0.35, p_i - 0.18, p_i, p_i + 0.18, p_i + 0.35],
     [0.14, 0.35, 1, 0.35, 0.14]
   );
 
@@ -92,7 +93,7 @@ export function BannerWords({ progress, reducedMotion }: BannerWordsProps) {
   return (
     <div
       aria-hidden="true"
-      className="absolute inset-0 w-[300vw] h-[100svh] flex pointer-events-none select-none z-10"
+      className="absolute inset-0 w-[400vw] h-[100svh] flex pointer-events-none select-none z-10"
     >
       {WORDS.map((word) => (
         <BannerWordItem

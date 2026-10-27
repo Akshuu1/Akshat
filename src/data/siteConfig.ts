@@ -1,9 +1,9 @@
 export const siteConfig = {
   name: 'Akshat Agrawal',
-  title: 'Akshat Agrawal | Full-stack developer & AI engineer',
+  title: 'Akshat Agrawal | Full-stack developer, AI engineer & data analyst',
   tagline:
-    'Building at the intersection of AI, software engineering, and product development, turning complex problems into practical, scalable solutions.',
-  roles: ['full-stack dev', 'AI systems builder', 'backend architect', 'data optimizer'],
+    'Building at the intersection of AI, software engineering, and data analytics, turning complex problems into practical, scalable solutions.',
+  roles: ['full-stack dev', 'AI systems builder', 'data analyst', 'backend architect'],
   status: {
     available: true,
     label: 'open to internships · 2026–27',
@@ -39,6 +39,12 @@ export const siteConfig = {
     },
     {
       index: '03',
+      title: 'Data Analysis',
+      description:
+        'Turning raw data into clear answers. Power BI, Tableau, SQL, Pandas, NumPy.',
+    },
+    {
+      index: '04',
       title: 'Design & Interfaces',
       description:
         'Interfaces with taste: design systems, typography, and motion.',

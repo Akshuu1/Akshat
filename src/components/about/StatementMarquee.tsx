@@ -113,7 +113,7 @@ export function StatementMarquee({ reducedMotion = false }: StatementMarqueeProp
       <div className="relative w-full space-y-4 sm:space-y-6 z-0 pointer-events-none opacity-90 py-6">
         {/* Row 1: Solid Paper White Text, moves left */}
         <VelocityTrack
-          text="FULL-STACK ✦ AI SYSTEMS ✦ DESIGN ✦"
+          text="FULL-STACK ✦ AI SYSTEMS ✦ DATA ✦ DESIGN ✦"
           baseVelocity={-1.8}
           outlined={false}
           reducedMotion={reducedMotion}

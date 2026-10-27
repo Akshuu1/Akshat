@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Space_Grotesk, Instrument_Serif, JetBrains_Mono, Anton, Caveat } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/context/ThemeContext';
@@ -7,6 +7,12 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { CustomCursor } from '@/components/ui/CustomCursor';
 import { siteConfig } from '@/data/siteConfig';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+};
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -47,7 +53,7 @@ const caveat = Caveat({
 export const metadata: Metadata = {
   metadataBase: new URL('https://akshatagrawal.dev'),
   title: {
-    default: 'Akshat Agrawal | Full-stack developer & AI engineer',
+    default: 'Akshat Agrawal | Full-stack developer, AI engineer & data analyst',
     template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.tagline,
@@ -55,6 +61,7 @@ export const metadata: Metadata = {
     'Akshat Agrawal',
     'Full-stack developer',
     'AI engineer',
+    'Data analyst',
     'Designer',
     'FastAPI',
     'Next.js',
@@ -103,7 +110,7 @@ export default function RootLayout({
               className="fixed inset-0 pointer-events-none bg-grain z-30 opacity-60"
               aria-hidden="true"
             />
-            <div className="relative min-h-screen flex flex-col justify-between">
+            <div className="relative min-h-[100svh] flex flex-col justify-between">
               <Navbar />
               <main className="flex-1">{children}</main>
               <Footer />

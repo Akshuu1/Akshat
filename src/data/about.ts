@@ -31,13 +31,13 @@ export interface AboutActivity {
 
 export const aboutData = {
   header: {
-    cornerLeft: 'FULL-STACK / AI ENGINEER / DESIGNER',
+    cornerLeft: 'FULL-STACK / AI ENGINEER / DATA ANALYST / DESIGNER',
     cornerRight: '2026',
     wordmark: 'ABOUT',
     handwrittenNote: 'akshat agrawal',
   },
   bio: {
-    hello: "Hi, I'm Akshat. I build at the intersection of AI, software engineering and product development, turning complex problems into practical things. I like backends that don't fall over, agents that check their own work, and interfaces that feel alive.",
+    hello: "Hi, I'm Akshat. I build at the intersection of AI, software engineering and product development, turning complex problems into practical things. I like backends that don't fall over, agents that check their own work, and interfaces that feel alive. I also like turning messy data into clear answers.",
   },
   skills: [
     {
@@ -80,14 +80,18 @@ export const aboutData = {
       ],
     },
     {
-      title: 'Data Tools',
+      title: 'Data & Analytics',
       tools: [
         { name: 'Power BI', tag: 'BI' },
-        { name: 'Excel', tag: 'XL' },
         { name: 'Tableau', tag: 'TB' },
-        { name: 'NumPy', tag: 'NP' },
+        { name: 'Excel', tag: 'XL' },
+        { name: 'SQL', tag: 'SQ' },
+        { name: 'MySQL', tag: 'MY' },
+        { name: 'PostgreSQL', tag: 'PG' },
         { name: 'Pandas', tag: 'PD' },
+        { name: 'NumPy', tag: 'NP' },
         { name: 'Matplotlib', tag: 'MP' },
+        { name: 'Seaborn', tag: 'SB' },
       ],
     },
   ],
