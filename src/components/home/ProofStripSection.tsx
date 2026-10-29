@@ -14,9 +14,9 @@ const FACTS = [
     detail: 'Specializing in CS & AI at Rishihood University',
   },
   {
-    value: 'Mar-Aug 2025',
-    label: 'Software developer intern, Countrees AI',
-    detail: 'Backend logic & structured data across database ERP systems',
+    value: '5+ Systems',
+    label: 'Production Systems & Apps',
+    detail: 'Autonomous AI harnesses, full-stack platforms & data backends',
   },
   {
     value: 'Top 10',

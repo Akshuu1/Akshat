@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import confetti from 'canvas-confetti';
-import { Send, Check, AlertCircle, Loader2, Sparkles, ShieldCheck } from 'lucide-react';
+import { Send, Check, AlertCircle, Loader2, Sparkles, ShieldCheck, Mail, MessageSquare } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const topics = [
@@ -34,11 +34,17 @@ export function ContactFormStudio() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [statusMessage, setStatusMessage] = useState<string>('');
   const [messageLength, setMessageLength] = useState<number>(0);
+  const [dispatchLinks, setDispatchLinks] = useState<{
+    mailto: string;
+    whatsapp: string;
+    name: string;
+  } | null>(null);
 
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     reset,
     formState: { errors },
   } = useForm<FormData>({
@@ -51,9 +57,40 @@ export function ContactFormStudio() {
 
   const messageRegistration = register('message');
 
+  const currentValues = watch();
+
+  const handleDirectEmailClick = () => {
+    const name = currentValues.name || 'Friend';
+    const email = currentValues.email || '';
+    const topic = selectedTopic;
+    const msg = currentValues.message || '';
+    const subject = encodeURIComponent(`[Portfolio Query - ${topic}] from ${name}`);
+    const body = encodeURIComponent(
+      `Hi Akshat,\n\nName: ${name}\nEmail: ${email}\nTopic: ${topic}\n\nQuery:\n${msg}\n\n— Sent from portfolio contact console`
+    );
+    window.location.href = `mailto:akshat.agrawal2024@nst.rishihood.edu.in?subject=${subject}&body=${body}`;
+  };
+
   const onSubmit = async (data: FormData) => {
     setStatus('sending');
     setStatusMessage('');
+
+    const targetEmail = 'akshat.agrawal2024@nst.rishihood.edu.in';
+    const mailtoSubject = encodeURIComponent(`[Portfolio Query - ${data.topic}] from ${data.name}`);
+    const mailtoBody = encodeURIComponent(
+      `Hi Akshat,\n\nName: ${data.name}\nEmail: ${data.email}\nTopic: ${data.topic}\n\nQuery / Message:\n${data.message}\n\n— Sent from portfolio contact console`
+    );
+    const mailtoLink = `mailto:${targetEmail}?subject=${mailtoSubject}&body=${mailtoBody}`;
+    const whatsappText = encodeURIComponent(
+      `Hi Akshat! I'm ${data.name} (${data.email}). Regarding [${data.topic}]: ${data.message}`
+    );
+    const whatsappLink = `https://wa.me/918954928960?text=${whatsappText}`;
+
+    setDispatchLinks({
+      mailto: mailtoLink,
+      whatsapp: whatsappLink,
+      name: data.name,
+    });
 
     try {
       const res = await fetch('/api/contact', {
@@ -66,13 +103,20 @@ export function ContactFormStudio() {
 
       if (res.ok && json.success) {
         setStatus('success');
-        setStatusMessage(json.message || "got it, I'll reply within 48h.");
+        setStatusMessage(json.message || "Query logged! Opening your mail client...");
+
+        // Auto trigger mail client with pre-filled query
+        try {
+          window.location.href = mailtoLink;
+        } catch {
+          // ignore if popup blocker
+        }
 
         // Celebratory confetti burst
         try {
           confetti({
-            particleCount: 55,
-            spread: 65,
+            particleCount: 60,
+            spread: 70,
             origin: { y: 0.7 },
             colors: ['#D6FF3D', '#111111', '#FF5A36', '#F3F0E8'],
           });
@@ -83,11 +127,17 @@ export function ContactFormStudio() {
         setMessageLength(0);
       } else {
         setStatus('error');
-        setStatusMessage(json.message || 'Something went wrong. Please retry or email directly.');
+        setStatusMessage(json.message || 'Something went wrong. Please retry or dispatch via email directly.');
       }
     } catch {
-      setStatus('error');
-      setStatusMessage('Connection error. Please retry or reach out via direct email.');
+      // In case of network interruption, fallback directly to mailto
+      try {
+        window.location.href = mailtoLink;
+      } catch {
+        // ignore
+      }
+      setStatus('success');
+      setStatusMessage('Mail client opened! Hit send in your email app to reach Akshat directly.');
     }
   };
 
@@ -251,32 +301,67 @@ export function ContactFormStudio() {
           )}
         </AnimatePresence>
 
+        {/* Success Action Banner with Direct Query Dispatch Links */}
+        <AnimatePresence>
+          {status === 'success' && dispatchLinks && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 space-y-3 font-mono text-xs"
+            >
+              <div className="flex items-center gap-2 text-emerald-500 font-bold">
+                <Check className="w-4 h-4 shrink-0" />
+                <span>Query dispatched! Opened your email client with pre-filled inquiry.</span>
+              </div>
+              <p className="text-[var(--text-muted)] text-[11px] leading-relaxed">
+                If your email application didn&apos;t open automatically, use either direct button below to send your query directly to Akshat:
+              </p>
+              <div className="flex flex-wrap items-center gap-2.5 pt-1">
+                <a
+                  href={dispatchLinks.mailto}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[var(--text-primary)] text-[var(--bg-base)] text-xs font-bold hover:opacity-90 transition-opacity"
+                >
+                  <Mail className="w-3.5 h-3.5" />
+                  <span>Open in Mail App</span>
+                </a>
+                <a
+                  href={dispatchLinks.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#25D366] text-black text-xs font-bold hover:opacity-90 transition-opacity"
+                >
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  <span>Send via WhatsApp</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setStatus('idle')}
+                  className="px-3.5 py-2 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-base)] text-[var(--text-muted)] hover:text-[var(--text-primary)] text-xs font-medium transition-colors ml-auto cursor-pointer"
+                >
+                  Clear / send another
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Bottom Actions Row: Status Morphing Button */}
         <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <span className="text-xs font-mono text-[var(--text-muted)]">
-            {status === 'success' ? (
-              <span className="text-emerald-500 font-medium flex items-center gap-1.5">
-                <Check className="w-3.5 h-3.5" />
-                <span>{statusMessage}</span>
-              </span>
-            ) : (
-              <span>transmitted via next.js route handler</span>
-            )}
-          </span>
+          <div className="flex items-center gap-3 text-xs font-mono text-[var(--text-muted)]">
+            <button
+              type="button"
+              onClick={handleDirectEmailClick}
+              className="inline-flex items-center gap-1.5 text-[11px] text-[var(--text-muted)] hover:text-[var(--text-primary)] underline transition-colors cursor-pointer"
+              title="Compose message directly in your mail application"
+            >
+              <Mail className="w-3.5 h-3.5" />
+              <span>Or open directly in mail app ↗</span>
+            </button>
+          </div>
 
           <div>
-            {status === 'success' ? (
-              <motion.button
-                initial={{ scale: 0.95 }}
-                animate={{ scale: 1 }}
-                type="button"
-                onClick={() => setStatus('idle')}
-                className="px-6 py-3 rounded-full bg-[var(--accent-lime)] text-[var(--accent-lime-text)] text-xs font-mono font-bold flex items-center gap-2 border border-black/15 shadow-xs cursor-pointer"
-              >
-                <Check className="w-4 h-4 text-black" />
-                <span>sent! (click to send another)</span>
-              </motion.button>
-            ) : (
+            {status !== 'success' && (
               <button
                 type="submit"
                 disabled={status === 'sending'}
@@ -286,11 +371,11 @@ export function ContactFormStudio() {
                 {status === 'sending' ? (
                   <>
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                    <span>dispatching note...</span>
+                    <span>Dispatching Query...</span>
                   </>
                 ) : (
                   <>
-                    <span>dispatch note</span>
+                    <span>Send Query</span>
                     <Send className="w-3.5 h-3.5" />
                   </>
                 )}

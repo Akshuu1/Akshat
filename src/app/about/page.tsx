@@ -93,13 +93,25 @@ export default function AboutPage() {
             </MagneticButton>
 
             <a
-              href="/resume.pdf"
-              download
+              href={siteConfig.resumes.ai.href}
+              download={siteConfig.resumes.ai.filename}
               data-cursor="cv"
-              className="inline-flex items-center gap-2 px-6 py-4 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-surface)] text-[var(--text-primary)] font-mono text-sm hover:border-[var(--text-primary)]/40 hover:bg-[var(--bg-surface-elevated)] transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-4 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-surface)] text-[var(--text-primary)] font-mono text-xs sm:text-sm hover:border-[var(--accent-lime)] hover:bg-[var(--bg-surface-elevated)] transition-colors"
+              title="Download AI & Machine Learning Resume (PDF)"
             >
-              <Download className="w-4 h-4" />
-              <span>download cv</span>
+              <Download className="w-4 h-4 text-[var(--accent-lime)]" />
+              <span>CV · AI &amp; ML</span>
+            </a>
+
+            <a
+              href={siteConfig.resumes.fullstack.href}
+              download={siteConfig.resumes.fullstack.filename}
+              data-cursor="cv"
+              className="inline-flex items-center gap-2 px-5 py-4 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-surface)] text-[var(--text-primary)] font-mono text-xs sm:text-sm hover:border-[#5CE1E6] hover:bg-[var(--bg-surface-elevated)] transition-colors"
+              title="Download Full-Stack Engineering Resume (PDF)"
+            >
+              <Download className="w-4 h-4 text-[#5CE1E6]" />
+              <span>CV · Full-Stack</span>
             </a>
           </div>
 

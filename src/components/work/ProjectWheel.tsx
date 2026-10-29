@@ -124,24 +124,140 @@ function ProjectStickerVisual({
     );
   }
 
-  if (project.slug === 'countrees-ai-erp') {
+  if (project.slug === 'marketing-ab-test') {
     return (
       <div className="w-full h-24 rounded-xl bg-[var(--bg-base)] border border-[var(--border-hairline)] p-3 flex flex-col justify-between overflow-hidden relative">
         <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
-          <span>SCHEMA</span>
-          <span>ENGINE</span>
+          <span>A/B TEST</span>
+          <span className="text-[var(--category-accent)] font-bold">+43.1% LIFT</span>
         </div>
-        <div className="grid grid-cols-3 gap-1.5 py-1">
-          <div className="h-5 rounded bg-[var(--bg-surface-elevated)] border border-[var(--border-hairline)]" />
-          <div
-            className="h-5 rounded border border-transparent"
-            style={{ backgroundColor: `${categoryAccent}33` }}
-          />
-          <div className="h-5 rounded bg-[var(--bg-surface-elevated)] border border-[var(--border-hairline)]" />
+        <div className="py-1 flex items-center justify-center">
+          <svg viewBox="0 0 140 28" className="w-full h-7 fill-none">
+            {/* Control curve */}
+            <path
+              d="M 5,24 Q 45,24 60,14 Q 75,5 90,14 Q 105,24 135,24"
+              stroke="var(--text-muted)"
+              strokeWidth="1.2"
+              strokeDasharray="2 2"
+            />
+            {/* Treatment curve with lift */}
+            <path
+              d="M 5,24 Q 40,24 55,6 Q 70,2 85,6 Q 100,24 135,24"
+              stroke="var(--category-accent)"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
         </div>
         <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
-          <span>INDEX</span>
-          <span>QUERY</span>
+          <span>588K USERS</span>
+          <span>p = 1.99e-13</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (project.slug === 'nyc-yellow-taxi') {
+    return (
+      <div className="w-full h-24 rounded-xl bg-[var(--bg-base)] border border-[var(--border-hairline)] p-3 flex flex-col justify-between overflow-hidden relative">
+        <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
+          <span>GEOSPATIAL</span>
+          <span className="text-[var(--category-accent)] font-bold">48.7M TRIPS</span>
+        </div>
+        <div className="py-1 flex items-center justify-center">
+          <svg viewBox="0 0 140 28" className="w-full h-7 fill-none">
+            {/* Spatial route vector flow */}
+            <path
+              d="M 10,22 Q 40,4 70,16 T 130,8"
+              stroke="var(--category-accent)"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <circle cx="10" cy="22" r="2.5" fill="var(--category-accent)" />
+            <circle cx="70" cy="16" r="2.5" fill="var(--category-accent)" />
+            <circle cx="130" cy="8" r="2.5" fill="var(--category-accent)" />
+            <line x1="20" y1="26" x2="120" y2="26" stroke="var(--border-hairline)" strokeWidth="1" strokeDasharray="3 3" />
+          </svg>
+        </div>
+        <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
+          <span>$0.75 CBD FEE</span>
+          <span>$1.03B GROSS</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (project.slug === 'stock-market-risk') {
+    return (
+      <div className="w-full h-24 rounded-xl bg-[var(--bg-base)] border border-[var(--border-hairline)] p-3 flex flex-col justify-between overflow-hidden relative">
+        <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
+          <span>RISK & MPT</span>
+          <span className="text-[var(--category-accent)] font-bold">SHARPE OPT</span>
+        </div>
+        <div className="py-1 flex items-center justify-center">
+          <svg viewBox="0 0 140 28" className="w-full h-7 fill-none">
+            {/* Markowitz Efficient Frontier curve */}
+            <path
+              d="M 15,25 Q 25,6 65,4 Q 105,3 130,2"
+              stroke="var(--category-accent)"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            {/* Scatter dots */}
+            <circle cx="35" cy="18" r="1.5" fill="var(--text-muted)" />
+            <circle cx="50" cy="12" r="1.5" fill="var(--text-muted)" />
+            <circle cx="65" cy="4" r="3" fill="var(--category-accent)" />
+            <circle cx="85" cy="10" r="1.5" fill="var(--text-muted)" />
+            <circle cx="110" cy="7" r="1.5" fill="var(--text-muted)" />
+          </svg>
+        </div>
+        <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
+          <span>10K MONTE CARLO</span>
+          <span>VaR 95%</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (project.slug === 'blinkit-delivery-analytics') {
+    return (
+      <div className="w-full h-24 rounded-xl bg-[var(--bg-base)] border border-[var(--border-hairline)] p-3 flex flex-col justify-between overflow-hidden relative">
+        <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
+          <span>LOOKER BI</span>
+          <span className="text-[var(--category-accent)] font-bold">10-MIN SLA</span>
+        </div>
+        <div className="grid grid-cols-4 gap-1 py-1">
+          <div className="h-5 rounded bg-[var(--bg-surface-elevated)] border border-[var(--border-hairline)] flex items-center justify-center text-[8px] font-mono">p50</div>
+          <div className="h-5 rounded bg-[var(--bg-surface-elevated)] border border-[var(--border-hairline)] flex items-center justify-center text-[8px] font-mono">p90</div>
+          <div className="h-5 rounded bg-[var(--category-accent)]/20 border border-[var(--category-accent)]/40 flex items-center justify-center text-[8px] font-mono text-[var(--category-accent)]">p99</div>
+          <div className="h-5 rounded bg-[var(--bg-surface-elevated)] border border-[var(--border-hairline)] flex items-center justify-center text-[8px] font-mono">HUB</div>
+        </div>
+        <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
+          <span>DARK STORES</span>
+          <span>DISPATCH</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (project.slug === 'airbnb-market-intelligence') {
+    return (
+      <div className="w-full h-24 rounded-xl bg-[var(--bg-base)] border border-[var(--border-hairline)] p-3 flex flex-col justify-between overflow-hidden relative">
+        <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
+          <span>TABLEAU</span>
+          <span className="text-[var(--category-accent)] font-bold">RevPAR</span>
+        </div>
+        <div className="py-1 flex items-center justify-center">
+          <svg viewBox="0 0 140 28" className="w-full h-7 fill-none">
+            <rect x="15" y="10" width="20" height="14" rx="2" fill="var(--bg-surface-elevated)" stroke="var(--border-hairline)" />
+            <rect x="45" y="4" width="20" height="20" rx="2" fill="var(--category-accent)" fillOpacity="0.3" stroke="var(--category-accent)" />
+            <rect x="75" y="14" width="20" height="10" rx="2" fill="var(--bg-surface-elevated)" stroke="var(--border-hairline)" />
+            <rect x="105" y="8" width="20" height="16" rx="2" fill="var(--bg-surface-elevated)" stroke="var(--border-hairline)" />
+          </svg>
+        </div>
+        <div className="flex items-center justify-between text-[9px] font-mono text-[var(--text-muted)]">
+          <span>OCCUPANCY</span>
+          <span>DYNAMIC PRICING</span>
         </div>
       </div>
     );

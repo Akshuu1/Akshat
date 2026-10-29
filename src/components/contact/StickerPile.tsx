@@ -98,16 +98,28 @@ const INITIAL_STICKERS: StickerDef[] = [
     defaultRotate: 3,
   },
   {
-    id: 'cv',
+    id: 'cv-ai',
     type: 'download',
-    label: 'Download CV',
+    label: 'CV · AI & ML',
     sublabel: 'PDF',
-    href: '/resume.pdf',
-    ariaLabel: 'Download CV curriculum vitae PDF',
-    color: '#FF9EB5',
-    defaultX: 168,
+    href: '/resume-ai.pdf',
+    ariaLabel: 'Download AI and Machine Learning Resume PDF',
+    color: '#D6FF3D',
+    defaultX: 130,
     defaultY: 166,
     defaultRotate: -2.5,
+  },
+  {
+    id: 'cv-fullstack',
+    type: 'download',
+    label: 'CV · Full-Stack',
+    sublabel: 'PDF',
+    href: '/resume-fullstack.pdf',
+    ariaLabel: 'Download Full-Stack Engineering Resume PDF',
+    color: '#FF9EB5',
+    defaultX: 250,
+    defaultY: 166,
+    defaultRotate: 3,
   },
   {
     id: 'smiley',
@@ -600,17 +612,31 @@ export function StickerPile() {
             </span>
           </a>
 
-          {/* Download CV */}
+          {/* Download AI/ML CV */}
           <a
-            href="/resume.pdf"
-            download
-            aria-label="Download CV curriculum vitae PDF"
-            className="min-h-[44px] px-3 py-2 rounded-full border-[2.5px] border-[#14141F] shadow-[3px_3px_0_#14141F] bg-[#FF9EB5] text-[#14141F] flex items-center justify-center gap-2 text-xs font-bold rotate-[-1deg] active:scale-[0.98] transition-transform relative overflow-hidden"
+            href="/resume-ai.pdf"
+            download="Akshat_Agrawal_AI_ML_Resume.pdf"
+            aria-label="Download AI and Machine Learning Resume PDF"
+            className="min-h-[44px] px-3 py-2 rounded-full border-[2.5px] border-[#14141F] shadow-[3px_3px_0_#14141F] bg-[#D6FF3D] text-[#14141F] flex items-center justify-center gap-1.5 text-xs font-bold rotate-[-1deg] active:scale-[0.98] transition-transform relative overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-b from-white/35 via-transparent to-black/10 pointer-events-none" />
             <span className="relative z-10 flex items-center gap-1.5">
               <FileText className="w-4 h-4 shrink-0" />
-              <span>Download CV</span>
+              <span>AI / ML CV</span>
+            </span>
+          </a>
+
+          {/* Download Full-Stack CV */}
+          <a
+            href="/resume-fullstack.pdf"
+            download="Akshat_Agrawal_FullStack_Resume.pdf"
+            aria-label="Download Full-Stack Engineering Resume PDF"
+            className="min-h-[44px] px-3 py-2 rounded-full border-[2.5px] border-[#14141F] shadow-[3px_3px_0_#14141F] bg-[#FF9EB5] text-[#14141F] flex items-center justify-center gap-1.5 text-xs font-bold rotate-[1.5deg] active:scale-[0.98] transition-transform relative overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-white/35 via-transparent to-black/10 pointer-events-none" />
+            <span className="relative z-10 flex items-center gap-1.5">
+              <FileText className="w-4 h-4 shrink-0" />
+              <span>Full-Stack CV</span>
             </span>
           </a>
 

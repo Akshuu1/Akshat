@@ -97,14 +97,14 @@ export const aboutData = {
   ],
   experience: [
     {
-      role: 'Software Developer Intern',
-      company: 'Countrees AI',
+      role: 'Software & Systems Developer',
+      company: 'Independent / Projects',
       location: 'Remote',
-      period: 'Mar 2025 – Aug 2025',
+      period: '2024 – Present',
       points: [
-        'Backend logic and structured data across database-driven apps and ERP systems.',
-        'Optimized database operations and data flows.',
-        'Contributed to backend architecture and system design.',
+        'Architected autonomous AI harnesses, full-stack applications, and high-performance backend pipelines.',
+        'Engineered robust database schemas, low-latency APIs, and automated test reproduction loops.',
+        'Contributed to backend architecture, system design, and data-flow optimization across distributed services.',
       ],
     },
   ],

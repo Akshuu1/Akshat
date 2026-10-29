@@ -71,7 +71,7 @@ export function ExperienceEducation() {
           </div>
 
           <div className="pt-4 border-t border-[var(--border-hairline)] flex items-center justify-between font-mono text-[11px] text-[var(--text-muted)]">
-            <span>Domain: ERP &amp; Data Workflows</span>
+            <span>Domain: AI &amp; Full-Stack Systems</span>
             <span className="font-semibold text-[var(--text-primary)]">Python · FastAPI · Docker</span>
           </div>
         </div>

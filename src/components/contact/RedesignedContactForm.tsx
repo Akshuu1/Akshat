@@ -55,6 +55,13 @@ export function RedesignedContactForm() {
     setStatus('sending');
     setStatusMessage('');
 
+    const targetEmail = 'akshat.agrawal2024@nst.rishihood.edu.in';
+    const mailtoSubject = encodeURIComponent(`[Portfolio Query - ${data.topic}] from ${data.name}`);
+    const mailtoBody = encodeURIComponent(
+      `Hi Akshat,\n\nName: ${data.name}\nEmail: ${data.email}\nTopic: ${data.topic}\n\nQuery / Message:\n${data.message}\n\n— Sent from portfolio contact console`
+    );
+    const mailtoLink = `mailto:${targetEmail}?subject=${mailtoSubject}&body=${mailtoBody}`;
+
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -67,6 +74,11 @@ export function RedesignedContactForm() {
       if (res.ok && json.success) {
         setStatus('success');
         setStatusMessage(json.message || "got it, I'll reply within 48h.");
+        try {
+          window.location.href = mailtoLink;
+        } catch {
+          // ignore
+        }
 
         // Celebratory confetti burst
         try {
@@ -86,8 +98,13 @@ export function RedesignedContactForm() {
         setStatusMessage(json.message || 'Something went wrong. Please retry or email directly.');
       }
     } catch {
-      setStatus('error');
-      setStatusMessage('Connection error. Please retry or reach out via direct email.');
+      try {
+        window.location.href = mailtoLink;
+      } catch {
+        // ignore
+      }
+      setStatus('success');
+      setStatusMessage('Mail client opened! Hit send to deliver directly to Akshat.');
     }
   };
 

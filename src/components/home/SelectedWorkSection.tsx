@@ -10,22 +10,22 @@ interface SelectedWorkSectionProps {
 
 const SELECTED_PROJECTS = [
   {
-    slug: 'anvil',
-    title: 'ANVIL',
-    year: '2026',
-    description: 'Autonomous coding-agent harness.',
-  },
-  {
-    slug: 'healthwe',
-    title: 'HealthWe',
-    year: '2026',
-    description: 'AI clinical documentation platform.',
-  },
-  {
-    slug: 'countrees',
-    title: 'Countrees AI ERP',
+    slug: 'marketing-ab-test',
+    title: 'Marketing A/B Test',
     year: '2025',
-    description: 'Backend and structured data work.',
+    description: 'Conversion experimentation across 588k users & dose-response analysis.',
+  },
+  {
+    slug: 'nyc-yellow-taxi',
+    title: 'NYC Yellow Taxi 2025',
+    year: '2025',
+    description: 'Big data geospatial & $0.75 CBD congestion pricing analytics across 48.7M trips.',
+  },
+  {
+    slug: 'stock-market-risk',
+    title: 'Stock Market Analytics',
+    year: '2025',
+    description: 'Quantitative volatility modeling, drawdown risk & Efficient Frontier MPT.',
   },
 ];
 

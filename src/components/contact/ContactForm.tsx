@@ -45,6 +45,13 @@ export function ContactForm() {
     setIsSubmitting(true);
     setSubmitError(null);
 
+    const targetEmail = 'akshat.agrawal2024@nst.rishihood.edu.in';
+    const mailtoSubject = encodeURIComponent(`[Portfolio Query - ${data.topic}] from ${data.name}`);
+    const mailtoBody = encodeURIComponent(
+      `Hi Akshat,\n\nName: ${data.name}\nEmail: ${data.email}\nTopic: ${data.topic}\n\nQuery / Message:\n${data.message}\n\n— Sent from portfolio contact console`
+    );
+    const mailtoLink = `mailto:${targetEmail}?subject=${mailtoSubject}&body=${mailtoBody}`;
+
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -56,6 +63,11 @@ export function ContactForm() {
 
       if (res.ok && json.success) {
         setIsSuccess(true);
+        try {
+          window.location.href = mailtoLink;
+        } catch {
+          // ignore
+        }
         // Trigger celebratory confetti micro-animation
         try {
           confetti({
@@ -72,7 +84,12 @@ export function ContactForm() {
         setSubmitError(json.message || 'Something went wrong. Please try again.');
       }
     } catch {
-      setSubmitError('Failed to send message. You can also mail me directly.');
+      try {
+        window.location.href = mailtoLink;
+      } catch {
+        // ignore
+      }
+      setIsSuccess(true);
     } finally {
       setIsSubmitting(false);
     }

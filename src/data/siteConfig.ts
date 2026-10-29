@@ -7,16 +7,32 @@ export const siteConfig = {
   status: {
     available: true,
     label: 'open to internships · 2026–27',
-    subtext: 'B.Tech CS @ Newton School of Technology (2024–2028) · CGPA 7.2',
+    subtext: 'B.Tech CS @ Newton School of Technology (2024–2028) ',
   },
   contact: {
     email: 'akshat.agrawal2024@nst.rishihood.edu.in',
     phone: '+91 89549 28960',
     phoneDisplay: '+91 89549 28960',
-    linkedin: 'https://linkedin.com/in/akshat-agrawal',
-    github: 'https://github.com/akshat-agrawal',
+    linkedin: 'https://www.linkedin.com/in/akshat-agrawal-955347316/',
+    github: 'https://github.com/Akshuu1',
     location: 'Delhi NCR, India',
     timezone: 'Asia/Kolkata',
+  },
+  resumes: {
+    ai: {
+      label: 'AI & ML Resume',
+      shortLabel: 'AI / ML CV',
+      href: '/resume-ai.pdf',
+      filename: 'Akshat_Agrawal_AI_ML_Resume.pdf',
+      description: 'Autonomous coding agents, LLM pipelines, RAG & ML models',
+    },
+    fullstack: {
+      label: 'Full-Stack Resume',
+      shortLabel: 'Full-Stack CV',
+      href: '/resume-fullstack.pdf',
+      filename: 'Akshat_Agrawal_FullStack_Resume.pdf',
+      description: 'MERN, Next.js, Redis queues, BullMQ & distributed systems',
+    },
   },
   navLinks: [
     { label: 'Work', href: '/work' },

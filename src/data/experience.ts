@@ -13,21 +13,21 @@ export interface ExperienceItem {
 
 export const experiences: ExperienceItem[] = [
   {
-    id: 'countrees-ai',
-    role: 'Software Developer Intern',
-    company: 'Countrees AI',
+    id: 'software-systems-developer',
+    role: 'Software & Systems Developer',
+    company: 'Independent & Projects',
     location: 'Remote',
-    period: 'Mar 2025 – Aug 2025',
-    periodMono: '2025.03 — 2025.08',
+    period: '2024 – Present',
+    periodMono: '2024.08 — Present',
     type: 'internship',
     description:
-      'Engineered backend logic and managed structured data across database-driven apps and enterprise resource planning systems.',
+      'Engineered backend logic, autonomous AI harnesses, and structured data pipelines across production-ready systems.',
     bullets: [
-      'Built backend logic and managed structured data across database-driven apps and ERP systems.',
+      'Built autonomous coding agent harnesses and clinical document extraction platforms.',
       'Optimized database operations, storage, and processing workflows for efficiency, reliability, and low query latency.',
       'Contributed to backend architecture, system design, and data-flow optimization across distributed services.',
     ],
-    skills: ['Python', 'FastAPI', 'PostgreSQL', 'Docker', 'Database Tuning', 'System Design'],
+    skills: ['Python', 'FastAPI', 'PostgreSQL', 'Docker', 'Next.js', 'System Design'],
   },
 ];
 

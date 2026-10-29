@@ -30,7 +30,7 @@ Built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**, **F
 │   │   ├── page.tsx               # Home: Hero, Sticker Canvas, Selected Work, Discipline, CTA
 │   │   ├── work/
 │   │   │   ├── page.tsx           # Work Index: Filterable project list with row-dimming
-│   │   │   └── [slug]/page.tsx    # Case Studies: ANVIL, HealthWe, Countrees AI ERP
+│   │   │   └── [slug]/page.tsx    # Case Studies: ANVIL, HealthWe, Blinkit Analytics
 │   │   ├── about/
 │   │   │   └── page.tsx           # About: Narrative, Polaroid frame, Experience, Skills, Education
 │   │   ├── contact/
@@ -54,12 +54,14 @@ Built with **Next.js 16 (App Router)**, **TypeScript**, **Tailwind CSS v4**, **F
 │   │   └── ThemeContext.tsx       # Paper / Obsidian theme provider
 │   └── data/                      # Strictly typed content data store
 │       ├── projects.ts            # Detailed case studies, architectures & tradeoffs
-│       ├── experience.ts          # Countrees AI internship & campus leadership
+│       ├── experience.ts          # Software engineering experience & campus leadership
 │       ├── skills.ts              # 4 skill clusters & marquee tech list
 │       ├── education.ts           # Academic credentials (B.Tech, Class XII, Class X)
 │       └── siteConfig.ts          # Contact details, bio, and social channels
 └── public/
-    └── resume.pdf                 # Curriculum Vitae download placeholder
+    ├── resume-ai.pdf              # AI & Machine Learning specialized resume
+    ├── resume-fullstack.pdf       # Full-Stack Engineering specialized resume
+    └── resume.pdf                 # General Curriculum Vitae fallback
 ```
 
 ---

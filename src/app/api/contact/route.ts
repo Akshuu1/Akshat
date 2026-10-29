@@ -73,6 +73,39 @@ export async function POST(request: Request) {
     timestamps.push(now);
     rateLimitMap.set(ip, timestamps);
 
+    // Prepare direct links
+    const targetEmail = 'akshat.agrawal2024@nst.rishihood.edu.in';
+    const mailtoSubject = encodeURIComponent(`[Portfolio Query - ${topic}] from ${name}`);
+    const mailtoBody = encodeURIComponent(
+      `Hi Akshat,\n\nName: ${name}\nEmail: ${email}\nTopic: ${topic}\n\nQuery / Message:\n${message}\n\n— Sent from portfolio contact console`
+    );
+    const mailtoUrl = `mailto:${targetEmail}?subject=${mailtoSubject}&body=${mailtoBody}`;
+    const whatsappText = encodeURIComponent(
+      `Hi Akshat! I'm ${name} (${email}). Regarding [${topic}]: ${message}`
+    );
+    const whatsappUrl = `https://wa.me/918954928960?text=${whatsappText}`;
+
+    // Web3Forms integration if WEB3FORMS_ACCESS_KEY is configured
+    const web3Key = process.env.WEB3FORMS_ACCESS_KEY;
+    if (web3Key) {
+      try {
+        await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: web3Key,
+            name,
+            email,
+            subject: `[Portfolio Query] ${topic} from ${name}`,
+            message,
+            from_name: `${name} via Portfolio`,
+          }),
+        });
+      } catch (err) {
+        console.warn('Web3Forms delivery fallback:', err);
+      }
+    }
+
     // Resend email integration if RESEND_API_KEY is configured
     const apiKey = process.env.RESEND_API_KEY;
     if (apiKey) {
@@ -85,7 +118,7 @@ export async function POST(request: Request) {
           },
           body: JSON.stringify({
             from: 'Akshat Portfolio <onboarding@resend.dev>',
-            to: ['akshat.agrawal2024@nst.rishihood.edu.in'],
+            to: [targetEmail],
             subject: `[Portfolio Inquiry] ${topic} from ${name}`,
             text: `From: ${name} (${email})\nTopic: ${topic}\n\nMessage:\n${message}`,
           }),
@@ -94,7 +127,7 @@ export async function POST(request: Request) {
         console.warn('Resend email delivery fallback:', err);
       }
     } else {
-      console.log('Inquiry received (Resend key not set, fallback logging):', {
+      console.log('Query received (fallback logging):', {
         name,
         email,
         topic,
@@ -105,7 +138,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "Got it, I'll reply within 48h.",
+      message: "Query logged successfully! Opening your email client...",
+      mailtoUrl,
+      whatsappUrl,
     });
   } catch (error) {
     console.error('Contact route error:', error);

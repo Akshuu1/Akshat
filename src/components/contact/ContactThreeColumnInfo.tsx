@@ -115,17 +115,35 @@ export function ContactThreeColumnInfo() {
           </div>
         </div>
 
-        <a
-          href="/resume.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-base)] text-xs text-[var(--text-primary)] hover:border-[var(--text-primary)]/50 transition-colors w-fit"
-          data-cursor="resume"
-        >
-          <FileText className="w-3.5 h-3.5 text-[var(--text-muted)]" />
-          <span className="text-[11px]">download cv</span>
-          <ArrowUpRight className="w-3 h-3 text-[var(--text-muted)]" />
-        </a>
+        <div className="flex flex-wrap items-center gap-2">
+          <a
+            href={siteConfig.resumes.ai.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            download={siteConfig.resumes.ai.filename}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-base)] text-xs text-[var(--text-primary)] hover:border-[var(--accent-lime)] transition-colors w-fit"
+            data-cursor="resume"
+            title="Download AI & ML Resume"
+          >
+            <FileText className="w-3.5 h-3.5 text-[var(--accent-lime)]" />
+            <span className="text-[11px]">AI / ML CV</span>
+            <ArrowUpRight className="w-3 h-3 text-[var(--text-muted)]" />
+          </a>
+
+          <a
+            href={siteConfig.resumes.fullstack.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            download={siteConfig.resumes.fullstack.filename}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-base)] text-xs text-[var(--text-primary)] hover:border-[#5CE1E6] transition-colors w-fit"
+            data-cursor="resume"
+            title="Download Full-Stack Resume"
+          >
+            <FileText className="w-3.5 h-3.5 text-[#5CE1E6]" />
+            <span className="text-[11px]">Full-Stack CV</span>
+            <ArrowUpRight className="w-3 h-3 text-[var(--text-muted)]" />
+          </a>
+        </div>
       </div>
     </div>
   );

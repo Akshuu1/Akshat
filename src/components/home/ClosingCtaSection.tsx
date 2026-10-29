@@ -58,17 +58,34 @@ export function ClosingCtaSection({ reducedMotion = false }: ClosingCtaSectionPr
             </div>
           </Link>
 
-          {/* Outlined Button: "download cv" -> /resume.pdf */}
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-cursor="cv"
-            className="group inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-transparent border border-white/20 text-[#F2F1F7] font-mono text-sm font-medium hover:border-white/50 hover:bg-white/5 transition-all duration-200 w-full sm:w-auto"
-          >
-            <span>download cv</span>
-            <ArrowUpRight className="w-3.5 h-3.5 text-white/60 group-hover:text-white transition-colors" />
-          </a>
+          {/* Dual Resume Download Actions */}
+          <div className="flex flex-wrap items-center justify-center gap-2.5 w-full sm:w-auto">
+            <a
+              href={siteConfig.resumes.ai.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              download={siteConfig.resumes.ai.filename}
+              data-cursor="cv"
+              className="group inline-flex items-center justify-center gap-2 px-4.5 py-3 rounded-full bg-transparent border border-white/20 text-[#F2F1F7] font-mono text-xs sm:text-sm font-medium hover:border-[#D6FF3D] hover:bg-[#D6FF3D]/10 transition-all duration-200"
+              title="Download AI & Machine Learning Resume (PDF)"
+            >
+              <span>AI / ML CV</span>
+              <ArrowUpRight className="w-3.5 h-3.5 text-[#D6FF3D] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </a>
+
+            <a
+              href={siteConfig.resumes.fullstack.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              download={siteConfig.resumes.fullstack.filename}
+              data-cursor="cv"
+              className="group inline-flex items-center justify-center gap-2 px-4.5 py-3 rounded-full bg-transparent border border-white/20 text-[#F2F1F7] font-mono text-xs sm:text-sm font-medium hover:border-[#5CE1E6] hover:bg-[#5CE1E6]/10 transition-all duration-200"
+              title="Download Full-Stack Engineering Resume (PDF)"
+            >
+              <span>Full-Stack CV</span>
+              <ArrowUpRight className="w-3.5 h-3.5 text-[#5CE1E6] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </a>
+          </div>
         </div>
 
         {/* Mono Email beneath: Copy on click with toast */}

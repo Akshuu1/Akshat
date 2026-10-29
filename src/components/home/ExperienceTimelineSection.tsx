@@ -9,11 +9,11 @@ interface ExperienceTimelineSectionProps {
 
 const TIMELINE_ENTRIES = [
   {
-    period: 'Mar — Aug 2025',
-    role: 'Software Developer Intern',
-    org: 'Countrees AI (Remote)',
+    period: '2024 — Present',
+    role: 'Software & AI Systems Developer',
+    org: 'Independent / Projects',
     description:
-      'Backend logic and structured data across database-driven apps and ERP systems.',
+      'Engineering autonomous AI harnesses, full-stack applications, and high-throughput data backends.',
   },
   {
     period: '2024 — Present',
