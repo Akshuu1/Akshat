@@ -11,11 +11,12 @@ export const siteConfig = {
   },
   contact: {
     email: 'akshat.agrawal2024@nst.rishihood.edu.in',
+    personalEmail: 'akshata.14feb@gmail.com',
     phone: '+91 89549 28960',
     phoneDisplay: '+91 89549 28960',
     linkedin: 'https://www.linkedin.com/in/akshat-agrawal-955347316/',
     github: 'https://github.com/Akshuu1',
-    location: 'Delhi NCR, India',
+    location: 'Sonipat / Delhi NCR, India',
     timezone: 'Asia/Kolkata',
   },
   resumes: {

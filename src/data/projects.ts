@@ -16,25 +16,27 @@ export interface Project {
   featured: boolean;
   githubUrl?: string;
   liveUrl?: string;
+  imageUrl?: string;
+  isVisualOnly?: boolean;
   metrics?: {
     label: string;
     value: string;
     detail?: string;
   }[];
-  problem: string;
-  whatIBuilt: string;
-  architectureDetails: {
+  problem?: string;
+  whatIBuilt?: string;
+  architectureDetails?: {
     steps: {
       number: string;
       title: string;
       description: string;
     }[];
   };
-  stackDecisions: {
+  stackDecisions?: {
     technology: string;
     rationale: string;
   }[];
-  whatIDoNext: string[];
+  whatIDoNext?: string[];
 }
 
 export const projects: Project[] = [
@@ -440,87 +442,91 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: 'portfolio',
-    id: 'portfolio',
-    title: 'This Portfolio',
-    subtitle: 'Design System & Interaction Site',
-    summary: 'Design system, motion and typography for this site.',
+    slug: 'nocturne',
+    id: 'nocturne',
+    title: 'Nocturne',
+    subtitle: 'Maison Obscura · Parfum de Nuit',
+    summary:
+      'Luxury fragrance editorial poster exploring vintage celestial geometry, bespoke serif typography, and tactile dark-emerald tones.',
     category: 'design',
-    categoryLabel: 'Design & Interaction',
+    categoryLabel: 'Visual & Print Design',
     categories: ['design'],
     year: '2026',
-    role: 'Personal project',
-    stack: ['Next.js', 'TypeScript', 'Tailwind', 'Framer Motion', 'Figma'],
+    role: 'Art Direction & Layout',
+    stack: ['Editorial Poster', 'Typography', 'Visual Identity', 'Figma'],
     featured: true,
-    liveUrl: '/',
+    imageUrl: '/designs/nocturne.jpg',
+    isVisualOnly: true,
     metrics: [
-      { label: 'Lighthouse Score', value: '98+', detail: 'Performance & Accessibility' },
-      { label: 'Bundle Footprint', value: 'Zero JS', detail: 'Server Components architecture' },
-      { label: 'Physics Animation', value: 'Spring 60fps', detail: 'Framer hardware acceleration' },
-    ],
-    problem: 'Creating an editorial portfolio showcasing systems engineering alongside interaction design.',
-    whatIBuilt: 'Built an interactive horizontal strip and scroll-driven gauge wheel using Next.js App Router, Framer Motion springs, and accessible typography.',
-    architectureDetails: {
-      steps: [
-        {
-          number: '01',
-          title: 'Design System & Tokens',
-          description: 'Engineered typographic hierarchy, HSL colour space, and fluid spatial tokens.',
-        },
-        {
-          number: '02',
-          title: 'Scroll-Driven Motion',
-          description: 'Implemented Framer Motion spring physics with Lenis smooth scrolling.',
-        },
-      ],
-    },
-    stackDecisions: [
-      {
-        technology: 'Next.js App Router',
-        rationale: 'Server components for zero-bundle-size static content and client boundaries for interactive components.',
-      },
-      {
-        technology: 'Framer Motion',
-        rationale: 'Hardware-accelerated springs with interruptible physical feedback.',
-      },
-    ],
-    whatIDoNext: [
-      'Interactive 3D shader experiments with WebGL / Three.js.',
+      { label: 'Medium', value: 'Print & Poster', detail: 'Editorial art direction' },
+      { label: 'Palette', value: 'Emerald & Gold', detail: 'Midnight botanical aesthetic' },
+      { label: 'Type Hierarchy', value: 'Classical Serif', detail: 'Precision astronomical grid' },
     ],
   },
   {
-    slug: 'add-design-1',
-    id: 'add-design-1',
-    placeholder: true,
-    title: '[ADD DESIGN PROJECT]',
-    subtitle: 'Design Case Study',
-    summary: 'Add a Figma or Canva project here.',
+    slug: 'aura',
+    id: 'aura',
+    title: 'AURA Audio',
+    subtitle: 'Spatial Audio Reimagined · Product Landing Page',
+    summary:
+      'High-craft dark-mode landing page designed for next-gen spatial audio hardware, featuring waveform dynamics and radial chromatic driver visualizations.',
     category: 'design',
-    categoryLabel: 'Design Project',
+    categoryLabel: 'Product UI / Web Design',
     categories: ['design'],
     year: '2026',
-    role: 'Personal project',
-    stack: ['Figma', 'UI/UX', 'Design System'],
-    featured: false,
-    problem: 'Placeholder for upcoming design case studies and UX explorations.',
-    whatIBuilt: 'Design prototype and component system.',
-    architectureDetails: {
-      steps: [
-        {
-          number: '01',
-          title: 'Design Exploration',
-          description: 'Add your design workflows and Figma wireframes here.',
-        },
-      ],
-    },
-    stackDecisions: [
-      {
-        technology: 'Figma',
-        rationale: 'Component-driven UI/UX design and vector prototyping.',
-      },
+    role: 'UI/UX Designer',
+    stack: ['Landing Page UI', 'Design System', 'Dark Mode', 'Figma'],
+    featured: true,
+    imageUrl: '/designs/aura.jpg',
+    isVisualOnly: true,
+    metrics: [
+      { label: 'Platform', value: 'Product UI', detail: 'Hardware landing page' },
+      { label: 'Theme', value: 'Deep Dark', detail: 'OLED contrast & glow effects' },
+      { label: 'Visuals', value: 'Bespoke UI', detail: 'Radial chromatic driver ring' },
     ],
-    whatIDoNext: [
-      'Publish high-fidelity interactive case study.',
+  },
+  {
+    slug: 'maya-okafor',
+    id: 'maya-okafor',
+    title: 'Maya Okafor',
+    subtitle: 'Selected Work 2026 · Bento Portfolio & Brand',
+    summary:
+      'Expressive, tactile bento portfolio identity combining acid lime and cobalt violet with chunky sticker-inspired interactive cards.',
+    category: 'design',
+    categoryLabel: 'Portfolio & Identity Design',
+    categories: ['design'],
+    year: '2026',
+    role: 'Visual & Brand Designer',
+    stack: ['Bento Layout', 'Visual Identity', 'Color Theory', 'UI/UX'],
+    featured: true,
+    imageUrl: '/designs/maya-okafor.jpg',
+    isVisualOnly: true,
+    metrics: [
+      { label: 'Discipline', value: 'Brand & Web UI', detail: 'Tactile bento grid identity' },
+      { label: 'Palette', value: 'Acid & Violet', detail: 'Maximalist pop contrast' },
+      { label: 'Layout', value: 'Modular Bento', detail: 'Chunky rounded card units' },
+    ],
+  },
+  {
+    slug: 'voltage',
+    id: 'voltage',
+    title: 'VOLTAGE',
+    subtitle: 'Festival of Noise · Cyberpunk Music Event Poster',
+    summary:
+      'Experimental typographic poster for an underground electronic music festival, built around neon frequency lines and brutalist grid hierarchy.',
+    category: 'design',
+    categoryLabel: 'Typographic & Event Poster',
+    categories: ['design'],
+    year: '2026',
+    role: 'Graphic & Poster Designer',
+    stack: ['Typographic Poster', 'Vector Grids', 'Print Design', 'Figma'],
+    featured: true,
+    imageUrl: '/designs/voltage.jpg',
+    isVisualOnly: true,
+    metrics: [
+      { label: 'Medium', value: 'Event Poster', detail: 'Cyberpunk festival print' },
+      { label: 'Palette', value: 'Neon Acid & Violet', detail: 'High-contrast nocturnal' },
+      { label: 'Hierarchy', value: 'Brutalist Grid', detail: 'Overlapping headline type' },
     ],
   },
   {
@@ -802,20 +808,20 @@ export const projects: Project[] = [
   {
     slug: 'blinkit-delivery-analytics',
     id: 'blinkit-delivery-analytics',
-    title: 'Blinkit Quick-Commerce',
-    subtitle: 'Supply Chain & Delivery SLA Optimization',
+    title: 'Blinkit Data',
+    subtitle: 'Supply Chain & Delivery Performance Dashboard',
     summary:
-      'Real-time operational dashboard built in Looker Studio monitoring delivery efficiency, dark store fulfillment density, order distribution across regional centers, and customer order volume trends.',
+      'Real-time operational dashboard for Blinkit built in Looker Studio, monitoring delivery efficiency, dark store fulfillment density, and order distribution across regional centers.',
     category: 'data',
-    categoryLabel: 'Supply Chain & BI Analytics',
+    categoryLabel: 'Looker Studio · Supply Chain',
     categories: ['data'],
     year: '2025',
     role: 'Data Analyst',
     stack: [
       'Looker Studio',
+      'Supply Chain Analytics',
       'SQL',
       'Data Modeling',
-      'Supply Chain Analytics',
       'Google Sheets',
     ],
     featured: false,
@@ -872,20 +878,20 @@ export const projects: Project[] = [
   {
     slug: 'airbnb-market-intelligence',
     id: 'airbnb-market-intelligence',
-    title: 'Airbnb Market Intelligence',
-    subtitle: 'Dynamic Pricing & Hospitality Performance Dashboard',
+    title: 'Airbnb Analysis',
+    subtitle: 'Market Intelligence & Performance Dashboard',
     summary:
-      'Comprehensive Tableau analytical dashboard evaluating Airbnb guest patterns, seasonal pricing elasticity, neighborhood occupancy rates, and listing satisfaction metrics.',
+      'A deep dive into Airbnb market intelligence using Tableau to visualize guest patterns, pricing trends, neighborhood density, and satisfaction metrics.',
     category: 'data',
-    categoryLabel: 'Hospitality Analytics & Tableau',
+    categoryLabel: 'Tableau · Market Intelligence',
     categories: ['data'],
     year: '2025',
     role: 'Data Analyst',
     stack: [
       'Tableau',
       'Tableau Public',
-      'Data Cleaning',
       'Market Intelligence',
+      'Hospitality Analytics',
       'Excel',
     ],
     featured: false,

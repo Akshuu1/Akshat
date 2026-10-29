@@ -118,7 +118,7 @@ export async function POST(request: Request) {
           },
           body: JSON.stringify({
             from: 'Akshat Portfolio <onboarding@resend.dev>',
-            to: [targetEmail],
+            to: [targetEmail, 'akshata.14feb@gmail.com'],
             subject: `[Portfolio Inquiry] ${topic} from ${name}`,
             text: `From: ${name} (${email})\nTopic: ${topic}\n\nMessage:\n${message}`,
           }),

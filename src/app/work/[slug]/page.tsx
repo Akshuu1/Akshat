@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { projects, Project } from '@/data/projects';
 import {
   AnvilArchitectureDiagram,
@@ -20,7 +20,7 @@ type PageProps = {
 };
 
 export async function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
+  return projects.filter((p) => !p.isVisualOnly).map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -50,6 +50,9 @@ export default async function CaseStudyPage({ params }: PageProps) {
   }
 
   const project: Project = projects[projectIndex];
+  if (project.isVisualOnly) {
+    redirect('/work?filter=design');
+  }
   const nextProject: Project = projects[(projectIndex + 1) % projects.length];
 
   return (
@@ -146,7 +149,9 @@ export default async function CaseStudyPage({ params }: PageProps) {
 
       {/* Core Tech Stack Pills */}
       <div className="flex flex-wrap items-center gap-2 py-2 px-4 rounded-xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] font-mono text-xs">
-        <span className="text-[10px] uppercase text-[var(--text-muted)] mr-2 tracking-wider">Tech Stack:</span>
+        <span className="text-[10px] uppercase text-[var(--text-muted)] mr-2 tracking-wider">
+          {project.isVisualOnly ? 'Design Tools & Medium:' : 'Tech Stack:'}
+        </span>
         {project.stack.map((t) => (
           <span
             key={t}
@@ -157,120 +162,158 @@ export default async function CaseStudyPage({ params }: PageProps) {
         ))}
       </div>
 
-      {/* 2-Column Split: Challenge vs Solution (Shortens Page Vertical Height) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Left: Challenge */}
-        <div className="p-6 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] space-y-3">
-          <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hairline)] font-mono text-xs">
-            <span className="uppercase text-[var(--text-muted)] tracking-wider font-bold">01 // The Challenge</span>
-            <span className="text-[var(--accent-tomato)] text-[10px] uppercase font-semibold">Problem</span>
-          </div>
-          <p className="text-sm md:text-base text-[var(--text-muted)] leading-relaxed">
-            {project.problem}
-          </p>
-        </div>
-
-        {/* Right: Solution */}
-        <div className="p-6 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] space-y-3">
-          <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hairline)] font-mono text-xs">
-            <span className="uppercase text-[var(--text-muted)] tracking-wider font-bold">02 // The Solution</span>
-            <span className="text-[var(--accent-lime)] text-[10px] uppercase font-semibold">Engineered</span>
-          </div>
-          <p className="text-sm md:text-base text-[var(--text-muted)] leading-relaxed">
-            {project.whatIBuilt}
-          </p>
-        </div>
-      </div>
-
-      {/* Section 3: System Architecture / Execution Pipeline */}
-      <section className="space-y-5">
-        <div className="pb-3 border-b border-[var(--border-hairline)] flex items-center justify-between font-mono text-xs">
-          <h2 className="uppercase tracking-wider text-[var(--text-muted)] font-bold">
-            03 // Execution Pipeline
-          </h2>
-          <span className="text-xs text-[var(--text-muted)]">architecture & workflow</span>
-        </div>
-
-        {/* Abstract Technical SVG Visual Diagram */}
-        <div>
-          {project.slug === 'anvil' && <AnvilArchitectureDiagram />}
-          {project.slug === 'healthwe' && <HealthWeArchitectureDiagram />}
-          {project.slug === 'hookpilot' && <HookPilotArchitectureDiagram />}
-          {project.slug === 'irrigiq' && <IrrigIQArchitectureDiagram />}
-          {project.slug === 'marketing-ab-test' && <MarketingAbTestDiagram />}
-          {project.slug === 'nyc-yellow-taxi' && <NycTaxiAnalyticsDiagram />}
-          {project.slug === 'stock-market-risk' && <StockMarketAnalyticsDiagram />}
-        </div>
-
-        {/* Step Breakdown */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-2">
-          {project.architectureDetails.steps.map((step) => (
-            <div
-              key={step.number}
-              className="p-4 rounded-xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] space-y-1.5"
-            >
-              <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-muted)]">
-                <span className="px-1.5 py-0.5 rounded bg-[var(--bg-base)] border border-[var(--border-hairline)] font-bold text-[var(--text-primary)] text-[10px]">
-                  {step.number}
-                </span>
-                <span className="font-semibold text-[var(--text-primary)]">{step.title}</span>
-              </div>
-              <p className="text-xs md:text-sm text-[var(--text-muted)] leading-relaxed">
-                {step.description}
-              </p>
+      {project.isVisualOnly && project.imageUrl ? (
+        /* Visual Design Showcase Display */
+        <section className="space-y-6">
+          <div className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-3 sm:p-6 md:p-10 flex flex-col items-center justify-center shadow-lg">
+            <div className="relative max-w-full overflow-hidden rounded-xl shadow-2xl border border-black/10">
+              <img
+                src={project.imageUrl}
+                alt={project.title}
+                className="max-h-[82vh] w-auto max-w-full object-contain rounded-lg"
+              />
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Section 4: Stack Decisions & Trade-offs */}
-      <section className="space-y-5">
-        <div className="pb-3 border-b border-[var(--border-hairline)] flex items-center justify-between font-mono text-xs">
-          <h2 className="uppercase tracking-wider text-[var(--text-muted)] font-bold">
-            04 // Stack Rationale
-          </h2>
-          <span className="text-xs text-[var(--text-muted)]">engineering decisions</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {project.stackDecisions.map((decision) => (
-            <div
-              key={decision.technology}
-              className="p-5 rounded-xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] space-y-2"
-            >
-              <span className="inline-block px-2 py-0.5 rounded font-mono text-[11px] bg-[var(--bg-base)] border border-[var(--border-hairline)] font-semibold text-[var(--text-primary)]">
-                {decision.technology}
-              </span>
-              <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                {decision.rationale}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Section 5: Future Roadmap & Next Iterations */}
-      {project.whatIDoNext && project.whatIDoNext.length > 0 && (
-        <section className="space-y-4">
-          <div className="pb-3 border-b border-[var(--border-hairline)] flex items-center justify-between font-mono text-xs">
-            <h2 className="uppercase tracking-wider text-[var(--text-muted)] font-bold">
-              05 // Next Iterations
-            </h2>
-            <span className="text-xs text-[var(--text-muted)]">planned roadmap</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {project.whatIDoNext.map((item, idx) => (
-              <div
-                key={idx}
-                className="flex items-start gap-2.5 p-3.5 rounded-xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] font-mono text-xs"
-              >
-                <CheckCircle2 className="w-3.5 h-3.5 text-[var(--accent-lime)] shrink-0 mt-0.5" />
-                <span className="text-[var(--text-primary)]">{item}</span>
-              </div>
-            ))}
+          <div className="flex flex-wrap items-center justify-between gap-4 p-5 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] font-mono text-xs">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[var(--accent-lime)]" />
+              <span className="font-semibold text-[var(--text-primary)]">ORIGINAL ARTWORK &amp; UI</span>
+              <span className="text-[var(--text-muted)] hidden sm:inline">· High-resolution visual showcase</span>
+            </div>
+
+            <a
+              href={project.imageUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[var(--text-primary)] text-[var(--bg-base)] text-xs font-bold hover:opacity-90 transition-opacity"
+            >
+              <span>Open Full Resolution ↗</span>
+            </a>
           </div>
         </section>
+      ) : (
+        <>
+          {/* 2-Column Split: Challenge vs Solution (Shortens Page Vertical Height) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Left: Challenge */}
+            <div className="p-6 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hairline)] font-mono text-xs">
+                <span className="uppercase text-[var(--text-muted)] tracking-wider font-bold">01 // The Challenge</span>
+                <span className="text-[var(--accent-tomato)] text-[10px] uppercase font-semibold">Problem</span>
+              </div>
+              <p className="text-sm md:text-base text-[var(--text-muted)] leading-relaxed">
+                {project.problem}
+              </p>
+            </div>
+
+            {/* Right: Solution */}
+            <div className="p-6 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hairline)] font-mono text-xs">
+                <span className="uppercase text-[var(--text-muted)] tracking-wider font-bold">02 // The Solution</span>
+                <span className="text-[var(--accent-lime)] text-[10px] uppercase font-semibold">Engineered</span>
+              </div>
+              <p className="text-sm md:text-base text-[var(--text-muted)] leading-relaxed">
+                {project.whatIBuilt}
+              </p>
+            </div>
+          </div>
+
+          {/* Section 3: System Architecture / Execution Pipeline */}
+          {project.architectureDetails && (
+            <section className="space-y-5">
+              <div className="pb-3 border-b border-[var(--border-hairline)] flex items-center justify-between font-mono text-xs">
+                <h2 className="uppercase tracking-wider text-[var(--text-muted)] font-bold">
+                  03 // Execution Pipeline
+                </h2>
+                <span className="text-xs text-[var(--text-muted)]">architecture & workflow</span>
+              </div>
+
+              {/* Abstract Technical SVG Visual Diagram */}
+              <div>
+                {project.slug === 'anvil' && <AnvilArchitectureDiagram />}
+                {project.slug === 'healthwe' && <HealthWeArchitectureDiagram />}
+                {project.slug === 'hookpilot' && <HookPilotArchitectureDiagram />}
+                {project.slug === 'irrigiq' && <IrrigIQArchitectureDiagram />}
+                {project.slug === 'marketing-ab-test' && <MarketingAbTestDiagram />}
+                {project.slug === 'nyc-yellow-taxi' && <NycTaxiAnalyticsDiagram />}
+                {project.slug === 'stock-market-risk' && <StockMarketAnalyticsDiagram />}
+              </div>
+
+              {/* Step Breakdown */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-2">
+                {project.architectureDetails.steps.map((step) => (
+                  <div
+                    key={step.number}
+                    className="p-4 rounded-xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] space-y-1.5"
+                  >
+                    <div className="flex items-center gap-2 font-mono text-xs text-[var(--text-muted)]">
+                      <span className="px-1.5 py-0.5 rounded bg-[var(--bg-base)] border border-[var(--border-hairline)] font-bold text-[var(--text-primary)] text-[10px]">
+                        {step.number}
+                      </span>
+                      <span className="font-semibold text-[var(--text-primary)]">{step.title}</span>
+                    </div>
+                    <p className="text-xs md:text-sm text-[var(--text-muted)] leading-relaxed">
+                      {step.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Section 4: Stack Decisions & Trade-offs */}
+          {project.stackDecisions && (
+            <section className="space-y-5">
+              <div className="pb-3 border-b border-[var(--border-hairline)] flex items-center justify-between font-mono text-xs">
+                <h2 className="uppercase tracking-wider text-[var(--text-muted)] font-bold">
+                  04 // Stack Rationale
+                </h2>
+                <span className="text-xs text-[var(--text-muted)]">engineering decisions</span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {project.stackDecisions.map((decision) => (
+                  <div
+                    key={decision.technology}
+                    className="p-5 rounded-xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] space-y-2"
+                  >
+                    <span className="inline-block px-2 py-0.5 rounded font-mono text-[11px] bg-[var(--bg-base)] border border-[var(--border-hairline)] font-semibold text-[var(--text-primary)]">
+                      {decision.technology}
+                    </span>
+                    <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+                      {decision.rationale}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Section 5: Future Roadmap & Next Iterations */}
+          {project.whatIDoNext && project.whatIDoNext.length > 0 && (
+            <section className="space-y-4">
+              <div className="pb-3 border-b border-[var(--border-hairline)] flex items-center justify-between font-mono text-xs">
+                <h2 className="uppercase tracking-wider text-[var(--text-muted)] font-bold">
+                  05 // Next Iterations
+                </h2>
+                <span className="text-xs text-[var(--text-muted)]">planned roadmap</span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {project.whatIDoNext.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-start gap-2.5 p-3.5 rounded-xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] font-mono text-xs"
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[var(--accent-lime)] shrink-0 mt-0.5" />
+                    <span className="text-[var(--text-primary)]">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+        </>
       )}
 
       {/* Next Project Compact Card */}
