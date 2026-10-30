@@ -31,7 +31,10 @@ export default function ContactPage() {
           <span className="text-[var(--accent-lime)]">.</span>
         </h1>
 
-        <p className="text-base sm:text-lg md:text-xl text-[var(--text-muted)] font-mono leading-relaxed max-w-2xl">
+        <p
+          style={{ color: 'var(--text-muted)' }}
+          className="text-base sm:text-lg md:text-xl text-[var(--text-muted)] font-mono leading-relaxed max-w-2xl"
+        >
           Open to internships, collaborations and good conversations.
         </p>
       </section>

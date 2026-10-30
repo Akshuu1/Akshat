@@ -38,7 +38,7 @@ export default function AboutPage() {
                 <span className="font-semibold text-[var(--text-primary)]">04 // BEYOND THE TERMINAL</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-display font-black text-[var(--text-primary)] uppercase tracking-tight">
-                Stuff I <span className="font-serif italic font-normal text-[var(--text-muted)]">Do</span>
+                Stuff I <span className="font-serif italic font-normal text-[var(--text-primary)]">Do</span>
               </h2>
             </div>
 
@@ -67,7 +67,7 @@ export default function AboutPage() {
 
             <h3 className="text-4xl sm:text-6xl md:text-7xl font-display font-black tracking-tighter text-[var(--text-primary)] uppercase leading-none">
               let&apos;s make{' '}
-              <span className="font-serif italic font-normal text-[var(--text-muted)]">
+              <span className="font-serif italic font-normal text-[var(--text-primary)]">
                 something
               </span>
               .

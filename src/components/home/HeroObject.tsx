@@ -106,7 +106,7 @@ export function HeroObject({ reducedMotion = false }: HeroObjectProps) {
             </h3>
             <span className="w-2 h-2 rounded-full bg-[#D6FF3D] animate-pulse" title="Available" />
           </div>
-          <p className="font-sans text-xs sm:text-sm text-[#5E6073] font-medium leading-relaxed">
+          <p className="font-sans text-xs sm:text-sm text-[#2E303D] font-medium leading-relaxed">
             Full-stack developer · AI engineer · Data analyst · Designer
           </p>
         </div>

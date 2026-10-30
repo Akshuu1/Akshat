@@ -61,7 +61,7 @@ export function FrameData({ reducedMotion }: FrameDataProps) {
             </div>
             <p className="font-mono text-base sm:text-xl text-[#F2F1F7] max-w-lg leading-relaxed [text-shadow:0_2px_12px_rgba(15,17,24,0.9)]">
               numbers into{' '}
-              <span className="font-serif italic font-normal text-white">decisions</span>
+              <span className="font-serif italic font-normal text-[#F2F1F7]">decisions</span>
               , clearly.
             </p>
           </div>

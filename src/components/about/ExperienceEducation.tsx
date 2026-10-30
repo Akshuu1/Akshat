@@ -14,7 +14,7 @@ export function ExperienceEducation() {
             <span className="font-semibold text-[var(--text-primary)]">02 // EXPERIENCE & FOUNDATIONS</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-display font-black text-[var(--text-primary)] uppercase tracking-tight">
-            Background <span className="font-serif italic font-normal text-[var(--text-muted)]">&amp; Education</span>
+            Background <span className="font-serif italic font-normal text-[var(--text-primary)]">&amp; Education</span>
           </h2>
         </div>
         <span className="hidden sm:inline font-mono text-xs text-[var(--text-muted)]">
@@ -44,7 +44,7 @@ export function ExperienceEducation() {
                 <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
                   <h3 className="text-xl font-bold text-[var(--text-primary)]">
                     {exp.role}{' '}
-                    <span className="font-serif italic font-normal text-[var(--text-muted)]">
+                    <span className="font-serif italic font-normal text-[var(--text-primary)]">
                       at
                     </span>{' '}
                     {exp.company}

@@ -191,7 +191,7 @@ export function Footer() {
                   href="/"
                   className="hover:text-[var(--text-primary)] hover:translate-x-1 inline-block transition-transform"
                 >
-                  01 // home
+                  01 // Home
                 </Link>
               </li>
               <li>
@@ -199,7 +199,7 @@ export function Footer() {
                   href="/work"
                   className="hover:text-[var(--text-primary)] hover:translate-x-1 inline-block transition-transform"
                 >
-                  02 // selected work
+                  02 // My work
                 </Link>
               </li>
               <li>
@@ -207,7 +207,7 @@ export function Footer() {
                   href="/craft"
                   className="hover:text-[var(--text-primary)] hover:translate-x-1 inline-block transition-transform"
                 >
-                  03 // craft filmstrip
+                  03 // Craft my work
                 </Link>
               </li>
               <li>
@@ -215,7 +215,7 @@ export function Footer() {
                   href="/about"
                   className="hover:text-[var(--text-primary)] hover:translate-x-1 inline-block transition-transform"
                 >
-                  04 // about &amp; story
+                  04 // About Me
                 </Link>
               </li>
               <li>
@@ -223,7 +223,7 @@ export function Footer() {
                   href="/contact"
                   className="hover:text-[var(--text-primary)] hover:translate-x-1 inline-block transition-transform"
                 >
-                  05 // get in touch
+                  05 // Get in touch
                 </Link>
               </li>
             </ul>

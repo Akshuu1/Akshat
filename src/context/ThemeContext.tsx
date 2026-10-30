@@ -12,13 +12,12 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>('dark');
   const [, startTransition] = useTransition();
 
   useEffect(() => {
     const stored = localStorage.getItem('akshat-portfolio-theme') as Theme | null;
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme: Theme = stored ? stored : systemDark ? 'dark' : 'light';
+    const initialTheme: Theme = stored ? stored : 'dark';
 
     startTransition(() => {
       setTheme(initialTheme);
@@ -26,7 +25,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     if (initialTheme === 'dark') {
       document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
     } else {
+      document.documentElement.classList.add('light');
       document.documentElement.classList.remove('dark');
     }
   }, []);
@@ -37,7 +38,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('akshat-portfolio-theme', next);
     if (next === 'dark') {
       document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
     } else {
+      document.documentElement.classList.add('light');
       document.documentElement.classList.remove('dark');
     }
   };

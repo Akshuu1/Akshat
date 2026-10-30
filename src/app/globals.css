@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --bg-base: #F3F0E8;
-  --bg-surface: #EBE7DE;
-  --bg-surface-elevated: #E2DDD3;
-  --text-primary: #111111;
-  --text-muted: #6B6B66;
-  --border-hairline: #DAD6CB;
-  --border-strong: #C4BFB2;
+  --bg-base: #16161A;
+  --bg-surface: #202026;
+  --bg-surface-elevated: #282830;
+  --text-primary: #F2F1F7;
+  --text-muted: #B5B5AD;
+  --border-hairline: #282824;
+  --border-strong: #3D3D37;
   --accent-lime: #D6FF3D;
-  --accent-lime-text: #111111;
+  --accent-lime-text: #16161A;
   --accent-tomato: #FF5A36;
-  --grid-line: rgba(0, 0, 0, 0.065);
+  --grid-line: rgba(255, 255, 255, 0.08);
 }
 
 html.dark {
@@ -19,13 +19,27 @@ html.dark {
   --bg-surface: #202026;
   --bg-surface-elevated: #282830;
   --text-primary: #F2F1F7;
-  --text-muted: #8E8E86;
+  --text-muted: #B5B5AD;
   --border-hairline: #282824;
   --border-strong: #3D3D37;
   --accent-lime: #D6FF3D;
   --accent-lime-text: #16161A;
   --accent-tomato: #FF5A36;
   --grid-line: rgba(255, 255, 255, 0.08);
+}
+
+html.light {
+  --bg-base: #F3F0E8;
+  --bg-surface: #EBE7DE;
+  --bg-surface-elevated: #E2DDD3;
+  --text-primary: #111111;
+  --text-muted: #4B4B47;
+  --border-hairline: #DAD6CB;
+  --border-strong: #C4BFB2;
+  --accent-lime: #D6FF3D;
+  --accent-lime-text: #111111;
+  --accent-tomato: #FF5A36;
+  --grid-line: rgba(0, 0, 0, 0.065);
 }
 
 @theme {
@@ -71,6 +85,16 @@ html.dark {
 }
 
 /* Base resets & typography */
+.text-muted,
+[class*="text-[var(--text-muted)]"] {
+  color: var(--text-muted) !important;
+}
+
+.text-primary,
+[class*="text-[var(--text-primary)]"] {
+  color: var(--text-primary) !important;
+}
+
 html {
   max-width: 100%;
   overflow-x: clip;

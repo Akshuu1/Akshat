@@ -99,7 +99,7 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       data-scroll-behavior="smooth"
-      className={`${spaceGrotesk.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} ${anton.variable} ${caveat.variable}`}
+      className={`dark ${spaceGrotesk.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} ${anton.variable} ${caveat.variable}`}
     >
       <body suppressHydrationWarning className="font-sans antialiased bg-[var(--bg-base)] text-[var(--text-primary)] transition-colors duration-200">
         <ThemeProvider>

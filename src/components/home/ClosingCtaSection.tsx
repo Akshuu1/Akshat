@@ -39,7 +39,7 @@ export function ClosingCtaSection({ reducedMotion = false }: ClosingCtaSectionPr
           className="font-light tracking-tight text-[#F2F1F7] leading-[1.08] mx-auto select-none"
         >
           got something to build?{' '}
-          <span className="font-serif italic font-normal text-[#9AA3FF] block sm:inline">
+          <span className="font-serif italic font-normal text-[#F2F1F7] block sm:inline">
             let&apos;s talk.
           </span>
         </h2>
@@ -93,7 +93,7 @@ export function ClosingCtaSection({ reducedMotion = false }: ClosingCtaSectionPr
           <button
             onClick={handleCopyEmail}
             type="button"
-            className="group inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1A1D2B] border border-white/10 hover:border-white/25 transition-all text-xs font-mono text-[#B4B7CB] hover:text-[#F2F1F7] cursor-pointer"
+            className="group inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1A1D2B] border border-white/10 hover:border-white/25 transition-all text-xs font-mono text-[#D0D3E2] hover:text-[#F2F1F7] cursor-pointer"
           >
             <span>{siteConfig.contact.email}</span>
             {copied ? (

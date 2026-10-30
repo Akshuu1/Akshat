@@ -34,11 +34,11 @@ function BannerWordItem({
     return `${offset}vw`;
   });
 
-  // Solid paper color fill: fills in as frame centers, fades out neighbors
+  // Solid paper color fill: subtle watermark fill behind foreground
   const fillOpacity = useTransform(
     progress,
     [p_i - 0.18, p_i, p_i + 0.18],
-    [0, 0.75, 0]
+    [0, 0.12, 0]
   );
 
   // Outline stroke opacity: 14% baseline when distant, increases to 100% when centered

@@ -22,7 +22,7 @@ export function SkillsGrid() {
             <span className="font-semibold text-[var(--text-primary)]">03 // TECHNICAL TOOLCHAIN</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-display font-black text-[var(--text-primary)] uppercase tracking-tight">
-            Skills <span className="font-serif italic font-normal text-[var(--text-muted)]">&amp; Capabilities</span>
+            Skills <span className="font-serif italic font-normal text-[var(--text-primary)]">&amp; Capabilities</span>
           </h2>
         </div>
         <span className="hidden sm:inline font-mono text-xs text-[var(--text-muted)]">

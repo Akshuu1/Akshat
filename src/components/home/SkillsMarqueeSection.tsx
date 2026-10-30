@@ -298,9 +298,9 @@ export function SkillsMarqueeSection({ reducedMotion = false }: SkillsMarqueeSec
             <span className="text-white/40 hidden sm:inline">// 18 Instruments</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-light tracking-tight text-[#F2F1F7]">
-            Tools of the <span className="font-serif italic font-normal text-white">trade</span>.
+            Tools of the <span className="font-serif italic font-normal text-[#F2F1F7]">trade</span>.
           </h2>
-          <p className="font-mono text-xs sm:text-sm text-[#B4B7CB] leading-relaxed">
+          <p className="font-mono text-xs sm:text-sm text-[#D0D3E2] leading-relaxed">
             Not just names on a resume — the engines, runtimes, and primitives powering my daily production code.
           </p>
         </div>

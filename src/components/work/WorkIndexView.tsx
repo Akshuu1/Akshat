@@ -150,12 +150,15 @@ export function WorkIndexView({
                   <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text-primary)]">
                     {project.title}{' '}
                     {project.subtitle && (
-                      <span className="font-serif italic font-normal text-[var(--text-muted)] text-base sm:text-lg">
+                      <span className="font-serif italic font-normal text-[var(--text-primary)] text-base sm:text-lg">
                         — {project.subtitle}
                       </span>
                     )}
                   </h3>
-                  <p className="text-xs text-[var(--text-muted)] font-mono line-clamp-1">
+                  <p
+                    style={{ color: 'var(--text-muted)' }}
+                    className="text-xs text-[var(--text-muted)] font-mono line-clamp-1"
+                  >
                     {project.summary}
                   </p>
                 </div>
@@ -209,13 +212,16 @@ export function WorkIndexView({
                         <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-[var(--text-primary)] flex flex-wrap items-baseline gap-3">
                           <span>{project.title}</span>
                           {project.subtitle && (
-                            <span className="text-lg md:text-2xl font-serif italic font-normal text-[var(--text-muted)]">
+                            <span className="text-lg md:text-2xl font-serif italic font-normal text-[var(--text-primary)]">
                               — {project.subtitle}
                             </span>
                           )}
                         </h2>
 
-                        <p className="text-xs md:text-sm text-[var(--text-muted)] max-w-2xl line-clamp-2">
+                        <p
+                          style={{ color: 'var(--text-muted)' }}
+                          className="text-xs md:text-sm text-[var(--text-muted)] max-w-2xl line-clamp-2"
+                        >
                           {project.summary}
                         </p>
                       </div>

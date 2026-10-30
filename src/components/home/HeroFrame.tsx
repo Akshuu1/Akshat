@@ -282,9 +282,9 @@ export function HeroFrame({ reducedMotion = false }: HeroFrameProps) {
                   <h3 className="font-sans font-bold text-sm text-[#14141F] tracking-tight">
                     Akshat Agrawal
                   </h3>
-                  <span className="font-mono text-[10px] text-[#5E6073] font-medium">B.Tech CS</span>
+                  <span className="font-mono text-[10px] text-[#2E303D] font-medium">B.Tech CS</span>
                 </div>
-                <p className="text-xs text-[#5E6073] leading-relaxed">
+                <p className="text-xs text-[#2E303D] leading-relaxed">
                   Full-stack developer & AI systems builder at Newton School of Technology.
                 </p>
                 <div className="flex flex-wrap items-center gap-1 pt-0.5">
@@ -311,7 +311,7 @@ export function HeroFrame({ reducedMotion = false }: HeroFrameProps) {
                 <div className="space-y-0.5">
                   <div className="flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#D6FF3D]" />
-                    <span className="font-mono text-[10px] uppercase font-bold text-[#B4B7CB]">Currently</span>
+                    <span className="font-mono text-[10px] uppercase font-bold text-[#D0D3E2]">Currently</span>
                   </div>
                   <p className="text-xs text-[#F2F1F7] font-medium leading-snug">
                     Studying B.Tech CS (2024–28) & building with AI.
@@ -486,7 +486,7 @@ export function HeroFrame({ reducedMotion = false }: HeroFrameProps) {
                         <h3 className="font-sans font-bold text-base sm:text-lg text-white tracking-tight">
                           Akshat Agrawal
                         </h3>
-                        <p className="text-xs sm:text-sm text-[#B4B7CB] leading-relaxed">
+                        <p className="text-xs sm:text-sm text-[#D0D3E2] leading-relaxed">
                           Full-stack developer and AI systems builder. B.Tech CS at Newton School of Technology.
                         </p>
                       </div>
@@ -515,7 +515,7 @@ export function HeroFrame({ reducedMotion = false }: HeroFrameProps) {
                       className="p-5 sm:p-6 rounded-[24px] border border-white/[0.12] shadow-[0_16px_36px_rgba(0,0,0,0.35)] text-[#F2F1F7] space-y-2 max-w-sm sm:max-w-md mr-16 sm:mr-28 mb-2 md:ml-auto"
                     >
                       <div className="flex items-center justify-between pb-1 border-b border-white/10">
-                        <span className="font-mono text-[10px] uppercase tracking-wider text-[#B4B7CB] font-bold">
+                        <span className="font-mono text-[10px] uppercase tracking-wider text-[#D0D3E2] font-bold">
                           Currently
                         </span>
                         <span className="w-2 h-2 rounded-full bg-[#D6FF3D]" />

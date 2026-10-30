@@ -42,15 +42,24 @@ export function ProjectPreviewCard({ project, index }: ProjectPreviewCardProps) 
         <div className="pt-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-8 space-y-4">
             <div className="space-y-1">
-              <h3 className="text-2xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] group-hover:translate-x-1 transition-transform duration-200">
+              <h3
+                style={{ color: 'var(--text-primary)' }}
+                className="text-2xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] group-hover:translate-x-1 transition-transform duration-200"
+              >
                 {project.title}
-                <span className="inline-block text-xl md:text-2xl font-serif italic font-normal text-[var(--text-muted)] ml-3">
+                <span
+                  style={{ color: 'var(--text-primary)' }}
+                  className="inline-block text-xl md:text-2xl font-serif italic font-normal text-[var(--text-primary)] ml-3"
+                >
                   — {project.subtitle}
                 </span>
               </h3>
             </div>
 
-            <p className="text-sm md:text-base text-[var(--text-muted)] leading-relaxed max-w-2xl">
+            <p
+              style={{ color: 'var(--text-muted)' }}
+              className="text-sm md:text-base text-[var(--text-muted)] leading-relaxed max-w-2xl"
+            >
               {project.summary}
             </p>
 

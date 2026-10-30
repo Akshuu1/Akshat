@@ -15,11 +15,10 @@ export function DisciplinesTilesSection({ reducedMotion = false }: DisciplinesTi
       {/* Section Header */}
       <div className="mb-10 sm:mb-14">
         <h2 className="text-3xl sm:text-5xl font-light tracking-tight text-[#F2F1F7]">
-          What I <span className="font-serif italic font-normal text-white">do</span>
+          What I <span className="font-serif italic font-normal text-[#F2F1F7]">do</span>
         </h2>
         <p
-          style={{ color: '#B4B7CB' }}
-          className="font-mono text-sm sm:text-base mt-2"
+          className="font-mono text-sm sm:text-base mt-2 text-[#D0D3E2]"
         >
           Four ways I build.
         </p>

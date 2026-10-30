@@ -70,7 +70,7 @@ export function ExperienceTimelineSection({
           TIMELINE & BACKGROUND
         </span>
         <h2 className="text-3xl sm:text-5xl font-light tracking-tight text-[#F2F1F7]">
-          Where I&apos;ve <span className="font-serif italic font-normal text-white">been</span>
+          Where I&apos;ve <span className="font-serif italic font-normal text-[#F2F1F7]">been</span>
         </h2>
       </div>
 
@@ -111,13 +111,13 @@ export function ExperienceTimelineSection({
                 <span className="text-lg sm:text-xl font-semibold text-[#F2F1F7] tracking-tight">
                   {entry.role}
                 </span>
-                <span className="font-mono text-xs sm:text-sm text-[#B4B7CB]">
+                <span className="font-mono text-xs sm:text-sm text-[#D0D3E2]">
                   · {entry.org}
                 </span>
               </div>
 
-              {/* One Line Summary (AA text >= #B4B7CB) */}
-              <p className="font-mono text-xs sm:text-sm text-[#B4B7CB] max-w-2xl leading-relaxed">
+              {/* One Line Summary */}
+              <p className="font-mono text-xs sm:text-sm text-[#D0D3E2] max-w-2xl leading-relaxed">
                 {entry.description}
               </p>
             </div>

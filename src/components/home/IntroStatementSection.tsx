@@ -104,7 +104,7 @@ export function IntroStatementSection({ reducedMotion = false }: IntroStatementS
         <div className="relative md:sticky md:top-0 h-auto md:h-[100svh] min-h-0 md:min-h-[580px] flex flex-col justify-center max-w-[1200px] mx-auto px-6 sm:px-12 py-16 md:py-0">
           {/* Small Mono Label */}
           <div className="mb-6 sm:mb-8">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#202026] border border-white/10 font-mono text-xs text-[#9094AD] tracking-widest uppercase">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#202026] border border-white/10 font-mono text-xs text-[#C0C3D8] tracking-widest uppercase">
               <span className="w-1.5 h-1.5 rounded-full bg-[#D6FF3D]" />
               <span>hello</span>
             </span>

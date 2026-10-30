@@ -13,7 +13,7 @@ const TABS = [
   { label: 'Full stack', index: 0, hash: '#full-stack' },
   { label: 'AI engineer', index: 1, hash: '#ai-ml' },
   { label: 'Data analyst', index: 2, hash: '#data-analyst' },
-  { label: 'Designer', index: 3, hash: '#designer' },
+  { label: 'UI/UX', index: 3, hash: '#ui-ux' },
 ];
 
 export function StripTabs({
@@ -37,7 +37,7 @@ export function StripTabs({
             >
               <span
                 className={`transition-colors duration-200 ${
-                  isActive ? 'text-white font-bold' : 'text-white/60 hover:text-white/90'
+                  isActive ? 'text-white font-bold' : 'text-white/80 hover:text-white'
                 }`}
               >
                 {tab.label}

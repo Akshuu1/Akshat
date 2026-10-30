@@ -80,12 +80,15 @@ export default async function CaseStudyPage({ params }: PageProps) {
 
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[var(--text-primary)] leading-[1.1]">
           {project.title}{' '}
-          <span className="font-serif italic font-normal text-[var(--text-muted)] block sm:inline">
+          <span className="font-serif italic font-normal text-[var(--text-primary)] block sm:inline">
             — {project.subtitle}
           </span>
         </h1>
 
-        <p className="text-base md:text-lg text-[var(--text-muted)] leading-relaxed font-mono">
+        <p
+          style={{ color: 'var(--text-muted)' }}
+          className="text-base md:text-lg text-[var(--text-muted)] leading-relaxed font-mono"
+        >
           {project.summary}
         </p>
 
@@ -199,7 +202,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
             {/* Left: Challenge */}
             <div className="p-6 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] space-y-3">
               <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hairline)] font-mono text-xs">
-                <span className="uppercase text-[var(--text-muted)] tracking-wider font-bold">01 // The Challenge</span>
+                <span className="uppercase text-[var(--text-primary)] tracking-wider font-bold">01 // The Challenge</span>
                 <span className="text-[var(--accent-tomato)] text-[10px] uppercase font-semibold">Problem</span>
               </div>
               <p className="text-sm md:text-base text-[var(--text-muted)] leading-relaxed">
@@ -210,7 +213,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
             {/* Right: Solution */}
             <div className="p-6 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] space-y-3">
               <div className="flex items-center justify-between pb-2 border-b border-[var(--border-hairline)] font-mono text-xs">
-                <span className="uppercase text-[var(--text-muted)] tracking-wider font-bold">02 // The Solution</span>
+                <span className="uppercase text-[var(--text-primary)] tracking-wider font-bold">02 // The Solution</span>
                 <span className="text-[var(--accent-lime)] text-[10px] uppercase font-semibold">Engineered</span>
               </div>
               <p className="text-sm md:text-base text-[var(--text-muted)] leading-relaxed">
@@ -223,7 +226,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
           {project.architectureDetails && (
             <section className="space-y-5">
               <div className="pb-3 border-b border-[var(--border-hairline)] flex items-center justify-between font-mono text-xs">
-                <h2 className="uppercase tracking-wider text-[var(--text-muted)] font-bold">
+                <h2 className="uppercase tracking-wider text-[var(--text-primary)] font-bold">
                   03 // Execution Pipeline
                 </h2>
                 <span className="text-xs text-[var(--text-muted)]">architecture & workflow</span>
@@ -266,7 +269,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
           {project.stackDecisions && (
             <section className="space-y-5">
               <div className="pb-3 border-b border-[var(--border-hairline)] flex items-center justify-between font-mono text-xs">
-                <h2 className="uppercase tracking-wider text-[var(--text-muted)] font-bold">
+                <h2 className="uppercase tracking-wider text-[var(--text-primary)] font-bold">
                   04 // Stack Rationale
                 </h2>
                 <span className="text-xs text-[var(--text-muted)]">engineering decisions</span>
@@ -294,7 +297,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
           {project.whatIDoNext && project.whatIDoNext.length > 0 && (
             <section className="space-y-4">
               <div className="pb-3 border-b border-[var(--border-hairline)] flex items-center justify-between font-mono text-xs">
-                <h2 className="uppercase tracking-wider text-[var(--text-muted)] font-bold">
+                <h2 className="uppercase tracking-wider text-[var(--text-primary)] font-bold">
                   05 // Next Iterations
                 </h2>
                 <span className="text-xs text-[var(--text-muted)]">planned roadmap</span>
@@ -330,7 +333,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
               </span>
               <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-[var(--text-primary)] group-hover:translate-x-1 transition-transform">
                 {nextProject.title}{' '}
-                <span className="font-serif italic font-normal text-[var(--text-muted)]">
+                <span className="font-serif italic font-normal text-[var(--text-primary)]">
                   — {nextProject.subtitle}
                 </span>
               </h3>

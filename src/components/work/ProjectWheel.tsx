@@ -503,7 +503,10 @@ export function ProjectWheel({
                 <span>0{idx + 1} {"//"} {p.categoryLabel}</span>
                 <span>{p.year}</span>
               </div>
-              <h3 className="text-2xl font-bold">
+              <h3
+                style={{ color: 'var(--text-primary)' }}
+                className="text-2xl font-bold text-[var(--text-primary)]"
+              >
                 {p.title} {p.subtitle ? `— ${p.subtitle}` : ''}
               </h3>
               {p.imageUrl ? (
@@ -794,7 +797,7 @@ export function ProjectWheel({
                   <div>
                     <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[var(--text-primary)]">
                       <span>{firstWord} </span>
-                      <span className="font-serif italic font-normal text-[var(--text-muted)]">
+                      <span className="font-serif italic font-normal text-[var(--text-primary)]">
                         {restOfTitle} {subtitleText}
                       </span>
                     </h3>
@@ -850,14 +853,17 @@ export function ProjectWheel({
                   <div className="space-y-2">
                     <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[var(--text-primary)]">
                       <span>{firstWord} </span>
-                      <span className="font-serif italic font-normal text-[var(--text-muted)]">
+                      <span className="font-serif italic font-normal text-[var(--text-primary)]">
                         {restOfTitle} {subtitleText}
                       </span>
                     </h3>
                   </div>
 
                   {/* One-Line Editorial Summary */}
-                  <p className="text-base sm:text-lg text-[var(--text-muted)] leading-relaxed max-w-xl">
+                  <p
+                    style={{ color: 'var(--text-muted)' }}
+                    className="text-base sm:text-lg text-[var(--text-muted)] leading-relaxed max-w-xl"
+                  >
                     {activeProject?.placeholder
                       ? (activeCategory === 'data' ? 'Add a Power BI, Tableau or Python analysis here.' : 'Add your design work here.')
                       : activeProject?.summary}
@@ -1077,8 +1083,11 @@ function WheelProjectCard({
 
           {/* Title & One-line summary */}
           <div className="space-y-1">
-            <h4 className="text-base font-bold tracking-tight text-[var(--text-primary)] flex items-center justify-between">
-              <span>{project.title}</span>
+            <h4
+              style={{ color: 'var(--text-primary)' }}
+              className="text-base font-bold tracking-tight text-[var(--text-primary)] flex items-center justify-between"
+            >
+              <span style={{ color: 'var(--text-primary)' }}>{project.title}</span>
               {!project.placeholder && (
                 <ArrowUpRight
                   className="w-3.5 h-3.5 transition-transform"
@@ -1088,7 +1097,10 @@ function WheelProjectCard({
             </h4>
             {/* Small inner summary: only visible on the sharp active card */}
             {distance === 0 && (
-              <p className="text-[11px] font-mono text-[var(--text-muted)] truncate">
+              <p
+                style={{ color: 'var(--text-muted)' }}
+                className="text-[11px] font-mono text-[var(--text-muted)] truncate"
+              >
                 {project.summary}
               </p>
             )}

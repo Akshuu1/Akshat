@@ -44,7 +44,10 @@ export function FrameFullStack({ reducedMotion }: FrameFullStackProps) {
             <span className="font-mono text-xs text-[#D6FF3D] uppercase tracking-wider block font-semibold">
               WEB APPS · BACKENDS · DATABASES
             </span>
-            <p className="font-mono text-base sm:text-xl text-[#F3F0E8] max-w-lg leading-relaxed [text-shadow:0_2px_12px_rgba(15,17,24,0.9)]">
+            <p
+              style={{ color: '#F3F0E8' }}
+              className="font-mono text-base sm:text-xl text-[#F3F0E8] max-w-lg leading-relaxed [text-shadow:0_2px_12px_rgba(15,17,24,0.9)]"
+            >
               {discipline.statement}
             </p>
           </div>
